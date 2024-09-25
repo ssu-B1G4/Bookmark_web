@@ -1,28 +1,68 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+const tsPlugin = require('@typescript-eslint/eslint-plugin');
+const tsParser = require('@typescript-eslint/parser');
+const reactRefresh = require('eslint-plugin-react-refresh');
+const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const importPlugin = require('eslint-plugin-import');
+const prettier = require('eslint-plugin-prettier');
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+module.exports = [
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      sourceType: 'module',
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
     plugins: {
-      'react-hooks': reactHooks,
+      '@typescript-eslint': tsPlugin,
       'react-refresh': reactRefresh,
+      react: react,
+      'react-hooks': reactHooks,
+      prettier: prettier,
+      import: importPlugin,
     },
     rules: {
+      ...tsPlugin.configs['recommended'].rules,
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          pathGroups: [
+            {
+              pattern: 'react',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'after',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['react', 'react-dom'],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc' },
+        },
       ],
     },
+    settings: {
+      'import/resolver': {
+        typescript: {},
+      },
+      react: {
+        version: 'detect',
+      },
+    },
+    ignores: ['dist/**'],
   },
-)
+];
