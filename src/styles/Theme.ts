@@ -31,9 +31,41 @@ const commons = {
   `,
 };
 
+const fonts = {
+  light300: css`
+    font-family: 'SUITE';
+    font-weight: 300;
+  `,
+  regular400: css`
+    font-family: 'SUITE';
+    font-weight: 400;
+  `,
+  medium500: css`
+    font-family: 'SUITE';
+    font-weight: 500;
+  `,
+  semiBold600: css`
+    font-family: 'SUITE';
+    font-weight: 600;
+  `,
+  bold700: css`
+    font-family: 'SUITE';
+    font-weight: 700;
+  `,
+  extraBold800: css`
+    font-family: 'SUITE';
+    font-weight: 800;
+  `,
+  black900: css`
+    font-family: 'SUITE';
+    font-weight: 900;
+  `,
+};
+
 const theme: DefaultTheme = {
   colors,
   commons,
+  fonts,
 };
 
 export default theme;

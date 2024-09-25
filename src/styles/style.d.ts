@@ -17,6 +17,15 @@ declare module 'styled-components' {
       semiGray: string;
       white: string;
     };
+    fonts: {
+      light300: SerializedStyles;
+      regular400: SerializedStyles;
+      medium500: SerializedStyles;
+      semiBold600: SerializedStyles;
+      bold700: SerializedStyles;
+      extraBold800: SerializedStyles;
+      black900: SerializedStyles;
+    };
     commons: {
       scrollbar: SerializedStyles;
     };
