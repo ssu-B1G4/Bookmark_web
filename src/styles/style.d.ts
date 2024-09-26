@@ -18,6 +18,8 @@ declare module 'styled-components' {
       white: string;
     };
     fonts: {
+      thin100: SerializedStyles;
+      extraLight200: SerializedStyles;
       light300: SerializedStyles;
       regular400: SerializedStyles;
       medium500: SerializedStyles;
