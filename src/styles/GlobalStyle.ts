@@ -88,7 +88,7 @@ export const reset = css`
     padding: 0;
     border: 0;
 
-    font-size: 62.5%;
+    /* font-size: 62.5%; */
     vertical-align: baseline;
   }
 
