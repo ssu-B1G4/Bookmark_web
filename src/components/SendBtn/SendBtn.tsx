@@ -20,7 +20,7 @@ export const SendBtn = ({ label, onClick, delay = 2000 }: ButtonProps) => {
   };
 
   return (
-    <ButtonWrapper isProcessing={isProcessing} onClick={handleClick} disabled={isProcessing}>
+    <ButtonWrapper $isProcessing={isProcessing} onClick={handleClick} disabled={isProcessing}>
       {label}
     </ButtonWrapper>
   );
