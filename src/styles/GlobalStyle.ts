@@ -167,6 +167,7 @@ ${reset}
     margin: 0 auto;
     -ms-overflow-style: none; 
     scrollbar-width: none; 
+    font-family: Pretendard, sans-serif;
 }
 
 #root::-webkit-scrollbar {
