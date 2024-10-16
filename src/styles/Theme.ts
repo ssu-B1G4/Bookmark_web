@@ -33,39 +33,39 @@ const commons = {
 
 const fonts = {
   thin100: css`
-    font-family: 'Pretendard-Thin';
+    font-family: 'Pretendard';
     font-weight: 100;
   `,
   extraLight200: css`
-    font-family: 'Pretendard-ExtraLight';
+    font-family: 'Pretendard';
     font-weight: 200;
   `,
   light300: css`
-    font-family: 'Pretendard-Light';
+    font-family: 'Pretendard';
     font-weight: 300;
   `,
   regular400: css`
-    font-family: 'Pretendard-Regular';
+    font-family: 'Pretendard';
     font-weight: 400;
   `,
   medium500: css`
-    font-family: 'Pretendard-Medium';
+    font-family: 'Pretendard';
     font-weight: 500;
   `,
   semiBold600: css`
-    font-family: 'Pretendard-SemiBold';
+    font-family: 'Pretendard';
     font-weight: 600;
   `,
   bold700: css`
-    font-family: 'Pretendard-Bold';
+    font-family: 'Pretendard';
     font-weight: 700;
   `,
   extraBold800: css`
-    font-family: 'Pretendard-ExtraBold';
+    font-family: 'Pretendard';
     font-weight: 800;
   `,
   black900: css`
-    font-family: 'Pretendard-Black';
+    font-family: 'Pretendard';
     font-weight: 900;
   `,
 };
