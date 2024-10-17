@@ -12,7 +12,7 @@ export const InputWrapper = styled.div`
 export const TextInput = styled.input`
   flex-grow: 1;
   padding: 10px;
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.fonts.medium500};
   background-color: #efefef;
   border: 1px solid #e5e5e5;

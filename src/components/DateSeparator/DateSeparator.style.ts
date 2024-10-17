@@ -17,7 +17,7 @@ export const Line = styled.div`
 
 export const DateText = styled.div`
   padding: 0 10px;
-  font-size: 8px;
+  font-size: 0.8rem;
   font-weight: ${({ theme }) => theme.fonts.regular400};
   color: #6e6e6e;
 `;
