@@ -7,6 +7,8 @@ interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   selected?: boolean;
+  textColor?: string;
+  bgColor?: string;
 }
 
 export const ReplyBtn = ({
@@ -14,9 +16,17 @@ export const ReplyBtn = ({
   onClick,
   disabled = false,
   selected = false,
+  textColor = '#198155',
+  bgColor = '#ECFCE5',
 }: ButtonProps) => {
   return (
-    <StyledButton onClick={onClick} disabled={disabled} selected={selected}>
+    <StyledButton
+      onClick={onClick}
+      disabled={disabled}
+      selected={selected}
+      textColor={textColor}
+      bgColor={bgColor}
+    >
       {children}
     </StyledButton>
   );

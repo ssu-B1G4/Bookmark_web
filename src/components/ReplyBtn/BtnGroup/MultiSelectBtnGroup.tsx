@@ -6,9 +6,15 @@ import { StyledSelectBtnGroup } from './SelectBtnGroup.style';
 
 interface MultiSelectBtnGroupProps {
   options: string[];
+  textColor?: string;
+  bgColor?: string;
 }
 
-export const MultiSelectBtnGroup = ({ options }: MultiSelectBtnGroupProps) => {
+export const MultiSelectBtnGroup = ({
+  options,
+  textColor = '#198155',
+  bgColor = '#ECFCE5',
+}: MultiSelectBtnGroupProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const handleClick = (option: string) => {
@@ -26,6 +32,8 @@ export const MultiSelectBtnGroup = ({ options }: MultiSelectBtnGroupProps) => {
           key={option}
           onClick={() => handleClick(option)}
           selected={selectedOptions.includes(option)}
+          textColor={textColor}
+          bgColor={bgColor}
         >
           {option}
         </ReplyBtn>
