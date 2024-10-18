@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-export const StyledButton = styled.button<{ disabled?: boolean; selected?: boolean }>`
+export const StyledButton = styled.button<{
+  disabled?: boolean;
+  selected?: boolean;
+  textColor?: string;
+  bgColor?: string;
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,9 +13,10 @@ export const StyledButton = styled.button<{ disabled?: boolean; selected?: boole
   border-radius: 16px;
   font-size: 1.2rem;
   font-weight: ${({ theme }) => theme.fonts.regular400};
-  color: ${({ disabled, selected }) => (disabled ? '#198155' : selected ? '#198155' : '#CDCFD0')};
-  background-color: ${({ disabled, selected }) =>
-    disabled ? '#ECFCE5' : selected ? '#ECFCE5' : 'transparent'};
+  color: ${({ disabled, selected, textColor }) =>
+    disabled ? textColor : selected ? textColor : '#CDCFD0'};
+  background-color: ${({ disabled, selected, bgColor }) =>
+    disabled ? bgColor : selected ? bgColor : 'transparent'};
   border: ${({ disabled, selected }) =>
     disabled ? '1px solid transparent' : selected ? '1px solid transparent' : '1px solid #F0F0F0'};
   transition: background-color 0.3s ease;
