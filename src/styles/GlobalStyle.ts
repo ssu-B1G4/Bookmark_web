@@ -1,4 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components';
+import './fonts.css';
 
 export const reset = css`
   html,
@@ -167,7 +168,9 @@ ${reset}
     margin: 0 auto;
     -ms-overflow-style: none; 
     scrollbar-width: none; 
-    font-family: Pretendard, sans-serif;
+    font-family: 'Pretendard';
+    font-size: 62.5%;
+
 }
 
 #root::-webkit-scrollbar {

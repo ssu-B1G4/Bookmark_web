@@ -17,19 +17,19 @@ declare module 'styled-components' {
       semiGray: string;
       white: string;
     };
-    fonts: {
-      thin100: SerializedStyles;
-      extraLight200: SerializedStyles;
-      light300: SerializedStyles;
-      regular400: SerializedStyles;
-      medium500: SerializedStyles;
-      semiBold600: SerializedStyles;
-      bold700: SerializedStyles;
-      extraBold800: SerializedStyles;
-      black900: SerializedStyles;
-    };
     commons: {
       scrollbar: SerializedStyles;
+    };
+    fonts: {
+      thin100: number;
+      extraLight200: number;
+      light300: number;
+      regular400: number;
+      medium500: number;
+      semiBold600: number;
+      bold700: number;
+      extraBold800: number;
+      black900: number;
     };
   }
 }

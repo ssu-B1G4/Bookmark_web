@@ -32,42 +32,15 @@ const commons = {
 };
 
 const fonts = {
-  thin100: css`
-    font-family: 'Pretendard';
-    font-weight: 100;
-  `,
-  extraLight200: css`
-    font-family: 'Pretendard';
-    font-weight: 200;
-  `,
-  light300: css`
-    font-family: 'Pretendard';
-    font-weight: 300;
-  `,
-  regular400: css`
-    font-family: 'Pretendard';
-    font-weight: 400;
-  `,
-  medium500: css`
-    font-family: 'Pretendard';
-    font-weight: 500;
-  `,
-  semiBold600: css`
-    font-family: 'Pretendard';
-    font-weight: 600;
-  `,
-  bold700: css`
-    font-family: 'Pretendard';
-    font-weight: 700;
-  `,
-  extraBold800: css`
-    font-family: 'Pretendard';
-    font-weight: 800;
-  `,
-  black900: css`
-    font-family: 'Pretendard';
-    font-weight: 900;
-  `,
+  thin100: 100,
+  extraLight200: 200,
+  light300: 300,
+  regular400: 400,
+  medium500: 500,
+  semiBold600: 600,
+  bold700: 700,
+  extraBold800: 800,
+  black900: 900,
 };
 
 const theme: DefaultTheme = {

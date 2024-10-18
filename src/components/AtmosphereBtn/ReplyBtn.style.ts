@@ -6,7 +6,7 @@ export const StyledButton = styled.button<{ disabled?: boolean; selected?: boole
   justify-content: center;
   padding: 6px 12px;
   border-radius: 16px;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: ${({ theme }) => theme.fonts.regular400};
   color: ${({ disabled, selected }) => (disabled ? '#198155' : selected ? '#198155' : '#CDCFD0')};
   background-color: ${({ disabled, selected }) =>
