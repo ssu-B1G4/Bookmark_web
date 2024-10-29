@@ -9,6 +9,9 @@ interface ButtonProps {
   selected?: boolean;
   textColor?: string;
   bgColor?: string;
+  borderRadius?: number;
+  fontSize?: number;
+  fontWeight?: string;
 }
 
 export const ReplyBtn = ({
@@ -18,6 +21,9 @@ export const ReplyBtn = ({
   selected = false,
   textColor = '#198155',
   bgColor = '#ECFCE5',
+  borderRadius = 16,
+  fontSize = 1.2,
+  fontWeight = '400',
 }: ButtonProps) => {
   return (
     <StyledButton
@@ -26,6 +32,9 @@ export const ReplyBtn = ({
       selected={selected}
       textColor={textColor}
       bgColor={bgColor}
+      borderRadius={borderRadius}
+      fontSize={fontSize}
+      fontWeight={fontWeight}
     >
       {children}
     </StyledButton>

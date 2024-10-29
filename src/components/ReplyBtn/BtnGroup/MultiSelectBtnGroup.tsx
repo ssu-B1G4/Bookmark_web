@@ -8,21 +8,31 @@ interface MultiSelectBtnGroupProps {
   options: string[];
   textColor?: string;
   bgColor?: string;
+  borderRadius?: number;
+  fontSize?: number;
+  fontWeight?: string;
+  onSelectionChange?: (selectedOptions: string[]) => void;
 }
 
 export const MultiSelectBtnGroup = ({
   options,
   textColor = '#198155',
   bgColor = '#ECFCE5',
+  borderRadius = 16,
+  fontSize = 1.2,
+  fontWeight = '400',
+  onSelectionChange,
 }: MultiSelectBtnGroupProps) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const handleClick = (option: string) => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(selectedOptions.filter((item) => item !== option));
-    } else {
-      setSelectedOptions([...selectedOptions, option]);
-    }
+    const updatedOptions = selectedOptions.includes(option)
+      ? selectedOptions.filter((item) => item !== option)
+      : [...selectedOptions, option];
+
+    setSelectedOptions(updatedOptions);
+
+    if (onSelectionChange) onSelectionChange(updatedOptions);
   };
 
   return (
@@ -34,6 +44,9 @@ export const MultiSelectBtnGroup = ({
           selected={selectedOptions.includes(option)}
           textColor={textColor}
           bgColor={bgColor}
+          borderRadius={borderRadius}
+          fontSize={fontSize}
+          fontWeight={fontWeight}
         >
           {option}
         </ReplyBtn>
