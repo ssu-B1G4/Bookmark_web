@@ -3,22 +3,22 @@ import { styled, DefaultTheme } from 'styled-components';
 interface ButtonProps {
   disabled?: boolean;
   selected?: boolean;
-  textColor?: string;
-  bgColor?: string;
-  borderRadius?: number;
-  fontSize?: number;
-  fontWeight?: string;
+  $textColor?: string;
+  $bgColor?: string;
+  $borderRadius?: number;
+  $fontSize?: number;
+  $fontWeight?: string;
 }
 
-const getTextColor = ({ disabled, selected, textColor }: ButtonProps) => {
-  if (disabled) return textColor;
-  if (selected) return textColor;
+const getTextColor = ({ disabled, selected, $textColor }: ButtonProps) => {
+  if (disabled) return $textColor;
+  if (selected) return $textColor;
   return '#CDCFD0';
 };
 
-const getBackgroundColor = ({ disabled, selected, bgColor }: ButtonProps) => {
-  if (disabled) return bgColor;
-  if (selected) return bgColor;
+const getBackgroundColor = ({ disabled, selected, $bgColor }: ButtonProps) => {
+  if (disabled) return $bgColor;
+  if (selected) return $bgColor;
   return 'transparent';
 };
 
@@ -28,8 +28,8 @@ const getBorderStyle = ({ disabled, selected }: ButtonProps) => {
   return '1px solid #F0F0F0';
 };
 
-const getFontWeight = ({ fontWeight, theme }: ButtonProps & { theme: DefaultTheme }) => {
-  switch (fontWeight) {
+const getFontWeight = ({ $fontWeight, theme }: ButtonProps & { theme: DefaultTheme }) => {
+  switch ($fontWeight) {
     case 'thin':
       return theme.fonts.thin100;
     case '100':
@@ -76,8 +76,8 @@ export const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   justify-content: center;
   padding: 6px 12px;
-  border-radius: ${({ borderRadius }) => `${borderRadius}px`};
-  font-size: ${({ fontSize }) => `${fontSize}rem`};
+  border-radius: ${({ $borderRadius }) => `${$borderRadius}px`};
+  font-size: ${({ $fontSize }) => `${$fontSize}rem`};
   font-weight: ${getFontWeight};
   color: ${getTextColor};
   background-color: ${getBackgroundColor};
