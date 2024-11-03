@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 
 import './App.css';
 import { ChatPage } from './pages/ChatPage/ChatPage';
+import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
 import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
 import GlobalStyle from './styles/GlobalStyle';
@@ -18,6 +19,7 @@ export const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/chatpage" element={<ChatPage />} />
+            <Route path="/myplace" element={<MyPlacePage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
