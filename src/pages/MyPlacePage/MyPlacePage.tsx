@@ -77,6 +77,25 @@ const mockApiResponse = {
     },
   },
 };
+const EmptyPlaceList = () => {
+  const { icon, title, description } = EMPTY_PLACE_MESSAGES.NO_PLACES;
+
+  return (
+    <EmptyState>
+      <EmptyTitle>{icon}</EmptyTitle>
+      <EmptyTitle>{title}</EmptyTitle>
+      <EmptyDescription>{description}</EmptyDescription>
+    </EmptyState>
+  );
+};
+
+const PlaceList = ({ places }: { places: Place[] }) => (
+  <SpaceGrid>
+    {places.map((place) => (
+      <MyPlaceCard key={place.placeId} place={place} />
+    ))}
+  </SpaceGrid>
+);
 
 export const MyPlacePage = () => {
   const [places, setPlaces] = useState<Place[]>([]);
@@ -86,26 +105,12 @@ export const MyPlacePage = () => {
     // setPlaces(mockApiResponse.withData.result.placeList);
   }, []);
 
-  const renderPlaceList = (places: Place[]) => {
+  const renderContent = () => {
     if (!places.length) {
-      const { icon, title, description } = EMPTY_PLACE_MESSAGES.NO_PLACES;
-
-      return (
-        <EmptyState>
-          <EmptyTitle>{icon}</EmptyTitle>
-          <EmptyTitle>{title}</EmptyTitle>
-          <EmptyDescription>{description}</EmptyDescription>
-        </EmptyState>
-      );
+      return <EmptyPlaceList />;
     }
 
-    return (
-      <SpaceGrid>
-        {places.map((place) => (
-          <MyPlaceCard key={place.placeId} place={place} />
-        ))}
-      </SpaceGrid>
-    );
+    return <PlaceList places={places} />;
   };
 
   return (
@@ -117,7 +122,7 @@ export const MyPlacePage = () => {
           {places.length > 0 && <CountText>총 {places.length}개</CountText>}
         </SectionHeader>
       </Header>
-      <Content>{renderPlaceList(places)}</Content>
+      <Content>{renderContent()}</Content>
     </Container>
   );
 };
