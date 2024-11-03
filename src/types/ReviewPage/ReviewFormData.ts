@@ -7,9 +7,9 @@ export interface ReviewFormData {
   startTime: string;
   endTime: string;
   traffic: number;
-  spaceSize: string[];
-  wifi: string[];
-  socket: string[];
-  noise: string[];
+  spaceSize: string;
+  wifi: string;
+  socket: string;
+  noise: string;
   atmosphere: string[];
 }
