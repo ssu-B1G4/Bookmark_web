@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import Mock1 from '@/assets/MyPlacePageMock/Image1.svg';
+import Mock2 from '@/assets/MyPlacePageMock/Image2.svg';
 import { MyPlaceCard } from '@/components/MyPlaceCard/MyPlaceCard';
 import { EMPTY_PLACE_MESSAGES } from '@/constant/myplace';
-import { Place, PlaceListResponse } from '@/types/MyPlacePage/Place';
+import { Place } from '@/types/MyPlacePage/Place';
 
 import {
   Container,
@@ -18,17 +20,61 @@ import {
   Title,
 } from './MyPlacePage.style';
 
-const mockApiResponse: PlaceListResponse = {
-  isSuccess: true,
-  code: 'PLACE2004',
-  message: '저장 공간 목록을 조회했습니다.',
-  result: {
-    placeList: [],
-    listSize: 2,
-    totalPage: 1,
-    totalElements: 2,
-    isFirst: true,
-    isLast: true,
+const mockApiResponse = {
+  withData: {
+    isSuccess: true,
+    code: 'PLACE2004',
+    message: '저장 공간 목록을 조회했습니다.',
+    result: {
+      placeList: [
+        {
+          placeId: 1,
+          name: '뚝섬 생각마루',
+          size: '넓음',
+          outlet: '있음',
+          wifi: '있음',
+          mood1: '조용한',
+          mood2: '깔끔한',
+          reviewCount: 0,
+          longtitude: '127.123456',
+          latitude: '37.123456',
+          isSaved: true,
+          img: Mock1,
+        },
+        {
+          placeId: 2,
+          name: '생각마루 생각마루 생각마루 생각마루 생각마루',
+          size: '넓음',
+          outlet: '있음',
+          wifi: '있음',
+          mood1: '조용한',
+          mood2: '깔끔한',
+          reviewCount: 0,
+          longtitude: '127.123456',
+          latitude: '37.123456',
+          isSaved: true,
+          img: Mock2,
+        },
+      ],
+      listSize: 2,
+      totalPage: 1,
+      totalElements: 2,
+      isFirst: true,
+      isLast: true,
+    },
+  },
+  empty: {
+    isSuccess: true,
+    code: 'PLACE2004',
+    message: '저장 공간 목록을 조회했습니다.',
+    result: {
+      placeList: [],
+      listSize: 0,
+      totalPage: 0,
+      totalElements: 0,
+      isFirst: true,
+      isLast: true,
+    },
   },
 };
 
@@ -36,7 +82,8 @@ export const MyPlacePage = () => {
   const [places, setPlaces] = useState<Place[]>([]);
 
   useEffect(() => {
-    setPlaces(mockApiResponse.result.placeList);
+    setPlaces(mockApiResponse.empty.result.placeList);
+    // setPlaces(mockApiResponse.withData.result.placeList);
   }, []);
 
   const renderPlaceList = (places: Place[]) => {
