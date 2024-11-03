@@ -55,7 +55,8 @@ export const Content = styled.div`
 export const SpaceGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 24px;
+  padding: 0 16px;
 `;
 
 export const EmptyState = styled.div`
