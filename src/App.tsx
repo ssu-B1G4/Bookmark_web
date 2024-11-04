@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import './App.css';
+import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
@@ -20,6 +21,7 @@ export const App = () => {
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/chatpage" element={<ChatPage />} />
             <Route path="/review" element={<ReviewPage />} />
+            <Route path="/booksearch" element={<BookSearchPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
