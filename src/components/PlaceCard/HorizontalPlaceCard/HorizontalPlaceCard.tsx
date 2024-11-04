@@ -13,9 +13,9 @@ import {
   MoodContainer,
   ReviewCount,
   BookmarkButton,
-} from './HorizontalSpaceCard.style';
+} from './HorizontalPlaceCard.style';
 
-interface SpaceCardProps {
+interface PlaceCardProps {
   name: string;
   size: string;
   outlet: string;
@@ -26,7 +26,7 @@ interface SpaceCardProps {
   imageUrl: string;
 }
 
-const SpaceCard: React.FC<SpaceCardProps> = ({
+export const HorizontalPlaceCard = ({
   name,
   size,
   outlet,
@@ -35,7 +35,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
   reviewCount,
   isSaved: initialIsSaved,
   imageUrl,
-}) => {
+}: PlaceCardProps) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
   const handleBookmarkClick = () => {
@@ -72,5 +72,3 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
     </Card>
   );
 };
-
-export default SpaceCard;
