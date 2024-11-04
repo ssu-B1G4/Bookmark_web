@@ -12,9 +12,18 @@ import {
 interface SliderProps {
   progress: number;
   onProgressChange: (value: number) => void;
+  progressColor?: string;
+  labelColor?: string;
+  thumbImage?: string;
 }
 
-const Slider = ({ progress, onProgressChange }: SliderProps) => {
+const Slider = ({
+  progress,
+  onProgressChange,
+  progressColor,
+  labelColor,
+  thumbImage = MarkerPin,
+}: SliderProps) => {
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     const stepValue = Math.round(newValue / 10) * 10;
@@ -25,8 +34,8 @@ const Slider = ({ progress, onProgressChange }: SliderProps) => {
     <div>
       <SliderContainer>
         <SliderTrack>
-          <SliderProgress $progress={progress} />
-          <SliderThumb src={MarkerPin} alt="Marker pin" $progress={progress} />
+          <SliderProgress $progress={progress} $progressColor={progressColor} />
+          <SliderThumb src={thumbImage} $progress={progress} />
         </SliderTrack>
         <input
           type="range"
@@ -45,7 +54,9 @@ const Slider = ({ progress, onProgressChange }: SliderProps) => {
       </SliderContainer>
       <MarkerContainer>
         {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value) => (
-          <MarkerLabel key={value}>{value}%</MarkerLabel>
+          <MarkerLabel key={value} $labelColor={labelColor}>
+            {value}%
+          </MarkerLabel>
         ))}
       </MarkerContainer>
     </div>

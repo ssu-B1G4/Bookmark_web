@@ -16,11 +16,11 @@ export const SliderTrack = styled.div`
   background-color: #eaebeb;
 `;
 
-export const SliderProgress = styled.div<{ $progress: number }>`
+export const SliderProgress = styled.div<{ $progress: number; $progressColor?: string }>`
   position: absolute;
   height: 100%;
   width: ${({ $progress }) => $progress}%;
-  background-color: ${({ theme }) => theme.colors.green};
+  background-color: ${({ $progressColor, theme }) => $progressColor ?? theme.colors.green};
   border-radius: 5px;
 `;
 
@@ -40,7 +40,7 @@ export const MarkerContainer = styled.div`
   margin-top: 8px;
 `;
 
-export const MarkerLabel = styled.span`
+export const MarkerLabel = styled.span<{ $labelColor?: string }>`
   font-size: 1.2rem;
-  color: ${({ theme }) => theme.colors.green};
+  color: ${({ $labelColor, theme }) => $labelColor ?? theme.colors.green};
 `;
