@@ -42,11 +42,11 @@ export const MultiSelectBtnGroup = ({
           key={option}
           onClick={() => handleClick(option)}
           selected={selectedOptions.includes(option)}
-          textColor={textColor}
-          bgColor={bgColor}
-          borderRadius={borderRadius}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
+          $textColor={textColor}
+          $bgColor={bgColor}
+          $borderRadius={borderRadius}
+          $fontSize={fontSize}
+          $fontWeight={fontWeight}
         >
           {option}
         </ReplyBtn>
