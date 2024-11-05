@@ -38,11 +38,11 @@ export const SingleSelectBtnGroup = ({
           key={option}
           onClick={() => handleClick(option)}
           selected={selectedOption === option}
-          textColor={textColor}
-          bgColor={bgColor}
-          borderRadius={borderRadius}
-          fontSize={fontSize}
-          fontWeight={fontWeight}
+          $textColor={textColor}
+          $bgColor={bgColor}
+          $borderRadius={borderRadius}
+          $fontSize={fontSize}
+          $fontWeight={fontWeight}
         >
           {option}
         </ReplyBtn>
