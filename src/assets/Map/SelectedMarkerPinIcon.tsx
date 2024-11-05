@@ -4,7 +4,7 @@ interface IconProps {
   endColor?: string;
 }
 
-export const CustomMarkerIcon = ({
+export const SelectedMarkerPinIcon = ({
   size = 45,
   startColor = '#198155',
   endColor = '#000000',
