@@ -33,19 +33,24 @@ export default function useBottomSheet(
   });
 
   useEffect(() => {
+    const sheetElement = sheet.current;
+    const contentElement = content.current;
+
+    if (!sheetElement || !contentElement) return;
+
     const canUserMoveBottomSheet = () => {
       const { touchMove, isContentAreaTouched } = metrics.current;
       if (!isContentAreaTouched) return true;
-      if (sheet.current!.getBoundingClientRect().y !== minHeight) return true;
+      if (sheetElement.getBoundingClientRect().y !== minHeight) return true;
       if (touchMove.movingDirection === 'down') {
-        return content.current!.scrollTop <= 0;
+        return contentElement.scrollTop <= 0;
       }
       return false;
     };
 
     const handleTouchStart = (e: TouchEvent) => {
       const { touchStart } = metrics.current;
-      touchStart.sheetY = sheet.current!.getBoundingClientRect().y;
+      touchStart.sheetY = sheetElement.getBoundingClientRect().y;
       touchStart.touchY = e.touches[0].clientY;
     };
 
@@ -79,25 +84,29 @@ export default function useBottomSheet(
       };
     };
 
-    sheet.current!.addEventListener('touchstart', handleTouchStart);
-    sheet.current!.addEventListener('touchmove', handleTouchMove);
-    sheet.current!.addEventListener('touchend', handleTouchEnd);
+    sheetElement.addEventListener('touchstart', handleTouchStart);
+    sheetElement.addEventListener('touchmove', handleTouchMove);
+    sheetElement.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      sheet.current!.removeEventListener('touchstart', handleTouchStart);
-      sheet.current!.removeEventListener('touchmove', handleTouchMove);
-      sheet.current!.removeEventListener('touchend', handleTouchEnd);
+      sheetElement.removeEventListener('touchstart', handleTouchStart);
+      sheetElement.removeEventListener('touchmove', handleTouchMove);
+      sheetElement.removeEventListener('touchend', handleTouchEnd);
     };
   }, [height, minHeight, maxHeight]);
 
   useEffect(() => {
+    const contentElement = content.current;
+    if (!contentElement) return;
+
     const handleTouchStart = () => {
       metrics.current.isContentAreaTouched = true;
     };
-    content.current!.addEventListener('touchstart', handleTouchStart);
+
+    contentElement.addEventListener('touchstart', handleTouchStart);
 
     return () => {
-      content.current!.removeEventListener('touchstart', handleTouchStart);
+      contentElement.removeEventListener('touchstart', handleTouchStart);
     };
   }, []);
 

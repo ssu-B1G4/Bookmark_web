@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { StyledBottomSheet, ContentContainer } from './BottomSheet.style';
 import { BottomSheetHeader } from './BottomSheetHeader/BottomSheetHeader';
