@@ -6,16 +6,18 @@ import { StyledSelectBtnGroup } from './SelectBtnGroup.style';
 
 interface SingleSelectBtnGroupProps {
   options: string[];
+  deselectable?: boolean;
   textColor?: string;
   bgColor?: string;
   borderRadius?: number;
   fontSize?: number;
   fontWeight?: string;
-  onSelectionChange?: (selectedOption: string) => void;
+  onSelectionChange?: (selectedOption: string | undefined) => void;
 }
 
 export const SingleSelectBtnGroup = ({
   options,
+  deselectable = false,
   textColor = '#198155',
   bgColor = '#ECFCE5',
   borderRadius = 16,
@@ -26,9 +28,10 @@ export const SingleSelectBtnGroup = ({
   const [selectedOption, setSelectedOption] = useState<string>();
 
   const handleClick = (option: string) => {
-    setSelectedOption(option);
+    const newSelectedOption = deselectable && selectedOption === option ? undefined : option;
+    setSelectedOption(newSelectedOption);
 
-    if (onSelectionChange) onSelectionChange(option);
+    if (onSelectionChange) onSelectionChange(newSelectedOption);
   };
 
   return (
