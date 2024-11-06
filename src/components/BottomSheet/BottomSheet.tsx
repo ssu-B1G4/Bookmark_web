@@ -5,6 +5,7 @@ import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
 import locationIcon from '@/assets/SpacePage/spacemarker.svg';
 import { FACILITY_ICONS } from '@/constant/facility';
+import { mockPlaceDetail } from '@/mock/placeDetail';
 
 import { ReplyBtn } from '../ReplyBtn/ReplyBtn';
 
@@ -37,33 +38,32 @@ import { ReviewTab } from './Tabs/ReviewTab/ReviewTab';
 type TabType = '정보' | '리뷰' | '유사';
 
 interface BottomSheetProps {
-  spaceInfo: {
-    title: string;
-    location: string;
-    category: string;
-    outlet: string;
-    size: string;
-    wifi: string;
-    noise: string;
-    mood1: string;
-    mood2: string;
-  };
+  spaceId: number;
+  spaceDetail: typeof mockPlaceDetail.result;
 }
 
-export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
+export const BottomSheet = ({ spaceId, spaceDetail }: BottomSheetProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('정보');
   const [isBookmarked, setIsBookmarked] = useState(false);
+  void spaceId;
+
+  const {
+    name,
+    address,
+    category,
+    outlet,
+    size,
+    wifi,
+    noise,
+    moods,
+    // ... 기타 필요한 데이터
+  } = spaceDetail;
 
   const facilityStatus = {
-    1: spaceInfo.outlet,
-    2: spaceInfo.size,
-    3: spaceInfo.wifi,
-    4: spaceInfo.noise,
-  };
-
-  const moods = {
-    1: spaceInfo.mood1,
-    2: spaceInfo.mood2,
+    1: outlet,
+    2: size,
+    3: wifi,
+    4: noise,
   };
 
   const handleBookmarkClick = () => {
@@ -73,7 +73,20 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case '정보':
-        return <InfoTab />;
+        return (
+          <InfoTab
+            placeDetail={{
+              address,
+              phone: mockPlaceDetail.result.phone,
+              url: mockPlaceDetail.result.url,
+              operatingTimeList: mockPlaceDetail.result.operatingTimeList,
+              location: {
+                latitude: mockPlaceDetail.result.latitude,
+                longitude: mockPlaceDetail.result.longitude,
+              },
+            }}
+          />
+        );
       case '리뷰':
         return <ReviewTab />;
       default:
@@ -84,7 +97,7 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
   return (
     <BottomSheetWrapper>
       <HeaderContainer>
-        <SpaceTitle>{spaceInfo.title}</SpaceTitle>
+        <SpaceTitle>{name}</SpaceTitle>
         <IconsContainer>
           <IconButton onClick={() => console.log('채팅 클릭')}>
             <img src={chatIcon} alt="채팅" />
@@ -97,10 +110,10 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
 
       <LocationContainer>
         <img src={locationIcon} alt="위치마커" />
-        <SpaceLocation>{spaceInfo.location}</SpaceLocation>
+        <SpaceLocation>{address}</SpaceLocation>
       </LocationContainer>
 
-      <SpaceType>{spaceInfo.category}</SpaceType>
+      <SpaceType>{category}</SpaceType>
 
       <Divider />
 
@@ -118,7 +131,7 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
 
         <MoodContainer>
           <MoodInfo>분위기</MoodInfo>
-          {Object.values(moods).map((mood, index) => (
+          {moods.map((mood, index) => (
             <ReplyBtn key={index} disabled={true}>
               {mood}
             </ReplyBtn>
