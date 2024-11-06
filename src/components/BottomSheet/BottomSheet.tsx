@@ -132,16 +132,16 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
       <Divider />
 
       <TabNavigationContainer>
-        <TabButton active={activeTab === '정보'} onClick={() => setActiveTab('정보')}>
+        <TabButton $active={activeTab === '정보'} onClick={() => setActiveTab('정보')}>
           정보
         </TabButton>
-        <TabButton active={activeTab === '리뷰'} onClick={() => setActiveTab('리뷰')}>
+        <TabButton $active={activeTab === '리뷰'} onClick={() => setActiveTab('리뷰')}>
           리뷰
         </TabButton>
-        <TabButton active={activeTab === '유사'} onClick={() => setActiveTab('유사')}>
+        <TabButton $active={activeTab === '유사'} onClick={() => setActiveTab('유사')}>
           유사
         </TabButton>
-        <TabIndicator activeTab={activeTab} />
+        <TabIndicator $activeTab={activeTab} />
       </TabNavigationContainer>
 
       {renderTabContent()}

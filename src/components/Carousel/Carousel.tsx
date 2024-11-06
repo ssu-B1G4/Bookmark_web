@@ -65,7 +65,7 @@ export const BackgroundImage = ({ images }: CarouselProps) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <Slider currentIndex={currentIndex}>
+        <Slider $currentIndex={currentIndex}>
           {images.map((image, index) => (
             <Slide key={index}>
               <img
@@ -85,7 +85,11 @@ export const BackgroundImage = ({ images }: CarouselProps) => {
 
       <PageIndicator>
         {images.map((_, index) => (
-          <Dot key={index} active={index === currentIndex} onClick={() => setCurrentIndex(index)} />
+          <Dot
+            key={index}
+            $active={index === currentIndex}
+            onClick={() => setCurrentIndex(index)}
+          />
         ))}
       </PageIndicator>
     </CarouselWrapper>

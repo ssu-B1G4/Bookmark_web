@@ -21,12 +21,12 @@ export const SliderContainer = styled.div`
   touch-action: pan-y pinch-zoom;
 `;
 
-export const Slider = styled.div<{ currentIndex: number }>`
+export const Slider = styled.div<{ $currentIndex: number }>`
   display: flex;
   width: 100%;
   height: 100%;
   transition: transform 0.3s ease-in-out;
-  transform: translateX(-${(props) => props.currentIndex * 100}%);
+  transform: translateX(-${(props) => props.$currentIndex * 100}%);
 `;
 
 export const Slide = styled.div`
@@ -45,12 +45,12 @@ export const PageIndicator = styled.div`
   gap: 8px;
 `;
 
-export const Dot = styled.button<{ active: boolean }>`
+export const Dot = styled.button<{ $active: boolean }>`
   width: 8px;
   height: 8px;
   border-radius: 50%;
   border: none;
-  background-color: ${({ active }) => (active ? '#198155' : '#ECFCE5')};
+  background-color: ${({ $active }) => ($active ? '#198155' : '#ECFCE5')};
   cursor: pointer;
   padding: 0;
   transition: all 0.2s;

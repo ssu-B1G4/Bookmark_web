@@ -149,24 +149,24 @@ export const TabNavigationContainer = styled.div`
   border-bottom: 3px solid #ecfce5;
 `;
 
-export const TabButton = styled.button<{ active: boolean }>`
+export const TabButton = styled.button<{ $active: boolean }>`
   flex: 1;
   padding: 16px 0;
   background: none;
   border: none;
   font-weight: ${({ theme }) => theme.fonts.regular400};
-  color: ${({ active }) => (active ? '#198155' : '#000000')};
+  color: ${({ $active }) => ($active ? '#198155' : '#000000')};
 `;
 
-export const TabIndicator = styled.div<{ activeTab: string }>`
+export const TabIndicator = styled.div<{ $activeTab: string }>`
   position: absolute;
   bottom: -1px;
   height: 2px;
   background-color: #198155;
   transition: left 0.2s ease;
   width: 33.33%;
-  left: ${({ activeTab }) => {
-    switch (activeTab) {
+  left: ${({ $activeTab }) => {
+    switch ($activeTab) {
       case '정보':
         return '0%';
       case '리뷰':
