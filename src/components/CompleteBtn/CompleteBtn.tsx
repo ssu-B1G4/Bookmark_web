@@ -16,7 +16,7 @@ export const CompleteBtn = ({
   variant = 'green',
 }: ButtonProps) => {
   return (
-    <StyledButton onClick={onClick} disabled={disabled} variant={variant}>
+    <StyledButton onClick={onClick} disabled={disabled} $variant={variant}>
       {children}
     </StyledButton>
   );

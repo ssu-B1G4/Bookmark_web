@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 interface StyledButtonProps {
   disabled?: boolean;
-  variant?: 'green' | 'yellow';
+  $variant?: 'green' | 'yellow';
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
@@ -20,11 +20,11 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   color: ${(props) => {
     if (props.disabled) return '#979C9E';
-    return props.variant === 'yellow' ? '#70520F' : '#198155';
+    return props.$variant === 'yellow' ? '#70520F' : '#198155';
   }};
 
   background-color: ${(props) => {
     if (props.disabled) return '#e3e5e5';
-    return props.variant === 'yellow' ? '#FFF4C1' : '#ECFCE5';
+    return props.$variant === 'yellow' ? '#FFF4C1' : '#ECFCE5';
   }};
 `;
