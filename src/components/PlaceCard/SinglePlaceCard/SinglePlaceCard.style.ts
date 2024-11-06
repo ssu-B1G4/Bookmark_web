@@ -15,8 +15,7 @@ export const ImageGallery = styled.div`
   flex-direction: row;
   gap: 8px;
   width: 100%;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-radius: 10px;
   overflow: hidden;
   overflow-x: auto;
   scrollbar-width: none;
