@@ -164,15 +164,13 @@ export const TabIndicator = styled.div<{ $activeTab: string }>`
   height: 2px;
   background-color: #198155;
   transition: left 0.2s ease;
-  width: 33.33%;
+  width: 50%;
   left: ${({ $activeTab }) => {
     switch ($activeTab) {
       case '정보':
         return '0%';
       case '리뷰':
-        return '33.33%';
-      case '유사':
-        return '66.66%';
+        return '50%';
       default:
         return '0%';
     }

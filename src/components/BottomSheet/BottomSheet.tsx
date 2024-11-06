@@ -33,7 +33,6 @@ import {
 } from './BottomSheet.style';
 import { InfoTab } from './Tabs/InfoTab/InfoTab';
 import { ReviewTab } from './Tabs/ReviewTab/ReviewTab';
-import { SimilarTab } from './Tabs/SimilarTab/SimilarTab';
 
 type TabType = '정보' | '리뷰' | '유사';
 
@@ -77,8 +76,6 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
         return <InfoTab />;
       case '리뷰':
         return <ReviewTab />;
-      case '유사':
-        return <SimilarTab />;
       default:
         return null;
     }
@@ -137,9 +134,6 @@ export const BottomSheet = ({ spaceInfo }: BottomSheetProps) => {
         </TabButton>
         <TabButton $active={activeTab === '리뷰'} onClick={() => setActiveTab('리뷰')}>
           리뷰
-        </TabButton>
-        <TabButton $active={activeTab === '유사'} onClick={() => setActiveTab('유사')}>
-          유사
         </TabButton>
         <TabIndicator $activeTab={activeTab} />
       </TabNavigationContainer>
