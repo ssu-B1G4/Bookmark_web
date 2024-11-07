@@ -63,3 +63,74 @@ export const DayLabel = styled.p`
 `;
 
 export const TimeText = styled.p``;
+
+export const ChartSection = styled.div`
+  margin-top: 40px;
+`;
+
+export const ChartContainer = styled.div`
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+`;
+export const CongestionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+`;
+
+export const MainContent = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  flex-direction: column;
+`;
+
+export const AlertSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0 4px;
+`;
+
+export const AlertIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+`;
+
+export const CongestionLevel = styled.span<{ $level: string }>`
+  color: ${({ $level }) => {
+    switch ($level) {
+      case 'green':
+        return '#198155';
+      case 'yellow':
+        return '#E5A923';
+      case 'red':
+        return '#FF6767';
+      default:
+        return '#000000';
+    }
+  }};
+  font-weight: ${({ theme }) => theme.fonts.semiBold600};
+  font-size: 2rem;
+  margin: 0 4px;
+`;
+
+export const CongestionDescription = styled.p`
+  font-size: 1.5rem;
+  font-weight: ${({ theme }) => theme.fonts.regular400};
+  margin: 0;
+`;
+
+export const WarnText = styled.p`
+  font-size: 1.2rem;
+  font-weight: ${({ theme }) => theme.fonts.regular400};
+  margin: 0;
+  color: #6e6e6e;
+  line-height: 1.5;
+`;

@@ -1,12 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 
+import alert from '@/assets/SpacePage/alertCircleIcon.svg';
 import Clock from '@/assets/SpacePage/clockIcon.svg';
 import Phone from '@/assets/SpacePage/phoneIcon.svg';
 import MapPin from '@/assets/SpacePage/spacemarker.svg';
 import Globe from '@/assets/SpacePage/websiteIcon.svg';
 import { InfoTabProps } from '@/types/placeDetail';
 
+import { TimeBarChart } from './Graph';
 import {
+  AlertIcon,
+  AlertSection,
+  ChartContainer,
+  ChartSection,
+  CongestionContainer,
+  CongestionDescription,
+  CongestionLevel,
   DayLabel,
   IconImage,
   InfoContainer,
@@ -16,10 +25,37 @@ import {
   InfoSection,
   InfoText,
   Label,
+  MainContent,
   MapContainer,
   TimeTable,
   TimeText,
+  WarnText,
 } from './InfoTab.style';
+
+interface TimeData {
+  hour: string;
+  value: number;
+  type: 'green' | 'yellow' | 'red';
+}
+
+const timeData: TimeData[] = [
+  { hour: '08시', value: 20, type: 'green' },
+  { hour: '09시', value: 25, type: 'green' },
+  { hour: '10시', value: 32, type: 'green' },
+  { hour: '11시', value: 35, type: 'green' },
+  { hour: '12시', value: 38, type: 'yellow' },
+  { hour: '13시', value: 40, type: 'yellow' },
+  { hour: '14시', value: 42, type: 'yellow' },
+  { hour: '15시', value: 47, type: 'yellow' },
+  { hour: '16시', value: 35, type: 'green' },
+  { hour: '17시', value: 36, type: 'green' },
+  { hour: '18시', value: 45, type: 'yellow' },
+  { hour: '19시', value: 60, type: 'red' },
+  { hour: '20시', value: 55, type: 'red' },
+  { hour: '21시', value: 30, type: 'green' },
+  { hour: '22시', value: 15, type: 'green' },
+  { hour: '23시', value: 10, type: 'green' },
+];
 
 export const InfoTab = ({ placeDetail }: InfoTabProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -36,14 +72,6 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
     const mapOptions: naver.maps.MapOptions = {
       center: new naver.maps.LatLng(placeDetail.location.latitude, placeDetail.location.longitude),
       zoom: 17,
-      zoomControl: false,
-      draggable: false,
-      pinchZoom: false,
-      scrollWheel: false,
-      keyboardShortcuts: false,
-      disableDoubleTapZoom: true,
-      disableDoubleClickZoom: true,
-      disableTwoFingerTapZoom: true,
     };
 
     const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
@@ -114,7 +142,28 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
         </InfoItem>
       </InfoSection>
 
-      <InfoMainText>예측 공간 혼잡도</InfoMainText>
+      <ChartSection>
+        <InfoMainText>예측 공간 혼잡도</InfoMainText>
+        <ChartContainer>
+          <TimeBarChart data={timeData} />
+        </ChartContainer>
+
+        <CongestionContainer>
+          <MainContent>
+            <CongestionDescription>
+              예측 공간 혼잡도는 <CongestionLevel $level="green">여유</CongestionLevel> 입니다
+            </CongestionDescription>
+          </MainContent>
+          <AlertSection>
+            <AlertIcon src={alert} alt="info" />
+            <WarnText>
+              사용자의 리뷰를 통계를 예측된 결과입니다.
+              {'\n'}
+              실제 혼잡도와 다를 수 있습니다.
+            </WarnText>
+          </AlertSection>
+        </CongestionContainer>
+      </ChartSection>
     </InfoContainer>
   );
 };
