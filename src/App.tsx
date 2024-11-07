@@ -5,6 +5,7 @@ import './App.css';
 import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
+import { FilterPage } from './pages/FilterPage/FilterPage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
@@ -24,6 +25,7 @@ export const App = () => {
             <Route path="/myplace" element={<MyPlacePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/booksearch" element={<BookSearchPage />} />
+            <Route path="/filter" element={<FilterPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
