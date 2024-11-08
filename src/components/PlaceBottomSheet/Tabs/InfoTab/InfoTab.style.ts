@@ -137,4 +137,17 @@ export const WarnText = styled.p`
   margin: 0;
   color: #6e6e6e;
   line-height: 1.5;
+  white-space: pre-line;
+`;
+
+export const SearchSection = styled.div`
+  margin-top: 20px;
+`;
+
+export const SearchAlertSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0 4px;
+  margin-top: 16px;
 `;

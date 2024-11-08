@@ -5,6 +5,7 @@ import Clock from '@/assets/SpacePage/clockIcon.svg';
 import Phone from '@/assets/SpacePage/phoneIcon.svg';
 import MapPin from '@/assets/SpacePage/spacemarker.svg';
 import Globe from '@/assets/SpacePage/websiteIcon.svg';
+import { ReadOnlyBookSearchBar } from '@/components/BookSearchBar/ReadOnlyBookSearchBar';
 import { InfoTabProps } from '@/types/placeDetail';
 
 import { Graph } from './Graph';
@@ -27,6 +28,8 @@ import {
   Label,
   MainContent,
   MapContainer,
+  SearchAlertSection,
+  SearchSection,
   TimeTable,
   TimeText,
   WarnText,
@@ -178,6 +181,19 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
           </AlertSection>
         </CongestionContainer>
       </ChartSection>
+
+      <SearchSection>
+        <InfoMainText>보유 도서</InfoMainText>
+        <ReadOnlyBookSearchBar />
+        <SearchAlertSection>
+          <AlertIcon src={alert} alt="info" />
+          <WarnText>
+            사용자의 리뷰에 따라 보유 도서가 업데이트 됩니다.
+            {'\n'}
+            리뷰에 작성되지 않은 도서는 미등록 상태입니다.
+          </WarnText>
+        </SearchAlertSection>
+      </SearchSection>
     </InfoContainer>
   );
 };
