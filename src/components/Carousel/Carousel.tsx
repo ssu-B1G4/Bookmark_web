@@ -13,7 +13,7 @@ interface CarouselProps {
   images: string[];
 }
 
-export const BackgroundImage = ({ images }: CarouselProps) => {
+export const Carousel = ({ images }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number>(0);
   const [touchEnd, setTouchEnd] = useState<number>(0);

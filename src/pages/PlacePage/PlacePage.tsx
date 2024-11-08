@@ -6,7 +6,7 @@ import MainImage from '@/assets/SpacePage/mainimage.svg';
 import MainImage2 from '@/assets/SpacePage/mainimage2.svg';
 import MainImage3 from '@/assets/SpacePage/mainimage3.svg';
 import { BottomSheet, TabType } from '@/components/BottomSheet/BottomSheet';
-import { BackgroundImage } from '@/components/Carousel/Carousel';
+import { Carousel } from '@/components/Carousel/Carousel';
 import { ReviewBtn } from '@/components/ReviewBtn/ReviewBtn';
 import { mockPlaceDetail } from '@/mock/placeDetail';
 
@@ -36,7 +36,7 @@ export const PlacePage = () => {
   const images = [MainImage, MainImage2, MainImage3, MainImage];
   return (
     <Container ref={containerRef}>
-      <BackgroundImage images={images} />
+      <Carousel images={images} />
       <BottomSheet
         spaceDetail={spaceDetail}
         spaceId={Number(spaceId)}
