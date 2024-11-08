@@ -99,7 +99,7 @@ export const SpaceInfo = styled.p`
   color: ${({ theme }) => theme.colors.green};
   font-size: 1.4rem;
   font-weight: ${({ theme }) => theme.fonts.semiBold600};
-  margin: 24px 0 16px 0;
+  margin-left: 12px;
 `;
 
 export const MoodInfo = styled.p`
