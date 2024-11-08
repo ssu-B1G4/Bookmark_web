@@ -35,7 +35,7 @@ interface BarChartProps {
   data: TimeData[];
 }
 
-export const TimeBarChart = ({ data }: BarChartProps): React.JSX.Element => {
+export const Graph = ({ data }: BarChartProps): React.JSX.Element => {
   const chartData = {
     labels: data.map((item) => item.hour),
     datasets: [

@@ -7,7 +7,7 @@ import MapPin from '@/assets/SpacePage/spacemarker.svg';
 import Globe from '@/assets/SpacePage/websiteIcon.svg';
 import { InfoTabProps } from '@/types/placeDetail';
 
-import { TimeBarChart } from './Graph';
+import { Graph } from './Graph';
 import {
   AlertIcon,
   AlertSection,
@@ -159,7 +159,7 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
       <ChartSection>
         <InfoMainText>예측 공간 혼잡도</InfoMainText>
         <ChartContainer>
-          <TimeBarChart data={timeData} />
+          <Graph data={timeData} />
         </ChartContainer>
 
         <CongestionContainer>
