@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import MainImage from '@/assets/SpacePage/mainimage.svg';
 import MainImage2 from '@/assets/SpacePage/mainimage2.svg';
 import MainImage3 from '@/assets/SpacePage/mainimage3.svg';
-import { BottomSheet, TabType } from '@/components/BottomSheet/BottomSheet';
 import { Carousel } from '@/components/Carousel/Carousel';
+import { PlaceBottomSheet, TabType } from '@/components/PlaceBottomSheet/PlaceBottomSheet';
 import { ReviewBtn } from '@/components/ReviewBtn/ReviewBtn';
 import { mockPlaceDetail } from '@/mock/placeDetail';
 
@@ -37,7 +37,7 @@ export const PlacePage = () => {
   return (
     <Container ref={containerRef}>
       <Carousel images={images} />
-      <BottomSheet
+      <PlaceBottomSheet
         spaceDetail={spaceDetail}
         spaceId={Number(spaceId)}
         containerRef={containerRef}
