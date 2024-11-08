@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import bookmarkActive from '@/assets/SpacePage/activeBookmarkIcon.svg';
 import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
@@ -35,16 +35,18 @@ import {
 import { InfoTab } from './Tabs/InfoTab/InfoTab';
 import { ReviewTab } from './Tabs/ReviewTab/ReviewTab';
 
-type TabType = '정보' | '리뷰' | '유사';
+export type TabType = '정보' | '리뷰' | '유사';
 
 interface BottomSheetProps {
   spaceId: number;
   spaceDetail: typeof mockPlaceDetail.result;
+  containerRef: React.RefObject<HTMLDivElement>;
+  onTabChange: (tab: TabType) => void;
 }
 
-export const BottomSheet = ({ spaceId, spaceDetail }: BottomSheetProps) => {
-  const [activeTab, setActiveTab] = useState<TabType>('정보');
+export const BottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSheetProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>('정보');
   void spaceId;
 
   const {
@@ -65,28 +67,35 @@ export const BottomSheet = ({ spaceId, spaceDetail }: BottomSheetProps) => {
     3: wifi,
     4: noise,
   };
+  useEffect(() => {
+    onTabChange(activeTab);
+  }, [activeTab, onTabChange]);
 
   const handleBookmarkClick = () => {
     setIsBookmarked((prev) => !prev);
   };
 
+  if (!spaceDetail) {
+    return <div>Loading...</div>;
+  }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case '정보':
-        return (
+        return spaceDetail ? (
           <InfoTab
             placeDetail={{
               address,
-              phone: mockPlaceDetail.result.phone,
-              url: mockPlaceDetail.result.url,
-              operatingTimeList: mockPlaceDetail.result.operatingTimeList,
+              phone: spaceDetail.phone,
+              url: spaceDetail.url,
+              operatingTimeList: spaceDetail.operatingTimeList,
               location: {
-                latitude: mockPlaceDetail.result.latitude,
-                longitude: mockPlaceDetail.result.longitude,
+                latitude: spaceDetail.latitude,
+                longitude: spaceDetail.longitude,
               },
             }}
           />
-        );
+        ) : null;
       case '리뷰':
         return <ReviewTab />;
       default:

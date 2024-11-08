@@ -19,6 +19,12 @@ export const BottomSheetWrapper = styled.div`
   touch-action: pan-y pinch-zoom;
 `;
 
+export const TabContentContainer = styled.div`
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
