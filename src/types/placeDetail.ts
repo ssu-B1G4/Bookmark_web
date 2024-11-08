@@ -15,3 +15,11 @@ export interface InfoTabProps {
     };
   };
 }
+
+export interface Review {
+  reviewId: number;
+  nickname: string;
+  visitDate: string;
+  content: string;
+  reviewImgs?: string[];
+}
