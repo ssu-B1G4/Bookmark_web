@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import './App.css';
 import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
+import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
 import { FilterPage } from './pages/FilterPage/FilterPage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
@@ -21,6 +22,7 @@ export const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/chatpage" element={<ChatPage />} />
+            <Route path="/myplace" element={<MyPlacePage />} />
             <Route path="/review" element={<ReviewPage />} />
             <Route path="/booksearch" element={<BookSearchPage />} />
             <Route path="/filter" element={<FilterPage />} />
