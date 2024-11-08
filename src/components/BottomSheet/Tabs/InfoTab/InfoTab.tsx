@@ -60,36 +60,50 @@ const timeData: TimeData[] = [
 export const InfoTab = ({ placeDetail }: InfoTabProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!mapRef.current || !window.naver || !placeDetail) {
+      console.error('Required dependencies are not loaded');
+      return;
+    }
+
+    try {
+      const mapOptions: naver.maps.MapOptions = {
+        center: new window.naver.maps.LatLng(
+          placeDetail.location.latitude,
+          placeDetail.location.longitude
+        ),
+        zoom: 17,
+      };
+
+      const mapInstance = new window.naver.maps.Map(mapRef.current, mapOptions);
+
+      new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(
+          placeDetail.location.latitude,
+          placeDetail.location.longitude
+        ),
+        map: mapInstance,
+      });
+
+      return () => {
+        if (mapInstance) {
+          mapInstance.destroy();
+        }
+      };
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
+  }, [placeDetail]);
+
+  if (!placeDetail) {
+    return <div>Loading...</div>;
+  }
+
   const handleMapClick = () => {
     const { latitude, longitude } = placeDetail.location;
     const naverMapUrl = `https://map.naver.com/v5/search/${encodeURIComponent(placeDetail.address)}?c=${longitude},${latitude},15,0,0,0,dh`;
     window.open(naverMapUrl, '_blank');
   };
-
-  useEffect(() => {
-    if (!mapRef.current || !window.naver) return;
-
-    const mapOptions: naver.maps.MapOptions = {
-      center: new naver.maps.LatLng(placeDetail.location.latitude, placeDetail.location.longitude),
-      zoom: 17,
-    };
-
-    const mapInstance = new naver.maps.Map(mapRef.current, mapOptions);
-
-    new naver.maps.Marker({
-      position: new naver.maps.LatLng(
-        placeDetail.location.latitude,
-        placeDetail.location.longitude
-      ),
-      map: mapInstance,
-    });
-
-    return () => {
-      if (mapInstance) {
-        mapInstance.destroy();
-      }
-    };
-  }, [placeDetail.location]);
 
   return (
     <InfoContainer>
