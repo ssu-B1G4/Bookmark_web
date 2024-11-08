@@ -36,6 +36,9 @@ export const IconImage = styled.img`
 
 export const InfoContent = styled.div`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const InfoText = styled.p`
@@ -44,6 +47,7 @@ export const InfoText = styled.p`
 `;
 
 export const Label = styled.p`
+  margin-top: 2px;
   font-size: 1.4rem;
   color: #ff3636;
   font-weight: ${({ theme }) => theme.fonts.regular400};
