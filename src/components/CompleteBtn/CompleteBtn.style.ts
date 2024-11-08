@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-export const StyledButton = styled.button<{ disabled?: boolean }>`
+interface StyledButtonProps {
+  disabled?: boolean;
+  $variant?: 'green' | 'yellow';
+}
+
+export const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,10 +13,18 @@ export const StyledButton = styled.button<{ disabled?: boolean }>`
   border-radius: 10px;
   font-size: 1.6rem;
   font-weight: ${({ theme }) => theme.fonts.medium500};
-  color: ${({ disabled }) => (disabled ? '#979C9E' : '#198155')};
-  background-color: ${({ disabled }) => (disabled ? '#e3e5e5' : '#ECFCE5')};
   height: 48px;
   width: 100%;
   border: none;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+
+  color: ${(props) => {
+    if (props.disabled) return '#979C9E';
+    return props.$variant === 'yellow' ? '#70520F' : '#198155';
+  }};
+
+  background-color: ${(props) => {
+    if (props.disabled) return '#e3e5e5';
+    return props.$variant === 'yellow' ? '#FFF4C1' : '#ECFCE5';
+  }};
 `;
