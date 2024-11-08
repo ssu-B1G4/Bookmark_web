@@ -5,6 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
+    <script type="module">
+      const script1 = document.createElement('script');
+      script1.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${import.meta.env.VITE_NAVER_MAP_CLIENT_ID}`;
+      script1.async = true;
+      document.head.appendChild(script1);
+
+      const script2 = document.createElement('script');
+      script2.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${import.meta.env.VITE_NAVER_MAP_CLIENT_ID}&submodules=geocoder`;
+      script2.async = true;
+      document.head.appendChild(script2);
+    </script>
   </head>
   <body>
     <div id="root"></div>
