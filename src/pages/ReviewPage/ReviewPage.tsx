@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import back from '@/assets/BottomNav/backIcon.svg';
 import { CompleteBtn } from '@/components/CompleteBtn/CompleteBtn';
 import { LargeTextArea, SmallInput } from '@/components/CustomInput/CustomInput';
 import { ImageUpload } from '@/components/ImageUpload/ImageUpload';
@@ -12,14 +14,23 @@ import Slider from '@/components/TrafficSlider/TrafficSlider';
 import { ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
 
 import {
+  BackButton,
   CenteredContainer,
+  Header,
   StyledBtnGap,
   StyledContentText,
   StyledTitleText,
   StyledWrapper,
+  Title,
 } from './ReviewPage.style';
 
 export const ReviewPage = () => {
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/place');
+  };
+
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const {
@@ -77,7 +88,13 @@ export const ReviewPage = () => {
 
   return (
     <StyledWrapper>
-      <h1>상단바</h1>
+      <Header>
+        <BackButton onClick={handleBackClick}>
+          <img src={back} alt="뒤로가기" />
+        </BackButton>
+        <Title>리뷰 등록</Title>
+      </Header>
+
       <StyledTitleText>방문 장소</StyledTitleText>
       <CenteredContainer>
         <Controller

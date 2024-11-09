@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
+import back from '@/assets/BottomNav/backIcon.svg';
 import marker from '@/assets/marker-pin_yellow.svg';
 import { CompleteBtn } from '@/components/CompleteBtn/CompleteBtn';
 import { LargeTextArea, SmallInput } from '@/components/CustomInput/CustomInput';
@@ -13,15 +15,24 @@ import Slider from '@/components/TrafficSlider/TrafficSlider';
 import { ReportFormData } from '@/types/ReviewPage/ReviewFormData';
 
 import {
+  BackButton,
   CenteredContainer,
+  Header,
   StyledBtnGap,
   StyledContentText,
   StyledTitleText,
   StyledWrapper,
+  Title,
 } from './ReportPlacePage.style';
 
 export const ReportPlacePage = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/');
+  };
 
   const {
     control,
@@ -80,7 +91,13 @@ export const ReportPlacePage = () => {
 
   return (
     <StyledWrapper>
-      <h1>상단바</h1>
+      <Header>
+        <BackButton onClick={handleBackClick}>
+          <img src={back} alt="뒤로가기" />
+        </BackButton>
+        <Title>제보 등록</Title>
+      </Header>
+
       <StyledTitleText>제보 장소</StyledTitleText>
       <CenteredContainer>
         <Controller

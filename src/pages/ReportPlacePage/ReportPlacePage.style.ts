@@ -39,3 +39,28 @@ export const StyledBtnGap = styled.div`
   font-size: 1.6rem;
   font-weight: ${({ theme }) => theme.fonts.regular400};
 `;
+export const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  height: 48px;
+`;
+
+export const Title = styled.h1`
+  font-size: 18px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+export const BackButton = styled.button`
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
