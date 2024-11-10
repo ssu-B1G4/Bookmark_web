@@ -1,3 +1,4 @@
+import { getEnvironment } from '@webviewkit/environment';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
@@ -18,14 +19,23 @@ const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
   ${({ $hasNavbar }) =>
     $hasNavbar &&
     `
-  //  padding-bottom: 70px;
- `}
+    padding-bottom: 70px;
+  `}
 `;
 
 const AppContent = () => {
   const location = useLocation();
   const showNavbarPaths = ['/', '/myplace', '/mypage'];
-  const showNavbar = showNavbarPaths.includes(location.pathname);
+
+  const { isWebView } = getEnvironment(navigator.userAgent);
+  console.log('Environment details:', {
+    userAgent: navigator.userAgent,
+    isWebView,
+    currentPath: location.pathname,
+    showNavbarPaths,
+  });
+
+  const showNavbar = !isWebView && showNavbarPaths.includes(location.pathname);
 
   return (
     <AppWrapper $hasNavbar={showNavbar}>
