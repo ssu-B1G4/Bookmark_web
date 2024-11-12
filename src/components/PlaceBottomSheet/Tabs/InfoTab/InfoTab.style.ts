@@ -44,6 +44,11 @@ export const InfoContent = styled.div`
 export const InfoText = styled.p`
   font-size: 1.2rem;
   font-weight: ${({ theme }) => theme.fonts.regular400};
+
+  &[href] {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 export const Label = styled.p`

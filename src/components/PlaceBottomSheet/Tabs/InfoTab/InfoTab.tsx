@@ -136,7 +136,9 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
           <InfoItem>
             <IconImage src={Globe} alt="웹사이트" />
             <InfoContent>
-              <InfoText>{placeDetail.url}</InfoText>
+              <InfoText as="a" href={placeDetail.url} target="_blank" rel="noopener noreferrer">
+                {placeDetail.url}
+              </InfoText>
             </InfoContent>
           </InfoItem>
         )}
