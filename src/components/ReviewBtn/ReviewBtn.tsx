@@ -4,17 +4,21 @@ import PencilIcon from '@/assets/pencil.svg';
 
 import { StyledButton } from './ReviewBtn.style';
 
-interface ScrollButtonProps {
+interface ReviewButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
+  containerRef: React.RefObject<HTMLDivElement>;
+  isVisible: boolean;
 }
 
-export const ReviewBtn = ({ onClick, children }: ScrollButtonProps) => {
+export const ReviewBtn = ({ onClick, children, containerRef, isVisible }: ReviewButtonProps) => {
   const [isScrolling, setIsScrolling] = useState(false);
-
   const scrollTimeout = useRef<number | null>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const handleScroll = () => {
       setIsScrolling(true);
 
@@ -27,18 +31,23 @@ export const ReviewBtn = ({ onClick, children }: ScrollButtonProps) => {
       }, 300);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      container.removeEventListener('scroll', handleScroll);
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
     };
-  }, []);
+  }, [containerRef]);
 
   return (
-    <StyledButton onClick={onClick} $isScrolling={isScrolling} disabled={isScrolling}>
+    <StyledButton
+      onClick={onClick}
+      $isVisible={isVisible}
+      $isScrolling={isScrolling}
+      disabled={isScrolling}
+    >
       <img src={PencilIcon} alt="Pencil Icon" />
       {!isScrolling && <span>{children}</span>}
     </StyledButton>
