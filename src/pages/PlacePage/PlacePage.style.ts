@@ -10,3 +10,17 @@ export const Container = styled.div`
   margin: 0 auto;
   background-color: white;
 `;
+
+export const BackButton = styled.button`
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(calc(-50% - 19rem));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+`;
