@@ -141,7 +141,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
         <MoodContainer>
           <MoodInfo>분위기</MoodInfo>
           {moods.map((mood, index) => (
-            <ReplyBtn key={index} disabled={true}>
+            <ReplyBtn key={index} disabled={true} $fontSize={1.4} $fontWeight="regular">
               {mood}
             </ReplyBtn>
           ))}

@@ -29,11 +29,15 @@ const mockBooks: Book[] = [
 
 import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
+import back from '@/assets/BottomNav/backIcon.svg';
 import { BookCard } from '@/components/BookCard/BookCard';
 import { BookSearchBar } from '@/components/BookSearchBar/BookSearchBar';
 import { BOOK_MESSAGES } from '@/constant/BookMessage';
 
 import {
+  BackButton,
   BookList,
   Container,
   Count,
@@ -78,6 +82,12 @@ export const BookSearchPage = () => {
   const [filteredBooks, setFilteredBooks] = useState<Book[]>(mockBooks);
   const [isSearching, setIsSearching] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate('/place');
+  };
+
   useEffect(() => {
     if (!searchQuery) {
       setIsSearching(false);
@@ -97,6 +107,9 @@ export const BookSearchPage = () => {
   return (
     <Container>
       <Header>
+        <BackButton onClick={handleBackClick}>
+          <img src={back} alt="뒤로가기" />
+        </BackButton>
         <Title>도서 검색</Title>
       </Header>
 

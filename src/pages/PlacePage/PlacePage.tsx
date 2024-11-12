@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import back from '@/assets/BottomNav/backIconWhite.svg';
 import MainImage from '@/assets/SpacePage/mainimage.svg';
 import MainImage2 from '@/assets/SpacePage/mainimage2.svg';
 import MainImage3 from '@/assets/SpacePage/mainimage3.svg';
@@ -10,7 +11,7 @@ import { PlaceBottomSheet, TabType } from '@/components/PlaceBottomSheet/PlaceBo
 import { ReviewBtn } from '@/components/ReviewBtn/ReviewBtn';
 import { mockPlaceDetail } from '@/mock/placeDetail';
 
-import { Container } from './PlacePage.style';
+import { BackButton, Container } from './PlacePage.style';
 
 const useSpaceDetail = () => {
   // 현재는 mock 데이터 반환
@@ -23,10 +24,15 @@ const useSpaceDetail = () => {
 };
 
 export const PlacePage = () => {
+  const navigate = useNavigate();
   const { spaceId } = useParams();
   const containerRef = useRef<HTMLDivElement>(null);
   const { data: spaceDetail } = useSpaceDetail();
   const [currentTab, setCurrentTab] = useState<TabType>('정보');
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
 
   const handleReviewClick = () => {
     // 리뷰 작성 로직
@@ -36,6 +42,9 @@ export const PlacePage = () => {
   const images = [MainImage, MainImage2, MainImage3, MainImage];
   return (
     <Container ref={containerRef}>
+      <BackButton onClick={handleBackClick}>
+        <img src={back} alt="뒤로가기" />
+      </BackButton>
       <Carousel images={images} />
       <PlaceBottomSheet
         spaceDetail={spaceDetail}
