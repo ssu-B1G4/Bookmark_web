@@ -35,7 +35,7 @@ import {
 import { InfoTab } from './Tabs/InfoTab/InfoTab';
 import { ReviewTab } from './Tabs/ReviewTab/ReviewTab';
 
-export type TabType = '정보' | '리뷰' | '유사';
+export type TabType = '정보' | '리뷰';
 
 interface BottomSheetProps {
   spaceId: number;
