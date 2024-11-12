@@ -8,6 +8,7 @@ import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import { FilterPage } from './pages/FilterPage/FilterPage';
 import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
+import { PlacePage } from './pages/PlacePage/PlacePage';
 import { ReportPlacePage } from './pages/ReportPlacePage/ReportPlacePage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
@@ -43,6 +44,7 @@ const AppContent = () => {
         <Route path="/" element={<Home />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/place/:placeId" element={<PlacePage />} />
         <Route path="/myplace" element={<MyPlacePage />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/booksearch" element={<BookSearchPage />} />
