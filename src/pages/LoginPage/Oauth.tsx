@@ -18,7 +18,7 @@ export const Oauth = () => {
 
         if (response.isSuccess) {
           console.log(response.result.accessToken);
-          navigate('/test');
+          navigate('/');
         }
       } catch (error) {
         handleError(error);
