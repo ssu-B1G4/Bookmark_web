@@ -1,3 +1,9 @@
+export interface AuthErrorData {
+  error: string;
+  message: string;
+  status: number;
+}
+
 export interface RefreshTokenResponse {
   isSuccess: boolean;
   code: string;
