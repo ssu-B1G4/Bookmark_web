@@ -8,6 +8,7 @@ import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
 import { FilterPage } from './pages/FilterPage/FilterPage';
 import { LoginPage } from './pages/LoginPage/LoginPage';
+import { Oauth } from './pages/LoginPage/Oauth';
 import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
 import { PlacePage } from './pages/PlacePage/PlacePage';
 import { ReportPlacePage } from './pages/ReportPlacePage/ReportPlacePage';
@@ -52,6 +53,7 @@ const AppContent = () => {
         <Route path="/reportplace" element={<ReportPlacePage />} />
         <Route path="/filter" element={<FilterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/callback" element={<Oauth />} />
       </Routes>
       {showNavbar && <BottomNav />}
     </AppWrapper>
