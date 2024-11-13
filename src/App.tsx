@@ -31,12 +31,14 @@ const AppContent = () => {
   const showNavbarPaths = ['/', '/myplace', '/mypage'];
 
   const { isWebView } = getEnvironment(navigator.userAgent);
-  console.log('Environment details:', {
-    userAgent: navigator.userAgent,
-    isWebView,
-    currentPath: location.pathname,
-    showNavbarPaths,
-  });
+
+  // console.log('Environment details:', {
+  //   userAgent: navigator.userAgent,
+  //   isWebView,
+  //   currentPath: location.pathname,
+  //   showNavbarPaths,
+
+  // });
 
   const showNavbar = !isWebView && showNavbarPaths.includes(location.pathname);
 
