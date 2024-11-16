@@ -1,7 +1,6 @@
 export interface ReviewFormData {
   visitPlace: string;
-  bookTitle: string;
-  author: string;
+  books: Array<{ title: string; author: string }>;
   reviewText: string;
   images: File[];
   startTime: string;
