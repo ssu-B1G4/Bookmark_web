@@ -1,7 +1,7 @@
 export interface AuthErrorData {
-  error: string;
+  isSuccess: boolean;
+  code: string;
   message: string;
-  status: number;
 }
 
 export interface RefreshTokenResponse {

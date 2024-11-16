@@ -26,7 +26,7 @@ client.interceptors.response.use(
     const originalConfig = error.config;
     const data = error.response?.data as AuthErrorData;
 
-    if (originalConfig && error.response?.status === 401 && data?.error === 'Auth-002') {
+    if (originalConfig && error.response?.status === 401 && !data?.isSuccess) {
       try {
         const { accessToken, refreshToken } = await postRefresh();
 
