@@ -19,25 +19,12 @@ export const StyledTitleText = styled.p`
   margin-top: 10px;
 `;
 
-export const StyledRow = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export const StyledContentText = styled.p`
   font-size: 1.4rem;
   font-weight: ${({ theme }) => theme.fonts.light300};
   color: ${({ theme }) => theme.colors.black};
   align-self: self-start;
   padding-left: 6px;
-`;
-
-export const StyledWarnText = styled.p`
-  font-size: 1rem;
-  font-weight: ${({ theme }) => theme.fonts.light300};
-  color: #72777a;
-  padding-left: 6px;
-  padding-top: 3px;
 `;
 
 export const CenteredContainer = styled.div`
