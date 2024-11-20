@@ -25,7 +25,9 @@ import {
   InputWithButtonContainer,
   StyledBtnGap,
   StyledContentText,
+  StyledRow,
   StyledTitleText,
+  StyledWarnText,
   StyledWrapper,
   Title,
 } from './ReviewPage.style';
@@ -265,7 +267,10 @@ export const ReviewPage = () => {
         />
       </StyledBtnGap>
 
-      <StyledContentText>분위기</StyledContentText>
+      <StyledRow>
+        <StyledContentText>분위기</StyledContentText>
+        <StyledWarnText>최대 3개까지만 골라주세요</StyledWarnText>
+      </StyledRow>
       <StyledBtnGap>
         <Controller
           name="atmosphere"
