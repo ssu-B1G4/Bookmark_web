@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { postReview } from '@/apis/postReview';
 import back from '@/assets/BottomNav/backIcon.svg';
 import { CompleteBtn } from '@/components/CompleteBtn/CompleteBtn';
 import { LargeTextArea, SmallInput } from '@/components/CustomInput/CustomInput';
@@ -12,6 +13,7 @@ import { SingleSelectBtnGroup } from '@/components/ReplyBtn/BtnGroup/SingleSelec
 import { TimePicker } from '@/components/TimePicker/TimePicker';
 import Slider from '@/components/TrafficSlider/TrafficSlider';
 import { ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
+import { handleError } from '@/utils/error';
 
 import {
   AddTagButton,
@@ -104,17 +106,17 @@ export const ReviewPage = () => {
   }, [imagePreviews]);
 
   const onSubmit = async (data: ReviewFormData) => {
-    const formData = new FormData();
-
-    data.images.forEach((image) => {
-      formData.append('images', image);
-    });
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (key !== 'images') {
-        formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value.toString());
+    try {
+      let placeId = 2;
+      const response = await postReview(placeId, data, data.images);
+      if (response.isSuccess) {
+        console.log('성공');
+      } else {
+        console.error(response.message);
       }
-    });
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
