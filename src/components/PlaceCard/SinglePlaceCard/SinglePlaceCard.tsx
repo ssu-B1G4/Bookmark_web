@@ -17,6 +17,10 @@ import {
   BookmarkButton,
 } from './SinglePlaceCard.style';
 
+interface SinglePlaceCardProps extends PreviewPlace {
+  onClick?: () => void;
+}
+
 export const SinglePlaceCard = ({
   placeId,
   name,
@@ -28,7 +32,8 @@ export const SinglePlaceCard = ({
   reviewCount,
   isSaved: initialIsSaved,
   imgList,
-}: PreviewPlace) => {
+  onClick,
+}: SinglePlaceCardProps) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
   const handleBookmarkClick = () => {
@@ -37,7 +42,7 @@ export const SinglePlaceCard = ({
   };
 
   return (
-    <Container>
+    <Container onClick={onClick}>
       <ImageGallery>
         {imgList.map((src, index) => (
           <Image src={src} alt={`${name} image ${index}`} key={index} />

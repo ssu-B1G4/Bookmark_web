@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { HorizontalPlaceCard } from '@/components/PlaceCard/HorizontalPlaceCard/HorizontalPlaceCard';
 import { TAB_MESSAGES } from '@/constant/HomeMessage';
 
@@ -11,6 +13,12 @@ export const PlacesBottomSheetPage = ({
   loaderRef,
   activeTab,
 }: PlacesBottomSheetPageProps) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (placeId: number) => {
+    navigate(`/place/${placeId}`);
+  };
+
   return (
     <Container>
       <TabContainer>
@@ -24,7 +32,11 @@ export const PlacesBottomSheetPage = ({
 
       <CardList>
         {places.map((place) => (
-          <HorizontalPlaceCard key={place.placeId} {...place} />
+          <HorizontalPlaceCard
+            key={place.placeId}
+            {...place}
+            onClick={() => handleCardClick(place.placeId)}
+          />
         ))}
       </CardList>
 

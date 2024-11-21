@@ -24,8 +24,8 @@ const isPlacePreviewDTO = (place: PlaceCardProps): place is PlacePreviewDTO => {
   return 'moods' in place && Array.isArray(place.moods);
 };
 
-export const HorizontalPlaceCard = (props: PlaceCardProps) => {
-  const { name, size, outlet, wifi, reviewCount, isSaved: initialIsSaved } = props;
+export const HorizontalPlaceCard = (props: PlaceCardProps & { onClick?: () => void }) => {
+  const { name, size, outlet, wifi, reviewCount, isSaved: initialIsSaved, onClick } = props;
 
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
@@ -36,7 +36,7 @@ export const HorizontalPlaceCard = (props: PlaceCardProps) => {
   const imageUrl = isPlacePreviewDTO(props) ? props.placeImgList[0] : props.img;
 
   return (
-    <Card>
+    <Card onClick={onClick}>
       <ImageWrapper>
         <Image src={imageUrl} alt={name} />
       </ImageWrapper>
