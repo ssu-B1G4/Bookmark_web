@@ -24,6 +24,7 @@ import {
   SearchBarWrapper,
   FilterWrapper,
   FilterBtn,
+  ReplyBtnWrapper,
   MapWrapper,
 } from './home.style';
 
@@ -182,6 +183,7 @@ export const Home = () => {
     console.log(searchFilter);
 
     if (searchTerm.trim() === '') {
+      setBottomSheetType('places');
       try {
         await fetchNearbyPlaces(searchFilter);
       } catch (error) {
@@ -250,15 +252,19 @@ export const Home = () => {
             <FilterIcon />
           </FilterBtn>
           {Object.keys(filterStatus).map((key) => (
-            <ReplyBtn
-              key={key}
-              selected={filterStatus[key]}
-              $bgColor={filterStatus[key] ? 'rgba(236, 252, 229, 0.8)' : 'rgba(255, 255, 255, 0.8)'}
-              $fontSize={1.4}
-              $fontWeight={'light'}
-            >
-              {getKRFilterLabel(key)}
-            </ReplyBtn>
+            <ReplyBtnWrapper>
+              <ReplyBtn
+                key={key}
+                selected={filterStatus[key]}
+                $bgColor={
+                  filterStatus[key] ? 'rgba(236, 252, 229, 0.8)' : 'rgba(255, 255, 255, 0.8)'
+                }
+                $fontSize={1.4}
+                $fontWeight={'light'}
+              >
+                {getKRFilterLabel(key)}
+              </ReplyBtn>
+            </ReplyBtnWrapper>
           ))}
         </FilterWrapper>
       </SearchWrapper>
@@ -281,7 +287,7 @@ export const Home = () => {
       ) : (
         <>
           {bottomSheetType === 'places' && (
-            <BottomSheet minHeight={50}>
+            <BottomSheet minHeight={120}>
               <PlacesBottomSheetPage
                 places={searchPlaces}
                 isLastPage={isLastPage}
@@ -299,12 +305,12 @@ export const Home = () => {
             </BottomSheet>
           )}
           {bottomSheetType === 'filter' && (
-            <BottomSheet minHeight={680} initialHeight={680} maxHeight={680}>
+            <BottomSheet minHeight={750} initialHeight={720} maxHeight={720}>
               <FilterPage defaultValues={filterWithoutSearch} onSearch={handleFilterPageClose} />
             </BottomSheet>
           )}
           {bottomSheetType === 'placeDetails' && selectedPlaceId !== null && (
-            <BottomSheet minHeight={50} initialHeight={325} maxHeight={325}>
+            <BottomSheet minHeight={120} initialHeight={395} maxHeight={395}>
               <PlaceBottomSheetPage placeData={placeData} />
             </BottomSheet>
           )}
