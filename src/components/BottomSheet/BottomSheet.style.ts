@@ -12,7 +12,6 @@ export const StyledBottomSheet = styled(motion.div)<{ height: number }>`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   overflow: visible;
-  z-index: 5;
 `;
 
 export const ContentContainer = styled.div`

@@ -252,9 +252,8 @@ export const Home = () => {
             <FilterIcon />
           </FilterBtn>
           {Object.keys(filterStatus).map((key) => (
-            <ReplyBtnWrapper>
+            <ReplyBtnWrapper key={key}>
               <ReplyBtn
-                key={key}
                 selected={filterStatus[key]}
                 $bgColor={
                   filterStatus[key] ? 'rgba(236, 252, 229, 0.8)' : 'rgba(255, 255, 255, 0.8)'
@@ -305,7 +304,7 @@ export const Home = () => {
             </BottomSheet>
           )}
           {bottomSheetType === 'filter' && (
-            <BottomSheet minHeight={750} initialHeight={720} maxHeight={720}>
+            <BottomSheet minHeight={750} initialHeight={715} maxHeight={715}>
               <FilterPage defaultValues={filterWithoutSearch} onSearch={handleFilterPageClose} />
             </BottomSheet>
           )}
