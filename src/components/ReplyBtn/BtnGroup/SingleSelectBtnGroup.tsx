@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ReplyBtn } from '../ReplyBtn';
 
@@ -6,6 +6,7 @@ import { StyledSelectBtnGroup } from './SelectBtnGroup.style';
 
 interface SingleSelectBtnGroupProps {
   options: string[];
+  selectedValue?: string;
   deselectable?: boolean;
   textColor?: string;
   bgColor?: string;
@@ -17,6 +18,7 @@ interface SingleSelectBtnGroupProps {
 
 export const SingleSelectBtnGroup = ({
   options,
+  selectedValue,
   deselectable = false,
   textColor = '#198155',
   bgColor = '#ECFCE5',
@@ -26,6 +28,10 @@ export const SingleSelectBtnGroup = ({
   onSelectionChange,
 }: SingleSelectBtnGroupProps) => {
   const [selectedOption, setSelectedOption] = useState<string>();
+
+  useEffect(() => {
+    setSelectedOption(selectedValue || '');
+  }, [selectedValue]);
 
   const handleClick = (option: string) => {
     const newSelectedOption = deselectable && selectedOption === option ? undefined : option;
