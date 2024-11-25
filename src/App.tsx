@@ -1,3 +1,4 @@
+import { ErrorBoundary } from '@sentry/react';
 import { getEnvironment } from '@webviewkit/environment';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
@@ -17,6 +18,7 @@ import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/Theme';
+import { ErrorFallback } from './utils/ErrorFallback';
 
 const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
   ${({ $hasNavbar }) =>
@@ -64,11 +66,13 @@ const AppContent = () => {
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </ThemeProvider>
+    <ErrorBoundary fallback={<ErrorFallback />}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };

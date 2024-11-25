@@ -8,11 +8,11 @@ import { SearchPlace } from '@/types/Place';
 
 import {
   Container,
-  SearchWrapper,
-  SearchBarWrapper,
-  FilterWrapper,
   FilterBtn,
+  FilterWrapper,
   MapWrapper,
+  SearchBarWrapper,
+  SearchWrapper,
 } from './home.style';
 
 const options = [

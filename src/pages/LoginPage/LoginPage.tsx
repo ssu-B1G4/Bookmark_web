@@ -14,6 +14,15 @@ export const LoginPage = () => {
 
   return (
     <Container>
+      <button
+        type="button"
+        onClick={() => {
+          throw new Error('Sentry Test Error');
+        }}
+      >
+        Break the world
+      </button>
+      ;
       <LogoImage src={logo} alt="Bookmark 로고" />
       <LoginText>Bookmark</LoginText>
       <LoginSubText>매일매일 새로운 독서 공간 추천</LoginSubText>
