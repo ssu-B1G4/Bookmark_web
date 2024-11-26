@@ -22,7 +22,7 @@ const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
   ${({ $hasNavbar }) =>
     $hasNavbar &&
     `
-    padding-bottom: 70px;
+    // padding-bottom: 70px;
   `}
 `;
 
