@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { postReview } from '@/apis/postReview';
 import back from '@/assets/BottomNav/backIcon.svg';
 import { CompleteBtn } from '@/components/CompleteBtn/CompleteBtn';
 import { LargeTextArea, SmallInput } from '@/components/CustomInput/CustomInput';
@@ -12,11 +13,16 @@ import { SingleSelectBtnGroup } from '@/components/ReplyBtn/BtnGroup/SingleSelec
 import { TimePicker } from '@/components/TimePicker/TimePicker';
 import Slider from '@/components/TrafficSlider/TrafficSlider';
 import { ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
+import { handleError } from '@/utils/error';
 
 import {
+  AddTagButton,
   BackButton,
+  BookTag,
+  BookTagsContainer,
   CenteredContainer,
   Header,
+  InputWithButtonContainer,
   StyledBtnGap,
   StyledContentText,
   StyledTitleText,
@@ -37,13 +43,13 @@ export const ReviewPage = () => {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { isValid },
   } = useForm<ReviewFormData>({
     mode: 'onChange',
     defaultValues: {
       visitPlace: '',
-      bookTitle: '',
-      author: '',
+      books: [],
       reviewText: '',
       images: [],
       startTime: '00:00',
@@ -58,12 +64,39 @@ export const ReviewPage = () => {
   });
 
   const images = watch('images');
+  const [bookInput, setBookInput] = useState('');
+  const [authorInput, setAuthorInput] = useState('');
+
+  const handleAddBookTag = () => {
+    if (bookInput && authorInput) {
+      const currentBooks = watch('books');
+
+      setValue('books', [
+        ...currentBooks,
+        {
+          title: bookInput,
+          author: authorInput,
+        },
+      ]);
+
+      setBookInput('');
+      setAuthorInput('');
+    }
+  };
 
   const handleImagesChange = (newFiles: File[], onChange: (value: File[]) => void) => {
     imagePreviews.forEach((preview) => URL.revokeObjectURL(preview));
     const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
     setImagePreviews(newPreviews);
     onChange(newFiles);
+  };
+
+  const handleRemoveTag = (index: number) => {
+    const currentBooks = watch('books');
+    setValue(
+      'books',
+      currentBooks.filter((_, i) => i !== index)
+    );
   };
 
   useEffect(() => {
@@ -73,17 +106,17 @@ export const ReviewPage = () => {
   }, [imagePreviews]);
 
   const onSubmit = async (data: ReviewFormData) => {
-    const formData = new FormData();
-
-    data.images.forEach((image, index) => {
-      formData.append(`image${index}`, image);
-    });
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (key !== 'images') {
-        formData.append(key, Array.isArray(value) ? JSON.stringify(value) : value.toString());
+    try {
+      let placeId = 2;
+      const response = await postReview(placeId, data, data.images);
+      if (response.isSuccess) {
+        console.log('성공');
+      } else {
+        console.error(response.message);
       }
-    });
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -262,30 +295,47 @@ export const ReviewPage = () => {
       <StyledTitleText>해당 공간에서 함께 한 책이 있어요?</StyledTitleText>
       <StyledContentText>공간 보유 도서</StyledContentText>
       <CenteredContainer>
-        <Controller
-          name="bookTitle"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <SmallInput
-              placeholder="해당 공간이 보유하고 있던 책 제목을 입력해주세요."
-              {...field}
-            />
-          )}
+        <SmallInput
+          value={bookInput}
+          onChange={(e) => setBookInput(e.target.value)}
+          placeholder="해당 공간이 보유하고 있던 책 제목을 입력해주세요."
         />
       </CenteredContainer>
 
       <StyledContentText>작가</StyledContentText>
       <CenteredContainer>
-        <Controller
-          name="author"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <SmallInput placeholder="해당 책의 작가를 기재해주세요." {...field} />
-          )}
-        />
+        <InputWithButtonContainer>
+          <SmallInput
+            value={authorInput}
+            onChange={(e) => setAuthorInput(e.target.value)}
+            placeholder="해당 책의 작가를 기재해주세요."
+          />
+          <AddTagButton onClick={handleAddBookTag} disabled={!bookInput || !authorInput}>
+            추가
+          </AddTagButton>
+        </InputWithButtonContainer>
       </CenteredContainer>
+
+      <Controller
+        name="books"
+        control={control}
+        rules={{
+          required: true,
+          validate: (books) => books.length > 0,
+        }}
+        render={({ field: { value } }) => (
+          <BookTagsContainer>
+            {value.map((book, index) => (
+              <BookTag key={index}>
+                📚 {book.title} - {book.author}
+                <button onClick={() => handleRemoveTag(index)} className="remove-tag">
+                  ×
+                </button>
+              </BookTag>
+            ))}
+          </BookTagsContainer>
+        )}
+      />
 
       <StyledTitleText>해당 공간에 대한 후기를 남겨주세요!</StyledTitleText>
       <CenteredContainer>

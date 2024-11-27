@@ -65,3 +65,61 @@ export const BackButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+
+export const BookTagsContainer = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+export const BookTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #ecfce5;
+  color: #198155;
+  border-radius: 2rem;
+  font-size: 1.6rem;
+
+  .remove-tag {
+    margin-left: 0.5rem;
+    border: none;
+    background: none;
+    color: #198155;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    font-size: 1.6rem;
+  }
+`;
+
+export const InputWithButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+
+  input {
+    flex: 1;
+  }
+`;
+
+export const AddTagButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.green};
+  color: white;
+  border-radius: 0.8rem;
+  white-space: nowrap;
+  height: 42px;
+  width: 18%;
+  font-size: 1.3rem;
+  border-radius: 8px;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+`;
