@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ReplyBtn } from '../../ReplyBtn/ReplyBtn';
 
 import {
+  BookmarkButton,
   Card,
-  ImageWrapper,
-  Image,
   Content,
-  Title,
   Description,
-  StyledText,
+  Image,
+  ImageWrapper,
   MoodContainer,
   ReviewCount,
-  BookmarkButton,
+  StyledText,
+  Title,
 } from './HorizontalPlaceCard.style';
 
 interface PlaceCardProps {
