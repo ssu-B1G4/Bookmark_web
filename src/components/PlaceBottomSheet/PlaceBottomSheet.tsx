@@ -5,7 +5,7 @@ import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
 import locationIcon from '@/assets/SpacePage/spacemarker.svg';
 import { FACILITY_ICONS } from '@/constant/facility';
-import { mockPlaceDetail } from '@/mock/placeDetail';
+import { PlaceDetailResponse } from '@/types/placeDetail';
 
 import { ReplyBtn } from '../ReplyBtn/ReplyBtn';
 
@@ -39,7 +39,7 @@ export type TabType = '정보' | '리뷰';
 
 interface BottomSheetProps {
   spaceId: number;
-  spaceDetail: typeof mockPlaceDetail.result;
+  spaceDetail?: PlaceDetailResponse['result'];
   containerRef: React.RefObject<HTMLDivElement>;
   onTabChange: (tab: TabType) => void;
 }
@@ -49,17 +49,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
   const [activeTab, setActiveTab] = useState<TabType>('정보');
   void spaceId;
 
-  const {
-    name,
-    address,
-    category,
-    outlet,
-    size,
-    wifi,
-    noise,
-    moods,
-    // ... 기타 필요한 데이터
-  } = spaceDetail;
+  const { name, address, category, outlet, size, wifi, noise, moods } = spaceDetail ?? {};
 
   const facilityStatus = {
     1: outlet,
@@ -67,6 +57,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
     3: wifi,
     4: noise,
   };
+
   useEffect(() => {
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
@@ -85,7 +76,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
         return spaceDetail ? (
           <InfoTab
             placeDetail={{
-              address,
+              address: spaceDetail.address,
               phone: spaceDetail.phone,
               url: spaceDetail.url,
               operatingTimeList: spaceDetail.operatingTimeList,
@@ -140,7 +131,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
 
         <MoodContainer>
           <MoodInfo>분위기</MoodInfo>
-          {moods.map((mood, index) => (
+          {moods?.map((mood, index) => (
             <ReplyBtn key={index} disabled={true} $fontSize={1.4} $fontWeight="regular">
               {mood}
             </ReplyBtn>

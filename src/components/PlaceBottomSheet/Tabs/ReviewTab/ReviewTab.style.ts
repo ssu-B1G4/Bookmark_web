@@ -90,3 +90,12 @@ export const ReviewImage = styled.img`
   flex-shrink: 0;
   object-fit: cover;
 `;
+
+export const EmptyState = styled.div`
+  text-align: center;
+  padding: 100px 0;
+  white-space: pre-line;
+  font-size: 1.4rem;
+  font-weight: ${({ theme }) => theme.fonts.medium500};
+  line-height: 1.5;
+`;

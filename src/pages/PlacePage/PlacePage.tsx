@@ -1,53 +1,50 @@
 import { useRef, useState } from 'react';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { getPlaceDetail } from '@/apis/getPlaceDetail';
 import back from '@/assets/BottomNav/backIconWhite.svg';
-import MainImage from '@/assets/SpacePage/mainimage.svg';
-import MainImage2 from '@/assets/SpacePage/mainimage2.svg';
-import MainImage3 from '@/assets/SpacePage/mainimage3.svg';
 import { Carousel } from '@/components/Carousel/Carousel';
 import { PlaceBottomSheet, TabType } from '@/components/PlaceBottomSheet/PlaceBottomSheet';
 import { ReviewBtn } from '@/components/ReviewBtn/ReviewBtn';
-import { mockPlaceDetail } from '@/mock/placeDetail';
+import { PlaceDetailResponse } from '@/types/placeDetail';
 
 import { BackButton, Container } from './PlacePage.style';
 
-const useSpaceDetail = () => {
-  // 현재는 mock 데이터 반환
-  // 나중에 API 연동 시 실제 데이터 fetch 로직 구현
-  return {
-    data: mockPlaceDetail.result,
-    loading: false,
-    error: null,
-  };
-};
-
 export const PlacePage = () => {
   const navigate = useNavigate();
-  const { spaceId } = useParams();
+  const location = useLocation();
+  const spaceId = location.pathname.split('/').pop();
   const containerRef = useRef<HTMLDivElement>(null);
-  const { data: spaceDetail } = useSpaceDetail();
   const [currentTab, setCurrentTab] = useState<TabType>('정보');
+
+  const { data: placeData } = useQuery<PlaceDetailResponse>({
+    queryKey: ['place', spaceId],
+    queryFn: () => getPlaceDetail(Number(spaceId)),
+    enabled: !!spaceId,
+  });
+  console.log(placeData);
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
   const handleReviewClick = () => {
-    // 리뷰 작성 로직
+    navigate('/review', {
+      state: { spaceId },
+    });
   };
 
-  // 이미지는 나중에 API 응답에서 받아올 수 있음
-  const images = [MainImage, MainImage2, MainImage3, MainImage];
+  // const images = [MainImage, MainImage2, MainImage3, MainImage];
   return (
     <Container ref={containerRef}>
       <BackButton onClick={handleBackClick}>
         <img src={back} alt="뒤로가기" />
       </BackButton>
-      <Carousel images={images} />
+      <Carousel images={placeData?.result.placeImgList || []} />
       <PlaceBottomSheet
-        spaceDetail={spaceDetail}
+        spaceDetail={placeData?.result}
         spaceId={Number(spaceId)}
         containerRef={containerRef}
         onTabChange={setCurrentTab}
