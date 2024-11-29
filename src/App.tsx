@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getEnvironment } from '@webviewkit/environment';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
@@ -16,6 +17,8 @@ import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/Theme';
+
+const queryClient = new QueryClient();
 
 const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
   ${({ $hasNavbar }) =>
@@ -62,11 +65,13 @@ const AppContent = () => {
 
 export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };

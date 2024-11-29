@@ -1,20 +1,16 @@
-import { Place } from '@/types/MyPlacePage/Place';
+import { BookmarkPlace } from '@/types/bookmarks';
 
 import { Card, Image, ImageContainer, Location, TextContainer, Title } from './MyPlaceCard.style';
 
-interface MyPlaceCardProps {
-  place: Place;
-}
-
-export const MyPlaceCard = ({ place }: MyPlaceCardProps) => {
+export const MyPlaceCard = ({ name, address, img }: BookmarkPlace) => {
   return (
     <Card>
       <ImageContainer>
-        <Image src={place.img} alt={place.name} />
+        <Image src={img} alt={name} />
       </ImageContainer>
       <TextContainer>
-        <Title>{place.name}</Title>
-        <Location>서울 광진구</Location>
+        <Title>{name}</Title>
+        <Location>{address}</Location>
       </TextContainer>
     </Card>
   );
