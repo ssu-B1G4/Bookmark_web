@@ -69,9 +69,9 @@ export const ReviewCount = styled.span`
   color: #676767;
 `;
 
-export const BookmarkButton = styled.button<{ isSaved: boolean }>`
-  background-image: ${({ isSaved }) =>
-    isSaved ? `url(${BookMarkIconFill})` : `url(${BookMarkIcon})`};
+export const BookmarkButton = styled.button<{ $isSaved: boolean }>`
+  background-image: ${({ $isSaved }) =>
+    $isSaved ? `url(${BookMarkIconFill})` : `url(${BookMarkIcon})`};
   width: 24px;
   height: 24px;
   position: absolute;

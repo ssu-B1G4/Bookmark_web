@@ -22,3 +22,15 @@ export const StyledInput = styled.input`
     color: #72777a;
   }
 `;
+
+export const ClearButton = styled.button`
+  right: 8px;
+  border: none;
+  width: 16px;
+  height: 16px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
