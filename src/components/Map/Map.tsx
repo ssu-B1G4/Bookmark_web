@@ -7,7 +7,7 @@ import { MarkerPinIcon } from '@/assets/Map/MarkerPinIcon';
 import { MyLocationIcon } from '@/assets/Map/MyLocationIcon';
 import { SelectedMarkerPinIcon } from '@/assets/Map/SelectedMarkerPinIcon';
 
-import { LoadingSpinner } from '../Loading copy/LoadingSpinner';
+import { LoadingSpinner } from '../Loading/LoadingSpinner';
 
 import {
   LoadingContainer,

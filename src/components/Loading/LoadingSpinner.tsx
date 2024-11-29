@@ -4,7 +4,7 @@ export const LoadingSpinner = () => {
   return (
     <Spinner>
       {[...Array(8)].map((_, i) => (
-        <Dot key={i} index={i} />
+        <Dot key={i} $index={i} />
       ))}
     </Spinner>
   );

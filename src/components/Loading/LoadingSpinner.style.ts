@@ -18,17 +18,17 @@ export const Spinner = styled.div`
   position: relative;
 `;
 
-export const Dot = styled.div<{ index: number }>`
+export const Dot = styled.div<{ $index: number }>`
   width: 12px;
   height: 12px;
   background-color: ${({ theme }) => theme.colors.green};
   border-radius: 50%;
   position: absolute;
   animation: ${fade} 1.2s infinite ease-in-out;
-  animation-delay: ${({ index }) => index * 0.15}s;
+  animation-delay: ${({ $index }) => $index * 0.15}s;
 
-  ${({ index }) => {
-    const angle = (index * 360) / 8;
+  ${({ $index }) => {
+    const angle = ($index * 360) / 8;
     const radians = (angle * Math.PI) / 180;
     const distance = 30;
     return `
