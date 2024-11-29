@@ -1,5 +1,14 @@
-import { ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
-import { Mood, Noise, Outlet, PostReview, Size, Wifi } from '@/types/review.type';
+import { ReportFormData, ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
+import {
+  Category,
+  Mood,
+  Noise,
+  Outlet,
+  PostReport,
+  PostReview,
+  Size,
+  Wifi,
+} from '@/types/review.type';
 
 const moodMap: Record<string, Mood> = {
   '🎆 편안한': Mood.Comfortable,
@@ -33,6 +42,11 @@ const wifiMap: Record<string, Wifi> = {
   없어요: Wifi.Off,
 };
 
+const categoryMap: Record<string, string> = {
+  실내: Category.Indoor,
+  야외: Category.Outdoor,
+};
+
 export const transformReviewData = (formData: ReviewFormData): PostReview => {
   const now = new Date();
   const writtenDate =
@@ -53,5 +67,25 @@ export const transformReviewData = (formData: ReviewFormData): PostReview => {
     visitDate,
     noise: noiseMap[formData.noise],
     moods: formData.atmosphere.map((mood) => moodMap[mood]),
+  };
+};
+
+export const transformReportData = (formData: ReportFormData): PostReport => {
+  const now = new Date();
+  const writtenDate =
+    now.toISOString().split('T')[0] + ' ' + now.toTimeString().split(' ')[0].substring(0, 5);
+
+  return {
+    name: formData.name,
+    address: formData.address,
+    size: sizeMap[formData.size],
+    books: formData.books,
+    outlet: outletMap[formData.outlet],
+    wifi: wifiMap[formData.wifi],
+    content: formData.content,
+    writtenDate,
+    noise: noiseMap[formData.noise],
+    moods: formData.moods.map((mood) => moodMap[mood]),
+    category: categoryMap[formData.category],
   };
 };

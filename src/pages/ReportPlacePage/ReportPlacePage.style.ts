@@ -64,3 +64,43 @@ export const BackButton = styled.button`
   align-items: center;
   justify-content: center;
 `;
+
+export const AddTagButton = styled.button`
+  background-color: #fff4c1;
+  color: #70520f;
+  border-radius: 0.8rem;
+  white-space: nowrap;
+  height: 42px;
+  width: 18%;
+  font-size: 1.3rem;
+  border-radius: 8px;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+`;
+
+export const BookTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #fff4c1;
+  color: #70520f;
+  border-radius: 2rem;
+  font-size: 1.6rem;
+
+  .remove-tag {
+    margin-left: 0.5rem;
+    border: none;
+    background: none;
+    color: #70520f;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    font-size: 1.6rem;
+  }
+`;

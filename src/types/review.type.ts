@@ -25,6 +25,20 @@ export interface PostReview {
   moods: Mood[];
 }
 
+export interface PostReport {
+  name: string;
+  address: string;
+  size: Size;
+  category: string;
+  books: Book[];
+  outlet: Outlet;
+  wifi: Wifi;
+  content: string;
+  writtenDate: string;
+  noise: Noise;
+  moods: Mood[];
+}
+
 export interface ResponseReview {
   isSuccess: boolean;
   code: string;
