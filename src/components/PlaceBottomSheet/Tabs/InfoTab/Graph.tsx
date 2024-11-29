@@ -23,33 +23,31 @@ ChartJS.register(
   Legend
 );
 
-type DataType = 'green' | 'yellow' | 'red';
-
-interface TimeData {
+interface CongestionData {
   hour: string;
   value: number;
-  type: DataType;
 }
 
-interface BarChartProps {
-  data: TimeData[];
-}
+export const Graph = ({ data }: { data: CongestionData[] }): React.JSX.Element => {
+  const formattedData = data.map((item) => ({
+    ...item,
+    hour: item.hour.replace(/:00/, '시'),
+  }));
 
-export const Graph = ({ data }: BarChartProps): React.JSX.Element => {
   const chartData = {
-    labels: data.map((item) => item.hour),
+    labels: formattedData.map((item) => item.hour),
     datasets: [
       {
         type: 'bar' as const,
         label: '시간별 데이터',
         data: data.map((item) => item.value),
         backgroundColor: data.map((item) => {
-          switch (item.type) {
-            case 'green':
+          switch (true) {
+            case item.value < 30:
               return '#D8F7D9';
-            case 'yellow':
+            case item.value < 60:
               return '#FFF4C1';
-            case 'red':
+            default:
               return '#FF8686';
           }
         }),
@@ -70,7 +68,6 @@ export const Graph = ({ data }: BarChartProps): React.JSX.Element => {
       },
     ],
   };
-
   type ChartType = 'bar' | 'line';
 
   const options: ChartOptions<ChartType> = {
