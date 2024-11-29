@@ -31,12 +31,6 @@ import {
 } from './ReviewPage.style';
 
 export const ReviewPage = () => {
-  const navigate = useNavigate();
-
-  const handleBackClick = () => {
-    navigate('/place');
-  };
-
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const {
@@ -68,6 +62,11 @@ export const ReviewPage = () => {
   const [authorInput, setAuthorInput] = useState('');
   const location = useLocation();
   const spaceId = location.state?.spaceId;
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(`/place/${spaceId}`);
+  };
 
   const handleAddBookTag = () => {
     if (bookInput && authorInput) {
