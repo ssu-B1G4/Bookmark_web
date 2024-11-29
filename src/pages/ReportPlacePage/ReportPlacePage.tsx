@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -101,16 +102,21 @@ export const ReportPlacePage = () => {
     };
   }, [imagePreviews]);
 
-  const onSubmit = async (data: ReportFormData) => {
-    try {
-      const response = await postReportPlace(data, data.images);
-      if (response) {
-        navigate('/');
-      }
-    } catch (error) {
+  const { mutate: submitReport } = useMutation({
+    mutationFn: async (data: ReportFormData) => {
+      return await postReportPlace(data, data.images);
+    },
+    onSuccess: () => {
+      navigate('/');
+    },
+    onError: (error) => {
       console.error('제보 등록 실패:', error);
       handleError(error);
-    }
+    },
+  });
+
+  const onSubmit = (data: ReportFormData) => {
+    submitReport(data);
   };
 
   return (
