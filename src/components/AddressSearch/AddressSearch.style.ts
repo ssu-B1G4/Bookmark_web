@@ -13,8 +13,6 @@ export const StyledInput = styled.input`
   border-radius: 8px;
   border: 1px solid #e3e5e5;
   font-size: 1.3rem;
-  &:read-only {
-  }
 `;
 
 export const InputWrapper = styled.div`
