@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { postReview } from '@/apis/postReview';
 import back from '@/assets/BottomNav/backIcon.svg';
@@ -31,12 +31,6 @@ import {
 } from './ReviewPage.style';
 
 export const ReviewPage = () => {
-  const navigate = useNavigate();
-
-  const handleBackClick = () => {
-    navigate('/place');
-  };
-
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const {
@@ -66,6 +60,13 @@ export const ReviewPage = () => {
   const images = watch('images');
   const [bookInput, setBookInput] = useState('');
   const [authorInput, setAuthorInput] = useState('');
+  const location = useLocation();
+  const spaceId = location.state?.spaceId;
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(`/place/${spaceId}`);
+  };
 
   const handleAddBookTag = () => {
     if (bookInput && authorInput) {
@@ -107,8 +108,8 @@ export const ReviewPage = () => {
 
   const onSubmit = async (data: ReviewFormData) => {
     try {
-      let placeId = 2;
-      const response = await postReview(placeId, data, data.images);
+      // let placeId = 2;
+      const response = await postReview(spaceId, data, data.images);
       if (response.isSuccess) {
         console.log('성공');
       } else {

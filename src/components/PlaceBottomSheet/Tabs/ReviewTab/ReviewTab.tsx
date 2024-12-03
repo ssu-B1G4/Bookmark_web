@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 
 import { getReview } from '@/apis/getReview';
 import profile from '@/assets/SpacePage/UserIcon.svg';
-import { ReviewPreview } from '@/types/getReview.type';
+import { REVIEW_MESSAGES } from '@/constant/\bReviewMessage';
+import { ReviewResponse } from '@/types/getReview.type';
 
 import {
+  EmptyState,
   ImageGrid,
   Nickname,
   ProfileImage,
@@ -21,37 +26,28 @@ import {
   VisitDate,
 } from './ReviewTab.style';
 
+const NoReviews = () => <EmptyState>{REVIEW_MESSAGES.NO_REVIEWS}</EmptyState>;
+
 export const ReviewTab = () => {
+  const location = useLocation();
+  const spaceId = Number(location.pathname.split('/').pop());
   const reviewContainerRef = useRef<HTMLDivElement>(null);
-  const [reviews, setReviews] = useState<ReviewPreview[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  const fetchReviews = async () => {
-    try {
-      setLoading(true);
-      const response = await getReview(2);
-      // 나중에 placeId를 prop으로 받거나 다른 방식으로 가져오기
-      if (response.isSuccess) {
-        setReviews(response.result.reviewPreviewList);
-      }
-    } catch {
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: reviewData, isLoading } = useQuery<ReviewResponse>({
+    queryKey: ['reviews', spaceId],
+    queryFn: () => getReview(spaceId),
+    enabled: !!spaceId,
+  });
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-  if (loading) return <div>리뷰를 불러오는 중...</div>;
+  if (isLoading) return <div>리뷰를 불러오는 중...</div>;
+  if (!reviewData?.result.reviewPreviewList.length) return <NoReviews />;
 
   return (
     <ReviewContainer ref={reviewContainerRef}>
       <ReviewHeader>리뷰</ReviewHeader>
       <ReviewSubText>방문자들의 리뷰를 확인해보세요!</ReviewSubText>
       <ReviewList>
-        {reviews.map((review) => (
+        {reviewData?.result.reviewPreviewList.map((review) => (
           <ReviewItem key={review.reviewId}>
             <ReviewProfile>
               <ProfileImage>

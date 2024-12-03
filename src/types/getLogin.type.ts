@@ -8,3 +8,9 @@ export interface LoginResponse {
     refreshToken: string;
   };
 }
+
+export interface LoginResult {
+  memberId: number;
+  accessToken: string;
+  refreshToken: string;
+}

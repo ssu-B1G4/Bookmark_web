@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import KakaoTag from '@/assets/kakaoTag.png';
 
 import {
   Container,
+  KakaoLogo,
+  LoginSection,
+  LoginTag,
+  LoginText,
+  MenuItem,
+  MenuList,
   ProfileImage,
   ProfileName,
-  LoginSection,
-  LoginText,
-  LoginTag,
-  KakaoLogo,
-  MenuList,
-  MenuItem,
 } from './mypage.style';
 
 export const Mypage = () => {
