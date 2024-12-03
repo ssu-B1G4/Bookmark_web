@@ -27,6 +27,12 @@ class TokenService {
     return this.cookie.get('refreshToken');
   }
 
+  isLoggedIn(): boolean {
+    const accessToken = this.getAccessToken();
+    const refreshToken = this.getRefreshToken();
+    return !!(accessToken && refreshToken);
+  }
+
   logout() {
     this.cookie.remove('accessToken', { path: '/' });
     this.cookie.remove('refreshToken', { path: '/' });
