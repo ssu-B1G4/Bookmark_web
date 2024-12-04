@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 0px 24px;
-  height: 100%;
-  overflow: visible;
+  height: calc(100% - 100px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const TabContainer = styled.div`
@@ -25,12 +27,19 @@ export const Tab = styled.button<{ $active: boolean }>`
   transition: background-color 0.3s ease;
 `;
 
+export const Content = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
 export const CardList = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  height: 300px;
   overflow-y: auto;
-  padding-bottom: 24px;
   scrollbar-width: none;
+  padding-bottom: 16px;
 `;
