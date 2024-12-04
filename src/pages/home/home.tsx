@@ -36,7 +36,7 @@ export const Home = () => {
   );
   const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
   const [searchFilter, setSearchFilter] = useState<SearchFilter>({
-    nowLongtitude: 0,
+    nowLongitude: 0,
     nowLatitude: 0,
     page: 1,
     search: '',
@@ -86,7 +86,7 @@ export const Home = () => {
     await fetchNearbyPlaces({
       ...searchFilter,
       nowLatitude: mapCenter.lat,
-      nowLongtitude: mapCenter.lng,
+      nowLongitude: mapCenter.lng,
     });
   };
 

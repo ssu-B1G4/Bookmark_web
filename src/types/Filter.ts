@@ -8,7 +8,7 @@ export type DayType = '월요일' | '화요일' | '수요일' | '목요일' | '�
  */
 
 export interface Filter {
-  nowLongtitude: number;
+  nowLongitude: number;
   nowLatitude: number;
   page: number;
   day?: DayType;
