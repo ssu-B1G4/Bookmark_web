@@ -6,7 +6,7 @@ import {
   BookmarkPlaceResponse,
   RecommendedPlacesResponse,
 } from '@/types/PageResponse';
-import { PlacePreviewDTO, PreviewPlace, DetailPlace, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO, DetailPlace, RecommendPlace } from '@/types/Place';
 
 export class MockPlaceService implements IPlaceService {
   /**
@@ -238,24 +238,25 @@ export class MockPlaceService implements IPlaceService {
    * @param placeId 조회할 공간의 ID
    * @returns 미리보기 Mock 공간 정보
    */
-  async getPreviewPlace(placeId: number): Promise<BaseResponse<PreviewPlace>> {
+  async getPreviewPlace(placeId: number): Promise<BaseResponse<PlacePreviewDTO>> {
     console.log(placeId);
 
-    const mockData: PreviewPlace = {
+    const mockData: PlacePreviewDTO = {
       placeId: 1,
       name: 'eea',
       size: '보통',
       outlet: '넉넉',
       wifi: '있어요',
-      mood1: '🎆 편안한',
-      mood2: '🪑 아늑한',
+      moods: ['✨ 즐거운', '🪑 아늑한'],
       reviewCount: 10,
       isSaved: true,
-      imgList: [
+      placeImgList: [
         'https://plus.unsplash.com/premium_photo-1675019219609-0ccc4719d635?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIxfHx8ZW58MHx8fHx8',
         'https://plus.unsplash.com/premium_photo-1675019221458-721a14f0f86f?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIzfHx8ZW58MHx8fHx8',
         'https://plus.unsplash.com/premium_photo-1673277149019-b671fdaa4d3d?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI5fHx8ZW58MHx8fHx8',
       ],
+      longitude: 126.9575041,
+      latitude: 37.4966895,
     };
 
     return {
