@@ -11,7 +11,7 @@ import { Map } from '@/components/Map/Map';
 import { PlaceSearchBar } from '@/components/PlaceSearchBar/PlaceSearchBar';
 import { ReplyBtn } from '@/components/ReplyBtn/ReplyBtn';
 import { Filter, SearchFilter, hasFilterValue, getKRFilterLabel } from '@/types/Filter';
-import { PreviewPlace, PlacePreviewDTO, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
 
 import { FilterPage } from '../FilterPage/FilterPage';
 
@@ -29,7 +29,7 @@ import {
 } from './home.style';
 
 export const Home = () => {
-  const [placeData, setPlaceData] = useState<PreviewPlace | null>(null);
+  const [placeData, setPlaceData] = useState<PlacePreviewDTO | null>(null);
   const [searchPlaces, setSearchPlaces] = useState<PlacePreviewDTO[] | RecommendPlace[]>([]);
   const [bottomSheetType, setBottomSheetType] = useState<'places' | 'filter' | 'placeDetails'>(
     'places'
