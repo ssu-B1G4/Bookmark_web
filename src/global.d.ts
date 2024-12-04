@@ -27,8 +27,11 @@ declare namespace naver.maps {
   }
 
   class LatLngBounds {
+    constructor(sw?: LatLng, ne?: LatLng);
     extend: (latlng: LatLng) => void;
     getCenter: () => LatLng;
+    getSW: () => LatLng;
+    getNE: () => LatLng;
   }
 
   interface MarkerOptions {
