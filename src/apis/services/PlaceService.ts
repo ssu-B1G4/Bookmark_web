@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { BaseResponse } from '@/types/BaseResponse';
 import { Filter, SearchFilter } from '@/types/Filter';
 import {
@@ -7,7 +5,9 @@ import {
   BookmarkPlaceResponse,
   RecommendedPlacesResponse,
 } from '@/types/PageResponse';
-import { PreviewPlace, DetailPlace } from '@/types/Place';
+import { PlacePreviewDTO, DetailPlace } from '@/types/Place';
+import { client } from '@/utils/axios';
+import { handleError } from '@/utils/error';
 
 import { IPlaceService } from '../application/interfaces/IPlaceService';
 
@@ -19,12 +19,13 @@ export class PlaceService implements IPlaceService {
    */
   async getNearbyPlaces(params: Filter): Promise<BaseResponse<SearchPlaceResponse>> {
     try {
-      const response = await axios.get<BaseResponse<SearchPlaceResponse>>('baseurl/places/nearby', {
+      const response = await client.get<BaseResponse<SearchPlaceResponse>>('/places/nearby', {
         params,
       });
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch nearby places: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -35,12 +36,13 @@ export class PlaceService implements IPlaceService {
    */
   async getSearchPlaces(params: SearchFilter): Promise<BaseResponse<SearchPlaceResponse>> {
     try {
-      const response = await axios.get<BaseResponse<SearchPlaceResponse>>('baseurl/places', {
+      const response = await client.get<BaseResponse<SearchPlaceResponse>>('/places', {
         params,
       });
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch search places: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -51,12 +53,13 @@ export class PlaceService implements IPlaceService {
    */
   async getBookmarkPlaces(page: number): Promise<BaseResponse<BookmarkPlaceResponse>> {
     try {
-      const response = await axios.get<BaseResponse<BookmarkPlaceResponse>>(
-        `baseurl/places/bookmarks?page=${page}`
+      const response = await client.get<BaseResponse<BookmarkPlaceResponse>>(
+        `/places/bookmarks?page=${page}`
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch bookmark places: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -65,14 +68,15 @@ export class PlaceService implements IPlaceService {
    * @param placeId 조회할 공간의 ID
    * @returns 미리보기 공간 정보
    */
-  async getPreviewPlace(placeId: number): Promise<BaseResponse<PreviewPlace>> {
+  async getPreviewPlace(placeId: number): Promise<BaseResponse<PlacePreviewDTO>> {
     try {
-      const response = await axios.get<BaseResponse<PreviewPlace>>(
-        `baseurl/places/${placeId}/preview`
+      const response = await client.get<BaseResponse<PlacePreviewDTO>>(
+        `/places/${placeId}/preview`
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch preview place: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -83,12 +87,11 @@ export class PlaceService implements IPlaceService {
    */
   async getDetailPlaces(placeId: number): Promise<BaseResponse<DetailPlace>> {
     try {
-      const response = await axios.get<BaseResponse<DetailPlace>>(
-        `baseurl/places/${placeId}/details`
-      );
+      const response = await client.get<BaseResponse<DetailPlace>>(`/places/${placeId}/details`);
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch detail place: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -99,12 +102,13 @@ export class PlaceService implements IPlaceService {
    */
   async getRecommendPlace(page: number): Promise<BaseResponse<RecommendedPlacesResponse>> {
     try {
-      const response = await axios.get<BaseResponse<RecommendedPlacesResponse>>(
-        `baseurl/places/recommend?page=${page}`
+      const response = await client.get<BaseResponse<RecommendedPlacesResponse>>(
+        `/places/recommend?page=${page}`
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch recommended places: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -115,10 +119,11 @@ export class PlaceService implements IPlaceService {
    */
   async postBookmarkPlace(placeId: number): Promise<BaseResponse<string>> {
     try {
-      const response = await axios.post<BaseResponse<string>>(`baseurl/places/${placeId}/bookmark`);
+      const response = await client.post<BaseResponse<string>>(`/places/${placeId}/bookmark`);
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to post bookmark place: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 
@@ -129,12 +134,11 @@ export class PlaceService implements IPlaceService {
    */
   async deleteBookmarkPlace(placeId: number): Promise<BaseResponse<string>> {
     try {
-      const response = await axios.delete<BaseResponse<string>>(
-        `baseurl/places/${placeId}/bookmark`
-      );
+      const response = await client.delete<BaseResponse<string>>(`/places/${placeId}/bookmark`);
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to delete bookmark place: ${error}`);
+      handleError(error);
+      throw error;
     }
   }
 }
