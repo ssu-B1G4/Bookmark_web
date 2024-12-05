@@ -8,6 +8,9 @@ export const client = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
 client.interceptors.request.use(
   (config) => {
     if (config.headers && api.getAccessToken()) {
@@ -26,21 +29,36 @@ client.interceptors.response.use(
     const originalConfig = error.config;
     const data = error.response?.data as AuthErrorData;
 
-    if (originalConfig && error.response?.status === 401 && !data?.isSuccess) {
+    if (!originalConfig || error.response?.status !== 401 || data?.isSuccess) {
+      return Promise.reject(error);
+    }
+
+    if (!isRefreshing) {
+      isRefreshing = true;
+
       try {
         const { accessToken, refreshToken } = await postRefresh();
-
         api.setAccessToken(accessToken);
         api.setRefreshToken(refreshToken);
 
+        refreshSubscribers.forEach((cb) => cb(accessToken));
+        refreshSubscribers = [];
+
         return client.request(originalConfig);
-      } catch (error) {
+      } catch (err) {
         api.logout();
-        sessionStorage.removeItem('user');
-        window.location.reload();
-        return Promise.reject(error);
+        window.location.href = '/login';
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
       }
     }
-    return Promise.reject(error);
+
+    return new Promise((resolve) => {
+      refreshSubscribers.push((token: string) => {
+        originalConfig.headers.Authorization = `Bearer ${token}`;
+        resolve(client.request(originalConfig));
+      });
+    });
   }
 );
