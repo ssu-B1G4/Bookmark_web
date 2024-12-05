@@ -7,7 +7,7 @@ import {
   BookmarkPlaceResponse,
   RecommendedPlacesResponse,
 } from '@/types/PageResponse';
-import { PreviewPlace, DetailPlace } from '@/types/Place';
+import { PlacePreviewDTO, DetailPlace } from '@/types/Place';
 
 import { IPlaceService } from '../application/interfaces/IPlaceService';
 
@@ -65,9 +65,9 @@ export class PlaceService implements IPlaceService {
    * @param placeId 조회할 공간의 ID
    * @returns 미리보기 공간 정보
    */
-  async getPreviewPlace(placeId: number): Promise<BaseResponse<PreviewPlace>> {
+  async getPreviewPlace(placeId: number): Promise<BaseResponse<PlacePreviewDTO>> {
     try {
-      const response = await axios.get<BaseResponse<PreviewPlace>>(
+      const response = await axios.get<BaseResponse<PlacePreviewDTO>>(
         `baseurl/places/${placeId}/preview`
       );
       return response.data;

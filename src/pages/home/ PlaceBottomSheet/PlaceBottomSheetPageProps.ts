@@ -1,5 +1,5 @@
-import { PreviewPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 export type PlaceBottomSheetPageProps = {
-  placeData: PreviewPlace | null;
+  placeData: PlacePreviewDTO | null;
 };
