@@ -10,6 +10,7 @@ interface BottomSheetProps {
   maxHeight?: number;
   showHeader?: boolean;
   children: ReactNode;
+  $zIndex?: number;
 }
 
 export const BottomSheet = ({
@@ -18,11 +19,12 @@ export const BottomSheet = ({
   maxHeight = window.innerHeight * 0.57,
   showHeader = true,
   children,
+  $zIndex = 0,
 }: BottomSheetProps) => {
   const { sheet, content, height } = useBottomSheet(initialHeight, minHeight, maxHeight);
 
   return (
-    <StyledBottomSheet ref={sheet} height={height}>
+    <StyledBottomSheet ref={sheet} height={height} $zIndex={$zIndex}>
       <ContentContainer ref={content}>
         {showHeader && <BottomSheetHeader />}
         {children}

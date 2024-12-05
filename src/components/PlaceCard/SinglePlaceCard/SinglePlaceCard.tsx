@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { PreviewPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 import { ReplyBtn } from '../../ReplyBtn/ReplyBtn';
 
@@ -17,34 +17,20 @@ import {
   BookmarkButton,
 } from './SinglePlaceCard.style';
 
-interface SinglePlaceCardProps extends PreviewPlace {
-  onClick?: () => void;
-}
+export const SinglePlaceCard = (props: PlacePreviewDTO & { onClick?: () => void }) => {
+  const { name, size, outlet, wifi, reviewCount, isSaved: initialIsSaved, onClick } = props;
 
-export const SinglePlaceCard = ({
-  placeId,
-  name,
-  size,
-  outlet,
-  wifi,
-  mood1,
-  mood2,
-  reviewCount,
-  isSaved: initialIsSaved,
-  imgList,
-  onClick,
-}: SinglePlaceCardProps) => {
   const [isSaved, setIsSaved] = useState(initialIsSaved);
 
   const handleBookmarkClick = () => {
-    console.log(placeId);
+    console.log(props.placeId);
     setIsSaved((prev) => !prev);
   };
 
   return (
     <Container onClick={onClick}>
       <ImageGallery>
-        {imgList.map((src, index) => (
+        {props.placeImgList.map((src, index) => (
           <Image src={src} alt={`${name} image ${index}`} key={index} />
         ))}
       </ImageGallery>
@@ -55,24 +41,17 @@ export const SinglePlaceCard = ({
           와이파이 <StyledText>{wifi}</StyledText>
         </Description>
         <MoodContainer>
-          <ReplyBtn
-            key="mood1"
-            selected={true}
-            $borderRadius={11}
-            $fontSize={0.8}
-            $fontWeight="regular"
-          >
-            {mood1}
-          </ReplyBtn>
-          <ReplyBtn
-            key="mood2"
-            selected={true}
-            $borderRadius={11}
-            $fontSize={0.8}
-            $fontWeight="regular"
-          >
-            {mood2}
-          </ReplyBtn>
+          {props.moods.map((mood, index) => (
+            <ReplyBtn
+              key={index}
+              selected={true}
+              $borderRadius={11}
+              $fontSize={0.8}
+              $fontWeight="regular"
+            >
+              {mood}
+            </ReplyBtn>
+          ))}
         </MoodContainer>
         <ReviewCount>리뷰 {reviewCount}</ReviewCount>
       </Content>

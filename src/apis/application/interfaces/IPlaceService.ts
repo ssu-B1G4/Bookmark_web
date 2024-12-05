@@ -5,7 +5,7 @@ import {
   BookmarkPlaceResponse,
   RecommendedPlacesResponse,
 } from '@/types/PageResponse';
-import { PreviewPlace, DetailPlace } from '@/types/Place';
+import { PlacePreviewDTO, DetailPlace } from '@/types/Place';
 
 export interface IPlaceService {
   /**
@@ -34,7 +34,7 @@ export interface IPlaceService {
    * @param placeId 조회할 공간의 ID
    * @returns 미리보기 공간 정보를 포함한 응답 객체
    */
-  getPreviewPlace(placeId: number): Promise<BaseResponse<PreviewPlace>>;
+  getPreviewPlace(placeId: number): Promise<BaseResponse<PlacePreviewDTO>>;
 
   /**
    * 공간 상세보기 API 호출 메서드
