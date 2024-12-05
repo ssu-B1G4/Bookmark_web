@@ -4,7 +4,7 @@ import { GetNearbyPlacesUseCase } from '@/apis/application/useCases/Place/GetNea
 import { GetPreviewPlaceUseCase } from '@/apis/application/useCases/Place/GetPreviewPlaceUseCase';
 import { GetRecommendPlacesUseCase } from '@/apis/application/useCases/Place/GetRecommendPlacesUseCase';
 import { GetSearchPlacesUseCase } from '@/apis/application/useCases/Place/GetSearchPlacesUseCase';
-import { MockPlaceService } from '@/apis/services/__mocks__/MockPlaceService';
+import { PlaceService } from '@/apis/services/PlaceService';
 import { FilterIcon } from '@/assets/PlaceSearch/FilterIcon';
 import { BottomSheet } from '@/components/BottomSheet/BottomSheet';
 import { Map } from '@/components/Map/Map';
@@ -17,7 +17,6 @@ import { FilterPage } from '../FilterPage/FilterPage';
 
 import { PlaceBottomSheetPage } from './ PlaceBottomSheet/PlaceBottomSheetPage';
 import { PlacesBottomSheetPage } from './ PlacesBottomSheet/PlacesBottomSheetPage';
-import { SearchResultBottomSheetPage } from './SearchResultBottomSheet/SearchResultBottomSheetPage';
 import {
   Container,
   SearchWrapper,
@@ -31,10 +30,10 @@ import {
 export const Home = () => {
   const [placeData, setPlaceData] = useState<PlacePreviewDTO | null>(null);
   const [searchPlaces, setSearchPlaces] = useState<PlacePreviewDTO[] | RecommendPlace[]>([]);
-  const [bottomSheetType, setBottomSheetType] = useState<'places' | 'filter' | 'placeDetails'>(
-    'places'
-  );
-  const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+  const [bottomSheetType, setBottomSheetType] = useState<
+    'places' | 'filter' | 'placeDetails' | 'search'
+  >('places');
+
   const [searchFilter, setSearchFilter] = useState<SearchFilter>({
     nowLongitude: 0,
     nowLatitude: 0,
@@ -49,7 +48,8 @@ export const Home = () => {
   const filterStatus = hasFilterValue(searchFilter);
   const filterWithoutSearch: Filter = (({ ...rest }) => rest)(searchFilter);
 
-  const placeService = useMemo(() => new MockPlaceService(), []);
+  const placeService = useMemo(() => new PlaceService(), []);
+
   const getNearbyPlacesUseCase = useMemo(
     () => new GetNearbyPlacesUseCase(placeService),
     [placeService]
@@ -80,11 +80,11 @@ export const Home = () => {
     setSearchFilter((prev) => ({
       ...prev,
       nowLatitude: mapCenter.lat,
-      nowLongtitude: mapCenter.lng,
+      nowLongitude: mapCenter.lng,
     }));
 
     await fetchNearbyPlaces({
-      ...searchFilter,
+      ...filterWithoutSearch,
       nowLatitude: mapCenter.lat,
       nowLongitude: mapCenter.lng,
     });
@@ -94,8 +94,13 @@ export const Home = () => {
    * 근처 추천 공간 API 호출
    */
   const fetchNearbyPlaces = async (params: Filter) => {
+    const cleanedParams = Object.fromEntries(
+      Object.entries(params).filter(([, value]) => value !== '' && value !== null)
+    );
+    console.log('cleanedParams', cleanedParams);
     try {
-      const response = await getNearbyPlacesUseCase.execute(params);
+      const response = await getNearbyPlacesUseCase.execute(cleanedParams as Filter);
+      console.log('response', response);
       if (response.isSuccess) {
         setSearchPlaces(response.result.placePreviewDTOList);
         setIsLastPage(response.result.isLast);
@@ -121,11 +126,30 @@ export const Home = () => {
   };
 
   /**
+   * 공간 검색 결과 조회 API 호출
+   */
+  const fetchSearchPlaceData = async (searchTerm: string) => {
+    try {
+      const response = await getSearchPlacesUseCase.execute({
+        ...searchFilter,
+        search: searchTerm,
+      });
+      console.log('response', response);
+      if (response.isSuccess) {
+        setSearchPlaces(response.result.placePreviewDTOList);
+      }
+    } catch (error) {
+      console.error('Failed to fetch search results', error);
+    }
+  };
+
+  /**
    * 공간 미리보기 API 호출
    */
   const fetchPlaceData = async (placeId: number) => {
     try {
       const response = await getPreviewPlaceUseCase.execute(placeId);
+      console.log('response', response);
       if (response.isSuccess) {
         setPlaceData(response.result);
       }
@@ -145,7 +169,6 @@ export const Home = () => {
     if (placeId === null) {
       setBottomSheetType('places');
     } else {
-      setSelectedPlaceId(placeId);
       fetchPlaceData(placeId);
       setBottomSheetType('placeDetails');
     }
@@ -180,66 +203,116 @@ export const Home = () => {
   const handleSearchInputChange = async (searchTerm: string) => {
     setSearchFilter((prev) => ({ ...prev, search: searchTerm }));
 
-    console.log(searchFilter);
-
     if (searchTerm.trim() === '') {
       setBottomSheetType('places');
-      try {
-        await fetchNearbyPlaces(searchFilter);
-      } catch (error) {
-        console.error('Failed to fetch nearby places', error);
-      }
-      return;
+      fetchNearbyPlaces(searchFilter);
     }
 
-    try {
-      const response = await getSearchPlacesUseCase.execute({
-        ...searchFilter,
-        search: searchTerm,
-      });
-      if (response.isSuccess) {
-        setSearchPlaces(response.result.placePreviewDTOList);
-      }
-    } catch (error) {
-      console.error('Failed to fetch search results', error);
-    }
+    setBottomSheetType('search');
+    fetchSearchPlaceData(searchTerm);
   };
-
-  /**
-   * 타입 가드: PlacePreviewDTO인지 확인
-   *
-   * - 주어진 객체가 `PlacePreviewDTO` 타입인지 확인합니다.
-   */
-  const isPlacePreviewDTO = (place: PlacePreviewDTO | RecommendPlace): place is PlacePreviewDTO => {
-    return 'moods' in place && 'placeImgList' in place;
-  };
-
-  /**
-   * PlacePreviewDTO 배열 필터링
-   *
-   * - searchPlaces에서 PlacePreviewDTO 타입만 필터링하여 반환합니다.
-   */
-  const placePreviewDTOs: PlacePreviewDTO[] = searchPlaces.filter(
-    isPlacePreviewDTO
-  ) as PlacePreviewDTO[];
 
   useEffect(() => {
     if (activeTab === 'nearby') {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
 
-        setSearchFilter((prev) => {
-          const updatedFilter = {
-            ...prev,
-            nowLatitude: latitude,
-            nowLongtitude: longitude,
-          };
-          fetchNearbyPlaces(searchFilter);
-          return updatedFilter;
-        });
+        const updatedFilter = {
+          ...searchFilter,
+          nowLatitude: latitude,
+          nowLongitude: longitude,
+        };
+
+        setSearchFilter(updatedFilter);
+        fetchNearbyPlaces(updatedFilter);
       });
     }
   }, [activeTab]);
+
+  /**
+   * 필터 값이 변경될때 마다 API 새로 호출
+   *
+   * - 검색어가 있는 경우, 공간 검색 결과 조회 API 호출
+   * - 검색어가 없고, 활성화된 탭바가 nearby인 경우 근처 공간 추천 API 호출
+   * - 공간 상세보기, 추천 공간 목록 조회 API의 경우 필터 파람이 상관없어서 제외됨
+   */
+  useEffect(() => {
+    if (searchFilter.search.trim() === '') {
+      if (activeTab === 'nearby') {
+        fetchNearbyPlaces(searchFilter);
+      }
+    } else {
+      fetchSearchPlaceData(searchFilter.search);
+    }
+  }, [searchFilter]);
+
+  const RecommendSheet = () => {
+    return (
+      <BottomSheet minHeight={120}>
+        <PlacesBottomSheetPage
+          places={searchPlaces}
+          isLastPage={isLastPage}
+          loaderRef={loaderRef}
+          activeTab={activeTab}
+          onTabChange={(tab) => {
+            setActiveTab(tab);
+            if (tab === 'nearby') {
+              fetchNearbyPlaces(searchFilter);
+            } else {
+              fetchRecommendPlaces(1);
+            }
+          }}
+        />
+      </BottomSheet>
+    );
+  };
+
+  const FilterSheet = () => {
+    return (
+      <BottomSheet
+        minHeight={window.innerHeight * 0.88}
+        initialHeight={window.innerHeight * 0.88}
+        maxHeight={window.innerHeight * 0.88}
+        $zIndex={5}
+      >
+        <FilterPage defaultValues={filterWithoutSearch} onSearch={handleFilterPageClose} />
+      </BottomSheet>
+    );
+  };
+
+  const DetailSheet = () => {
+    return (
+      <BottomSheet minHeight={120} initialHeight={375} maxHeight={375}>
+        <PlaceBottomSheetPage placeData={placeData} />
+      </BottomSheet>
+    );
+  };
+
+  const SearchSheet = () => {
+    return (
+      <BottomSheet minHeight={120}>
+        <PlacesBottomSheetPage
+          places={searchPlaces}
+          isLastPage={isLastPage}
+          showTabs={false}
+          loaderRef={loaderRef}
+        />
+      </BottomSheet>
+    );
+  };
+
+  const renderContent = () => {
+    switch (bottomSheetType) {
+      case 'places':
+        return <RecommendSheet />;
+      case 'filter':
+        return <FilterSheet />;
+      case 'placeDetails':
+        return <DetailSheet />;
+      case 'search':
+        return <SearchSheet />;
+    }
+  };
 
   return (
     <Container>
@@ -275,46 +348,8 @@ export const Home = () => {
           onMyLocationClick={handleReLocationClick}
         />
       </MapWrapper>
-      {searchFilter.search && searchFilter.search.trim() !== '' ? (
-        <BottomSheet minHeight={50}>
-          <SearchResultBottomSheetPage
-            places={placePreviewDTOs}
-            isLastPage={isLastPage}
-            loaderRef={loaderRef}
-          />
-        </BottomSheet>
-      ) : (
-        <>
-          {bottomSheetType === 'places' && (
-            <BottomSheet minHeight={120}>
-              <PlacesBottomSheetPage
-                places={searchPlaces}
-                isLastPage={isLastPage}
-                loaderRef={loaderRef}
-                activeTab={activeTab}
-                onTabChange={(tab) => {
-                  setActiveTab(tab);
-                  if (tab === 'nearby') {
-                    fetchNearbyPlaces(searchFilter);
-                  } else {
-                    fetchRecommendPlaces(1);
-                  }
-                }}
-              />
-            </BottomSheet>
-          )}
-          {bottomSheetType === 'filter' && (
-            <BottomSheet minHeight={750} initialHeight={715} maxHeight={715}>
-              <FilterPage defaultValues={filterWithoutSearch} onSearch={handleFilterPageClose} />
-            </BottomSheet>
-          )}
-          {bottomSheetType === 'placeDetails' && selectedPlaceId !== null && (
-            <BottomSheet minHeight={120} initialHeight={395} maxHeight={395}>
-              <PlaceBottomSheetPage placeData={placeData} />
-            </BottomSheet>
-          )}
-        </>
-      )}
+
+      {renderContent()}
     </Container>
   );
 };
