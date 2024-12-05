@@ -6,6 +6,7 @@ import {
   ChartOptions,
   Legend,
   LinearScale,
+  LineController,
   LineElement,
   PointElement,
   Title,
@@ -15,6 +16,7 @@ import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
+  LineController,
   LinearScale,
   BarElement,
   LineElement,
