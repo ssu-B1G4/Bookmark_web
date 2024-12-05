@@ -110,7 +110,7 @@ export const Map = ({
    * - `onMarkerClick`: 마커 클릭 시 상위 컴포넌트로 ID를 전달하는 콜백.
    */
   const updateMarkers = useCallback(() => {
-    if (map) {
+    if (map && searchPlaces.length > 0) {
       const newMarkers = searchPlaces.map((place) => {
         const isSelected = selectedPlaceId === place.placeId;
 
@@ -140,6 +140,8 @@ export const Map = ({
           },
         });
 
+        updateMapBounds();
+
         naver.maps.Event.addListener(marker, 'click', () => {
           const clickedPlaceId = place.placeId;
 
@@ -149,6 +151,7 @@ export const Map = ({
               marker.setIcon({
                 content: ReactDOMServer.renderToString(<MarkerPinIcon />),
               });
+              updateMapBounds();
               return null;
             } else {
               console.log('Selecting new placeId:', clickedPlaceId);
@@ -180,6 +183,40 @@ export const Map = ({
       setMarkers(newMarkers);
     }
   }, [map, searchPlaces, onMarkerClick, selectedPlaceId]);
+
+  const updateMapBounds = () => {
+    if (!map || searchPlaces.length === 0) return;
+
+    if (searchPlaces.length === 1) {
+      const place = searchPlaces[0];
+      const centerPosition = new naver.maps.LatLng(place.latitude - OFFSET_LAT, place.longitude);
+      map.setCenter(centerPosition);
+      map.setZoom(17);
+      return;
+    }
+
+    const bounds = new naver.maps.LatLngBounds();
+    searchPlaces.forEach((place) => {
+      const position = new naver.maps.LatLng(place.latitude, place.longitude);
+      bounds.extend(position);
+    });
+
+    const southWest = bounds.getSW();
+    const northEast = bounds.getNE();
+
+    const center = bounds.getCenter();
+
+    const extendedSouth = center.lat() + (center.lat() - southWest.lat()) * 7;
+    const extendedSouthWest = new naver.maps.LatLng(extendedSouth, southWest.lng());
+    const extendedNorthEast = new naver.maps.LatLng(northEast.lat(), northEast.lng());
+
+    const extendedBounds = new naver.maps.LatLngBounds(extendedSouthWest, extendedNorthEast);
+    map.fitBounds(extendedBounds);
+
+    const newCenterLat = center.lat() - (center.lat() - southWest.lat()) * 2;
+    const adjustedCenter = new naver.maps.LatLng(newCenterLat - OFFSET_LAT, center.lng());
+    map.setCenter(adjustedCenter);
+  };
 
   /**
    * 현재 위치로 지도 이동
@@ -235,18 +272,14 @@ export const Map = ({
    */
   useEffect(() => {
     if (map) {
-      // 지도 클릭 이벤트 등록
       naver.maps.Event.addListener(map, 'click', () => {
         if (selectedPlaceId !== null) {
-          console.log('Map clicked, deselecting markers');
-          // 모든 마커를 기본 아이콘으로 초기화
           markers.forEach((marker) => {
             marker.setIcon({
               content: ReactDOMServer.renderToString(<MarkerPinIcon />),
             });
           });
 
-          // 선택된 마커 ID 초기화
           setSelectedPlaceId(null);
         }
       });
