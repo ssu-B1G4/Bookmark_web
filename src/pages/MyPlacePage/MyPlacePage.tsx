@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import Mock1 from '@/assets/MyPlacePageMock/Image1.svg';
-import Mock2 from '@/assets/MyPlacePageMock/Image2.svg';
+import { useQuery } from '@tanstack/react-query';
+
+import { getBookmark } from '@/apis/getBookmark';
+import mock from '@/assets/SpacePage/mainImage2.svg';
 import { MyPlaceCard } from '@/components/MyPlaceCard/MyPlaceCard';
 import { EMPTY_PLACE_MESSAGES } from '@/constant/myplace';
-import { Place } from '@/types/MyPlacePage/Place';
+import { BookmarkPlace } from '@/types/bookmarks';
 
 import {
   Container,
@@ -20,63 +22,11 @@ import {
   Title,
 } from './MyPlacePage.style';
 
-const mockApiResponse = {
-  withData: {
-    isSuccess: true,
-    code: 'PLACE2004',
-    message: '저장 공간 목록을 조회했습니다.',
-    result: {
-      placeList: [
-        {
-          placeId: 1,
-          name: '뚝섬 생각마루',
-          size: '넓음',
-          outlet: '있음',
-          wifi: '있음',
-          mood1: '조용한',
-          mood2: '깔끔한',
-          reviewCount: 0,
-          longtitude: '127.123456',
-          latitude: '37.123456',
-          isSaved: true,
-          img: Mock1,
-        },
-        {
-          placeId: 2,
-          name: '생각마루 생각마루 생각마루 생각마루 생각마루',
-          size: '넓음',
-          outlet: '있음',
-          wifi: '있음',
-          mood1: '조용한',
-          mood2: '깔끔한',
-          reviewCount: 0,
-          longtitude: '127.123456',
-          latitude: '37.123456',
-          isSaved: true,
-          img: Mock2,
-        },
-      ],
-      listSize: 2,
-      totalPage: 1,
-      totalElements: 2,
-      isFirst: true,
-      isLast: true,
-    },
-  },
-  empty: {
-    isSuccess: true,
-    code: 'PLACE2004',
-    message: '저장 공간 목록을 조회했습니다.',
-    result: {
-      placeList: [],
-      listSize: 0,
-      totalPage: 0,
-      totalElements: 0,
-      isFirst: true,
-      isLast: true,
-    },
-  },
+const extractDistrict = (address: string) => {
+  const match = address.match(/[가-힣]+ [가-힣]+구/);
+  return match ? match[0] : address;
 };
+
 const EmptyPlaceList = () => {
   const { icon, title, description } = EMPTY_PLACE_MESSAGES.NO_PLACES;
 
@@ -89,27 +39,44 @@ const EmptyPlaceList = () => {
   );
 };
 
-const PlaceList = ({ places }: { places: Place[] }) => (
+const PlaceList = ({ places }: { places: BookmarkPlace[] }) => (
   <SpaceGrid>
     {places.map((place) => (
-      <MyPlaceCard key={place.placeId} place={place} />
+      <MyPlaceCard
+        key={place.placeId}
+        placeId={place.placeId}
+        name={place.name}
+        address={extractDistrict(place.address)}
+        img={place.img || mock}
+      />
     ))}
   </SpaceGrid>
 );
 
 export const MyPlacePage = () => {
-  const [places, setPlaces] = useState<Place[]>([]);
+  const [page] = useState(1);
 
-  useEffect(() => {
-    setPlaces(mockApiResponse.empty.result.placeList);
-    // setPlaces(mockApiResponse.withData.result.placeList);
-  }, []);
+  const { data: bookmarkData } = useQuery({
+    queryKey: ['bookmarks', page],
+    queryFn: () => getBookmark(page),
+    select: (data) => {
+      return data.result.bookmarkPlaceList.map(
+        (bookmark): BookmarkPlace => ({
+          placeId: bookmark.placeId,
+          name: bookmark.name,
+          address: extractDistrict(bookmark.address),
+          img: bookmark.img || mock,
+        })
+      );
+    },
+  });
+
+  const places = bookmarkData || [];
 
   const renderContent = () => {
     if (!places.length) {
       return <EmptyPlaceList />;
     }
-
     return <PlaceList places={places} />;
   };
 

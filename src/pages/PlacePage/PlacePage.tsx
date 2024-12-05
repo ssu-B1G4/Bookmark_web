@@ -48,6 +48,7 @@ export const PlacePage = () => {
         spaceId={Number(spaceId)}
         containerRef={containerRef}
         onTabChange={setCurrentTab}
+        // refetchSpaceDetail={refetch}
       />
       <ReviewBtn
         onClick={handleReviewClick}
