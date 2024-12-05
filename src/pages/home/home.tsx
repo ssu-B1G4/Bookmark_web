@@ -206,10 +206,10 @@ export const Home = () => {
     if (searchTerm.trim() === '') {
       setBottomSheetType('places');
       fetchNearbyPlaces(searchFilter);
+    } else {
+      setBottomSheetType('search');
+      fetchSearchPlaceData(searchTerm);
     }
-
-    setBottomSheetType('search');
-    fetchSearchPlaceData(searchTerm);
   };
 
   useEffect(() => {
