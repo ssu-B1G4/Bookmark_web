@@ -1,5 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { QueryObserverBaseResult } from '@tanstack/react-query';
+
+import { deletePlaceBookmark } from '@/apis/detetePlaceBookmark';
+import { postPlaceBookmark } from '@/apis/postPlaceBookmark';
 import bookmarkActive from '@/assets/SpacePage/activeBookmarkIcon.svg';
 import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
@@ -42,10 +46,15 @@ interface BottomSheetProps {
   spaceDetail?: PlaceDetailResponse['result'];
   containerRef: React.RefObject<HTMLDivElement>;
   onTabChange: (tab: TabType) => void;
+  refetchSpaceDetail: () => Promise<QueryObserverBaseResult<PlaceDetailResponse, Error>>;
 }
 
-export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSheetProps) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+export const PlaceBottomSheet = ({
+  spaceId,
+  spaceDetail,
+  onTabChange,
+  refetchSpaceDetail,
+}: BottomSheetProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('정보');
   void spaceId;
 
@@ -62,9 +71,25 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
-  const handleBookmarkClick = () => {
-    setIsBookmarked((prev) => !prev);
-  };
+  const handleBookmarkClick = useCallback(async () => {
+    if (!spaceDetail) return;
+
+    try {
+      let response;
+
+      if (spaceDetail.isSaved) {
+        response = await deletePlaceBookmark(spaceId);
+      } else {
+        response = await postPlaceBookmark(spaceId);
+      }
+
+      if (response.isSuccess) {
+        await refetchSpaceDetail();
+      }
+    } catch (error) {
+      console.error('북마크 처리 중 오류 발생:', error);
+    }
+  }, [spaceDetail, spaceId, refetchSpaceDetail]);
 
   if (!spaceDetail) {
     return <div>Loading...</div>;
@@ -103,7 +128,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
             <img src={chatIcon} alt="채팅" />
           </IconButton>
           <IconButton onClick={handleBookmarkClick}>
-            <img src={isBookmarked ? bookmarkActive : bookmarkDefault} alt="북마크" />
+            <img src={spaceDetail.isSaved ? bookmarkActive : bookmarkDefault} alt="북마크" />
           </IconButton>
         </IconsContainer>
       </HeaderContainer>
