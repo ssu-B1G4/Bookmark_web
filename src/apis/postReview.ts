@@ -1,3 +1,5 @@
+import imageCompression from 'browser-image-compression';
+
 import { ReviewFormData } from '@/types/ReviewPage/ReviewFormData';
 import { ResponseReview } from '@/types/review.type';
 import { client } from '@/utils/axios';
@@ -14,7 +16,24 @@ export const postReview = async (
   formData.append('reviewData', JSON.stringify(transformedData));
 
   if (images && images.length > 0) {
-    images.forEach((image) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    const compressedImages = await Promise.all(
+      images.map(async (image) => {
+        try {
+          return await imageCompression(image, options);
+        } catch (error) {
+          console.error('이미지 압축 실패:', error);
+          return image;
+        }
+      })
+    );
+
+    compressedImages.forEach((image) => {
       formData.append('images', image);
     });
   }
