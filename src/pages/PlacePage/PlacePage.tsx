@@ -19,7 +19,7 @@ export const PlacePage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentTab, setCurrentTab] = useState<TabType>('정보');
 
-  const { data: placeData, refetch } = useQuery<PlaceDetailResponse>({
+  const { data: placeData } = useQuery<PlaceDetailResponse>({
     queryKey: ['place', spaceId],
     queryFn: () => getPlaceDetail(Number(spaceId)),
     enabled: !!spaceId,
@@ -48,7 +48,7 @@ export const PlacePage = () => {
         spaceId={Number(spaceId)}
         containerRef={containerRef}
         onTabChange={setCurrentTab}
-        refetchSpaceDetail={refetch}
+        // refetchSpaceDetail={refetch}
       />
       <ReviewBtn
         onClick={handleReviewClick}

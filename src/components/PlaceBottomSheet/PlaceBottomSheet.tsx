@@ -1,16 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { QueryObserverBaseResult } from '@tanstack/react-query';
-
-import { deletePlaceBookmark } from '@/apis/detetePlaceBookmark';
-import { postPlaceBookmark } from '@/apis/postPlaceBookmark';
-import bookmarkActive from '@/assets/SpacePage/activeBookmarkIcon.svg';
-import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
 import locationIcon from '@/assets/SpacePage/spacemarker.svg';
 import { FACILITY_ICONS } from '@/constant/facility';
 import { PlaceDetailResponse } from '@/types/placeDetail';
 
+import { Bookmark } from '../Bookmark/Bookmark';
 import { ReplyBtn } from '../ReplyBtn/ReplyBtn';
 
 import {
@@ -46,14 +41,14 @@ interface BottomSheetProps {
   spaceDetail?: PlaceDetailResponse['result'];
   containerRef: React.RefObject<HTMLDivElement>;
   onTabChange: (tab: TabType) => void;
-  refetchSpaceDetail: () => Promise<QueryObserverBaseResult<PlaceDetailResponse, Error>>;
+  // refetchSpaceDetail: () => Promise<QueryObserverBaseResult<PlaceDetailResponse, Error>>;
 }
 
 export const PlaceBottomSheet = ({
   spaceId,
   spaceDetail,
   onTabChange,
-  refetchSpaceDetail,
+  // refetchSpaceDetail,
 }: BottomSheetProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('정보');
   void spaceId;
@@ -71,25 +66,25 @@ export const PlaceBottomSheet = ({
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
-  const handleBookmarkClick = useCallback(async () => {
-    if (!spaceDetail) return;
+  // const handleBookmarkClick = useCallback(async () => {
+  //   if (!spaceDetail) return;
 
-    try {
-      let response;
+  //   try {
+  //     let response;
 
-      if (spaceDetail.isSaved) {
-        response = await deletePlaceBookmark(spaceId);
-      } else {
-        response = await postPlaceBookmark(spaceId);
-      }
+  //     if (spaceDetail.isSaved) {
+  //       response = await deletePlaceBookmark(spaceId);
+  //     } else {
+  //       response = await postPlaceBookmark(spaceId);
+  //     }
 
-      if (response.isSuccess) {
-        await refetchSpaceDetail();
-      }
-    } catch (error) {
-      console.error('북마크 처리 중 오류 발생:', error);
-    }
-  }, [spaceDetail, spaceId, refetchSpaceDetail]);
+  //     if (response.isSuccess) {
+  //       await refetchSpaceDetail();
+  //     }
+  //   } catch (error) {
+  //     console.error('북마크 처리 중 오류 발생:', error);
+  //   }
+  // }, [spaceDetail, spaceId, refetchSpaceDetail]);
 
   if (!spaceDetail) {
     return <div>Loading...</div>;
@@ -127,9 +122,10 @@ export const PlaceBottomSheet = ({
           <IconButton onClick={() => console.log('채팅 클릭')}>
             <img src={chatIcon} alt="채팅" />
           </IconButton>
-          <IconButton onClick={handleBookmarkClick}>
+          <Bookmark placeId={spaceId} />
+          {/* <IconButton onClick={handleBookmarkClick}>
             <img src={spaceDetail.isSaved ? bookmarkActive : bookmarkDefault} alt="북마크" />
-          </IconButton>
+          </IconButton> */}
         </IconsContainer>
       </HeaderContainer>
 
