@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getEnvironment } from '@webviewkit/environment';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import './App.css';
@@ -15,6 +17,7 @@ import { ReportPlacePage } from './pages/ReportPlacePage/ReportPlacePage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
+import { api } from './service/TokenService';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/Theme';
 
@@ -30,9 +33,16 @@ const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
 
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const showNavbarPaths = ['/', '/myplace', '/mypage'];
 
   const { isWebView } = getEnvironment(navigator.userAgent);
+
+  useEffect(() => {
+    if (!api.isLoggedIn() && location.pathname !== '/login' && location.pathname !== '/callback') {
+      navigate('/login', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   // console.log('Environment details:', {
   //   userAgent: navigator.userAgent,
