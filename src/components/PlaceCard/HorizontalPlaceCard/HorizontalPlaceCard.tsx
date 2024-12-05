@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { Bookmark } from '@/components/Bookmark/Bookmark';
 import { PLACE_INFO_MESSAGES } from '@/constant/HomeMessage';
 import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
 
@@ -15,7 +14,7 @@ import {
   StyledText,
   MoodContainer,
   ReviewCount,
-  BookmarkButton,
+  BookmarkWrapper,
 } from './HorizontalPlaceCard.style';
 
 type PlaceCardProps = PlacePreviewDTO | RecommendPlace;
@@ -24,19 +23,20 @@ const isPlacePreviewDTO = (place: PlaceCardProps): place is PlacePreviewDTO => {
   return 'moods' in place && Array.isArray(place.moods);
 };
 
-export const HorizontalPlaceCard = (props: PlaceCardProps & { onClick?: () => void }) => {
-  const { name, size, outlet, wifi, reviewCount, isSaved: initialIsSaved, onClick } = props;
-
-  const [isSaved, setIsSaved] = useState(initialIsSaved);
-
-  const handleBookmarkClick = () => {
-    setIsSaved((prev) => !prev);
-  };
+export const HorizontalPlaceCard = (
+  props: PlaceCardProps & { onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }
+) => {
+  const { name, size, outlet, wifi, reviewCount, onClick } = props;
 
   const imageUrl = isPlacePreviewDTO(props) ? props.placeImgList[0] : props.img;
 
   return (
-    <Card onClick={onClick}>
+    <Card
+      onClick={(e) => {
+        if (e.defaultPrevented) return;
+        if (onClick) onClick(e);
+      }}
+    >
       <ImageWrapper>
         <Image src={imageUrl} alt={name} />
       </ImageWrapper>
@@ -76,7 +76,13 @@ export const HorizontalPlaceCard = (props: PlaceCardProps & { onClick?: () => vo
           {PLACE_INFO_MESSAGES.REVIEW_LABEL} {reviewCount}
         </ReviewCount>
       </Content>
-      <BookmarkButton $isSaved={isSaved} onClick={handleBookmarkClick}></BookmarkButton>
+      <BookmarkWrapper
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <Bookmark placeId={props.placeId} />
+      </BookmarkWrapper>
     </Card>
   );
 };
