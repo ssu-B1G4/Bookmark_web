@@ -4,6 +4,7 @@ export const SEARCHBAR_MESSAGES = {
 
 export const FILTER_MESSAGES = {
   BUSINESSHOURS_LABEL: '영업 시간',
+  BUSINESSHOURS_DESCRIPTION: '*영업 시간은 요일과 시간을 둘 다 입력해야합니다.',
   DAY_LABEL: '요일',
   TIME_LABEL: '시간',
   SIZE_LABEL: '공간 크기',

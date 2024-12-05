@@ -6,6 +6,21 @@ export const Container = styled.div`
   padding: 0px 20px;
   gap: 25px;
   background-color: white;
+  height: calc(100% - 50px);
+`;
+
+export const ScrollWrraper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  gap: 31px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const OptionWrraper = styled.div`
@@ -26,21 +41,27 @@ export const TitleText = styled.label`
   font-weight: ${({ theme }) => theme.fonts.semiBold600};
 `;
 
+export const DescriptionText = styled.label`
+  font-size: 1.3rem;
+  font-weight: ${({ theme }) => theme.fonts.light300};
+  color: #b2b2b2;
+`;
+
 export const LabelText = styled.span`
   font-size: 1.4rem;
   font-weight: ${({ theme }) => theme.fonts.light300};
 `;
 
-export const TimeDropdown = styled.div<{ $isOpen: boolean }>`
+export const TimeDropdown = styled.div`
   position: relative;
   width: 100px;
 `;
 
-export const TimeDisplay = styled.div`
+export const TimeDisplay = styled.div<{ $disabled: boolean }>`
   padding: 12px 16px;
   border: 1px solid #f2f4f5;
   border-radius: 8px;
-  background-color: white;
+  background-color: ${({ $disabled }) => ($disabled ? '#FFFFFF' : '#F0F0F0')};
   text-align: center;
   font-size: 1.6rem;
   font-weight: ${({ theme }) => theme.fonts.light300};
