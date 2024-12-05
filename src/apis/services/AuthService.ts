@@ -38,9 +38,14 @@ export class AuthService implements IAuthService {
     }
   }
 
-  async logout(): Promise<BaseResponse<void>> {
+  async logout() {
+    api.logout();
+    sessionStorage.removeItem('memberId');
+  }
+
+  async withdraw(): Promise<BaseResponse<void>> {
     try {
-      const { data } = await client.post<BaseResponse<void>>('/logout');
+      const { data } = await client.delete<BaseResponse<void>>('/delete');
       api.logout();
       sessionStorage.removeItem('memberId');
       return data;
