@@ -26,3 +26,9 @@ export const PLACE_INFO_MESSAGES = {
   WIFI_LABEL: '와이파이',
   REVIEW_LABEL: '리뷰',
 };
+
+export const NO_PLACE_MESSAGES = {
+  icon: '🍃',
+  title: '일치하는 공간이 없습니다.',
+  description: '직접 공간을 제보해보세요!',
+} as const;
