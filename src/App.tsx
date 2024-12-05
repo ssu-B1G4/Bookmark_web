@@ -39,7 +39,8 @@ const AppContent = () => {
   const { isWebView } = getEnvironment(navigator.userAgent);
 
   useEffect(() => {
-    if (!api.isLoggedIn() && location.pathname !== '/login' && location.pathname !== '/callback') {
+    const publicPaths = ['/login', '/callback'];
+    if (!api.isLoggedIn() && !publicPaths.includes(location.pathname)) {
       navigate('/login', { replace: true });
     }
   }, [location.pathname, navigate]);
