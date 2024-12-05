@@ -17,16 +17,15 @@ export interface IAuthService {
   refresh(): Promise<BaseResponse<RefreshTokenResponse>>;
 
   /**
-   * 로그아웃 API 호출
-   * @returns 로그아웃 결과
+   * 로그아웃 함수 호출
    */
-  //   logout(): Promise<BaseResponse<void>>;
+  logout(): void;
 
   /**
    * 회원 탈퇴 API 호출
    * @returns 회원 탈퇴 결과
    */
-  //   withdraw(): Promise<BaseResponse<void>>;
+  withdraw(): Promise<BaseResponse<void>>;
 }
 
 // export interface LoginResponse {
