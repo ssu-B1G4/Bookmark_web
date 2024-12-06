@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { GetNearbyPlacesUseCase } from '@/apis/application/useCases/Place/GetNearbyPlacesUseCase';
 import { GetPreviewPlaceUseCase } from '@/apis/application/useCases/Place/GetPreviewPlaceUseCase';
@@ -10,7 +10,7 @@ import { BottomSheet } from '@/components/BottomSheet/BottomSheet';
 import { Map } from '@/components/Map/Map';
 import { PlaceSearchBar } from '@/components/PlaceSearchBar/PlaceSearchBar';
 import { ReplyBtn } from '@/components/ReplyBtn/ReplyBtn';
-import { Filter, SearchFilter, hasFilterValue, getKRFilterLabel } from '@/types/Filter';
+import { Filter, SearchFilter, getKRFilterLabel, hasFilterValue } from '@/types/Filter';
 import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
 
 import { FilterPage } from '../FilterPage/FilterPage';
@@ -20,8 +20,9 @@ import { PlacesBottomSheetPage } from './ PlacesBottomSheet/PlacesBottomSheetPag
 import {
   Container,
   FilterBtn,
-  ReplyBtnWrapper,
+  FilterWrapper,
   MapWrapper,
+  ReplyBtnWrapper,
   SearchBarWrapper,
   SearchWrapper,
 } from './home.style';
