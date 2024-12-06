@@ -5,7 +5,7 @@ export const initSentry = () => {
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
     tracesSampleRate: 1.0,
-    tracePropagationTargets: ['localhost', import.meta.env.VITE_API_BASE_URL],
+    tracePropagationTargets: ['https://b1g4-bookmark.vercel.app/'],
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
 
