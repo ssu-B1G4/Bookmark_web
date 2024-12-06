@@ -5,6 +5,7 @@ import { client } from '@/utils/axios';
 export const getLogin = async (code: string): Promise<LoginResponse> => {
   const { data } = await client.get<LoginResponse>('/login', {
     params: { code },
+    headers: { Authorization: '' }, 
   });
 
   if (data.isSuccess) {
