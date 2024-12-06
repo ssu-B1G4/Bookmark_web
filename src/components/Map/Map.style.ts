@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+export const LoadingContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 export const MapContainer = styled.div`
   width: 100vw;
   height: 100vh;

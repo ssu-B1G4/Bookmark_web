@@ -1,8 +1,5 @@
 import { styled } from 'styled-components';
 
-import BookMarkIcon from '@/assets/BookMark/bookmark.svg';
-import BookMarkIconFill from '@/assets/BookMark/bookmarkFill.svg';
-
 export const Card = styled.div`
   min-height: 100px;
   max-height: 100px;
@@ -34,6 +31,7 @@ export const Image = styled.img`
 `;
 
 export const Content = styled.div`
+  flex: 1;
   padding: 9px;
   display: flex;
   flex-direction: column;
@@ -69,12 +67,4 @@ export const ReviewCount = styled.span`
   color: #676767;
 `;
 
-export const BookmarkButton = styled.button<{ isSaved: boolean }>`
-  background-image: ${({ isSaved }) =>
-    isSaved ? `url(${BookMarkIconFill})` : `url(${BookMarkIcon})`};
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  right: 9px;
-  bottom: 10px;
-`;
+export const BookmarkWrapper = styled.div``;

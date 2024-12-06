@@ -1,11 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
+
+import { getCongestionGraph } from '@/apis/getCongestionGraph';
+import { getCongestions } from '@/apis/getCongestions';
 import alert from '@/assets/SpacePage/alertCircleIcon.svg';
 import Clock from '@/assets/SpacePage/clockIcon.svg';
 import Phone from '@/assets/SpacePage/phoneIcon.svg';
 import MapPin from '@/assets/SpacePage/spacemarker.svg';
 import Globe from '@/assets/SpacePage/websiteIcon.svg';
 import { ReadOnlyBookSearchBar } from '@/components/BookSearchBar/ReadOnlyBookSearchBar';
+import { CongestionResponse, GraphResponse } from '@/types/getCongestions.type';
 import { InfoTabProps } from '@/types/placeDetail';
 
 import { Graph } from './Graph';
@@ -35,33 +41,23 @@ import {
   WarnText,
 } from './InfoTab.style';
 
-interface TimeData {
-  hour: string;
-  value: number;
-  type: 'green' | 'yellow' | 'red';
-}
-
-const timeData: TimeData[] = [
-  { hour: '08시', value: 20, type: 'green' },
-  { hour: '09시', value: 25, type: 'green' },
-  { hour: '10시', value: 32, type: 'green' },
-  { hour: '11시', value: 35, type: 'green' },
-  { hour: '12시', value: 38, type: 'yellow' },
-  { hour: '13시', value: 40, type: 'yellow' },
-  { hour: '14시', value: 42, type: 'yellow' },
-  { hour: '15시', value: 47, type: 'yellow' },
-  { hour: '16시', value: 35, type: 'green' },
-  { hour: '17시', value: 36, type: 'green' },
-  { hour: '18시', value: 45, type: 'yellow' },
-  { hour: '19시', value: 60, type: 'red' },
-  { hour: '20시', value: 55, type: 'red' },
-  { hour: '21시', value: 30, type: 'green' },
-  { hour: '22시', value: 15, type: 'green' },
-  { hour: '23시', value: 10, type: 'green' },
-];
+export type CongestionType = '여유' | '보통' | '혼잡';
 
 export const InfoTab = ({ placeDetail }: InfoTabProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const spaceId = Number(location.pathname.split('/').pop());
+
+  const { data: congestionData } = useQuery<CongestionResponse>({
+    queryKey: ['congestionStatus', spaceId],
+    queryFn: () => getCongestions(spaceId),
+    enabled: !!spaceId,
+  });
+  const { data: graphData } = useQuery<GraphResponse>({
+    queryKey: ['congestionGraph', spaceId],
+    queryFn: () => getCongestionGraph(spaceId),
+    enabled: !!spaceId,
+  });
 
   useEffect(() => {
     if (!mapRef.current || !window.naver || !placeDetail) {
@@ -164,13 +160,31 @@ export const InfoTab = ({ placeDetail }: InfoTabProps) => {
       <ChartSection>
         <InfoMainText>예측 공간 혼잡도</InfoMainText>
         <ChartContainer>
-          <Graph data={timeData} />
+          <Graph data={graphData?.result.congestionData || []} />
         </ChartContainer>
 
         <CongestionContainer>
           <MainContent>
             <CongestionDescription>
-              예측 공간 혼잡도는 <CongestionLevel $level="green">여유</CongestionLevel> 입니다
+              예측 공간 혼잡도는{' '}
+              <CongestionLevel
+                $level={(() => {
+                  const status = congestionData?.result.status as CongestionType;
+                  switch (status) {
+                    case '여유':
+                      return 'green';
+                    case '보통':
+                      return 'yellow';
+                    case '혼잡':
+                      return 'red';
+                    default:
+                      return 'green';
+                  }
+                })()}
+              >
+                {congestionData?.result.status || '여유'}
+              </CongestionLevel>{' '}
+              입니다
             </CongestionDescription>
           </MainContent>
           <AlertSection>

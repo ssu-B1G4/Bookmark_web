@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import bookmarkActive from '@/assets/SpacePage/activeBookmarkIcon.svg';
-import bookmarkDefault from '@/assets/SpacePage/bookmarkIcon.svg';
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
 import locationIcon from '@/assets/SpacePage/spacemarker.svg';
 import { FACILITY_ICONS } from '@/constant/facility';
-import { mockPlaceDetail } from '@/mock/placeDetail';
+import { PlaceDetailResponse } from '@/types/placeDetail';
 
+import { Bookmark } from '../Bookmark/Bookmark';
 import { ReplyBtn } from '../ReplyBtn/ReplyBtn';
 
 import {
@@ -39,27 +38,22 @@ export type TabType = '정보' | '리뷰';
 
 interface BottomSheetProps {
   spaceId: number;
-  spaceDetail: typeof mockPlaceDetail.result;
+  spaceDetail?: PlaceDetailResponse['result'];
   containerRef: React.RefObject<HTMLDivElement>;
   onTabChange: (tab: TabType) => void;
+  // refetchSpaceDetail: () => Promise<QueryObserverBaseResult<PlaceDetailResponse, Error>>;
 }
 
-export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSheetProps) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+export const PlaceBottomSheet = ({
+  spaceId,
+  spaceDetail,
+  onTabChange,
+  // refetchSpaceDetail,
+}: BottomSheetProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('정보');
   void spaceId;
 
-  const {
-    name,
-    address,
-    category,
-    outlet,
-    size,
-    wifi,
-    noise,
-    moods,
-    // ... 기타 필요한 데이터
-  } = spaceDetail;
+  const { name, address, category, outlet, size, wifi, noise, moods } = spaceDetail ?? {};
 
   const facilityStatus = {
     1: outlet,
@@ -67,13 +61,30 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
     3: wifi,
     4: noise,
   };
+
   useEffect(() => {
     onTabChange(activeTab);
   }, [activeTab, onTabChange]);
 
-  const handleBookmarkClick = () => {
-    setIsBookmarked((prev) => !prev);
-  };
+  // const handleBookmarkClick = useCallback(async () => {
+  //   if (!spaceDetail) return;
+
+  //   try {
+  //     let response;
+
+  //     if (spaceDetail.isSaved) {
+  //       response = await deletePlaceBookmark(spaceId);
+  //     } else {
+  //       response = await postPlaceBookmark(spaceId);
+  //     }
+
+  //     if (response.isSuccess) {
+  //       await refetchSpaceDetail();
+  //     }
+  //   } catch (error) {
+  //     console.error('북마크 처리 중 오류 발생:', error);
+  //   }
+  // }, [spaceDetail, spaceId, refetchSpaceDetail]);
 
   if (!spaceDetail) {
     return <div>Loading...</div>;
@@ -85,7 +96,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
         return spaceDetail ? (
           <InfoTab
             placeDetail={{
-              address,
+              address: spaceDetail.address,
               phone: spaceDetail.phone,
               url: spaceDetail.url,
               operatingTimeList: spaceDetail.operatingTimeList,
@@ -111,9 +122,10 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
           <IconButton onClick={() => console.log('채팅 클릭')}>
             <img src={chatIcon} alt="채팅" />
           </IconButton>
-          <IconButton onClick={handleBookmarkClick}>
-            <img src={isBookmarked ? bookmarkActive : bookmarkDefault} alt="북마크" />
-          </IconButton>
+          <Bookmark placeId={spaceId} />
+          {/* <IconButton onClick={handleBookmarkClick}>
+            <img src={spaceDetail.isSaved ? bookmarkActive : bookmarkDefault} alt="북마크" />
+          </IconButton> */}
         </IconsContainer>
       </HeaderContainer>
 
@@ -140,7 +152,7 @@ export const PlaceBottomSheet = ({ spaceId, spaceDetail, onTabChange }: BottomSh
 
         <MoodContainer>
           <MoodInfo>분위기</MoodInfo>
-          {moods.map((mood, index) => (
+          {moods?.map((mood, index) => (
             <ReplyBtn key={index} disabled={true} $fontSize={1.4} $fontWeight="regular">
               {mood}
             </ReplyBtn>

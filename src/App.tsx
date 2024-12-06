@@ -1,13 +1,16 @@
 import { ErrorBoundary } from '@sentry/react';
+
+import { useEffect } from 'react';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getEnvironment } from '@webviewkit/environment';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import './App.css';
 import { BottomNav } from './components/BottomNav/BottomNav';
 import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
 import { ChatPage } from './pages/ChatPage/ChatPage';
-import { FilterPage } from './pages/FilterPage/FilterPage';
 import { LoginPage } from './pages/LoginPage/LoginPage';
 import { Oauth } from './pages/LoginPage/Oauth';
 import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
@@ -16,23 +19,34 @@ import { ReportPlacePage } from './pages/ReportPlacePage/ReportPlacePage';
 import { ReviewPage } from './pages/ReviewPage/ReviewPage';
 import { Home } from './pages/home/home';
 import { Mypage } from './pages/mypage/mypage';
+import { api } from './service/TokenService';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/Theme';
 import { ErrorFallback } from './utils/ErrorFallback';
+
+const queryClient = new QueryClient();
 
 const AppWrapper = styled.div<{ $hasNavbar: boolean }>`
   ${({ $hasNavbar }) =>
     $hasNavbar &&
     `
-    padding-bottom: 70px;
+    // padding-bottom: 70px;
   `}
 `;
 
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const showNavbarPaths = ['/', '/myplace', '/mypage'];
 
   const { isWebView } = getEnvironment(navigator.userAgent);
+
+  useEffect(() => {
+    const publicPaths = ['/login', '/callback'];
+    if (!api.isLoggedIn() && !publicPaths.includes(location.pathname)) {
+      navigate('/login', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   // console.log('Environment details:', {
   //   userAgent: navigator.userAgent,
@@ -55,7 +69,6 @@ const AppContent = () => {
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/booksearch" element={<BookSearchPage />} />
         <Route path="/reportplace" element={<ReportPlacePage />} />
-        <Route path="/filter" element={<FilterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<Oauth />} />
       </Routes>
@@ -67,6 +80,7 @@ const AppContent = () => {
 export const App = () => {
   return (
     <ErrorBoundary fallback={<ErrorFallback />}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <BrowserRouter>
@@ -74,5 +88,6 @@ export const App = () => {
         </BrowserRouter>
       </ThemeProvider>
     </ErrorBoundary>
+    </QueryClientProvider>
   );
 };

@@ -47,6 +47,10 @@ export const FilterBtn = styled.button`
   border-radius: 16px;
 `;
 
+export const ReplyBtnWrapper = styled.div`
+  pointer-events: none;
+`;
+
 export const MapWrapper = styled.div`
   position: absolute;
   top: 0px;

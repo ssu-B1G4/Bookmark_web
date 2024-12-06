@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
 import { PlaceSearchIcon } from '@/assets/PlaceSearch/PlaceSearchIcon';
+import XIcon from '@/assets/x.svg';
+import { SEARCHBAR_MESSAGES } from '@/constant/HomeMessage';
 
-import { SearchBarContainer, StyledInput } from './PlaceSearchBar.style';
+import { SearchBarContainer, StyledInput, ClearButton } from './PlaceSearchBar.style';
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
@@ -21,6 +23,11 @@ export const PlaceSearchBar = ({ onSearch }: SearchBarProps) => {
     }
   };
 
+  const handleClearInput = () => {
+    setSearchTerm('');
+    onSearch('');
+  };
+
   return (
     <SearchBarContainer>
       <PlaceSearchIcon />
@@ -29,8 +36,13 @@ export const PlaceSearchBar = ({ onSearch }: SearchBarProps) => {
         value={searchTerm}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
-        placeholder="원하는 독서 장소를 검색해보세요."
+        placeholder={SEARCHBAR_MESSAGES.PLACEHOLDER_LABEL}
       />
+      {searchTerm && (
+        <ClearButton onClick={handleClearInput}>
+          <img src={XIcon} alt="clear" />
+        </ClearButton>
+      )}
     </SearchBarContainer>
   );
 };

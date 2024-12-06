@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { Bookmark } from '@/components/Bookmark/Bookmark';
+import { PLACE_INFO_MESSAGES } from '@/constant/HomeMessage';
+import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
 
 import { ReplyBtn } from '../../ReplyBtn/ReplyBtn';
 
@@ -12,63 +14,75 @@ import {
   StyledText,
   MoodContainer,
   ReviewCount,
-  BookmarkButton,
+  BookmarkWrapper,
 } from './HorizontalPlaceCard.style';
 
-interface PlaceCardProps {
-  name: string;
-  size: string;
-  outlet: string;
-  wifi: string;
-  isSaved: boolean;
-  moods: string[];
-  reviewCount: number;
-  imageUrl: string;
-}
+type PlaceCardProps = PlacePreviewDTO | RecommendPlace;
 
-export const HorizontalPlaceCard = ({
-  name,
-  size,
-  outlet,
-  wifi,
-  moods,
-  reviewCount,
-  isSaved: initialIsSaved,
-  imageUrl,
-}: PlaceCardProps) => {
-  const [isSaved, setIsSaved] = useState(initialIsSaved);
+const isPlacePreviewDTO = (place: PlaceCardProps): place is PlacePreviewDTO => {
+  return 'moods' in place && Array.isArray(place.moods);
+};
 
-  const handleBookmarkClick = () => {
-    setIsSaved((prev) => !prev);
-  };
+export const HorizontalPlaceCard = (
+  props: PlaceCardProps & { onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }
+) => {
+  const { name, size, outlet, wifi, reviewCount, onClick } = props;
+
+  const imageUrl = isPlacePreviewDTO(props) ? props.placeImgList[0] : props.img;
 
   return (
-    <Card>
+    <Card
+      onClick={(e) => {
+        if (e.defaultPrevented) return;
+        if (onClick) onClick(e);
+      }}
+    >
       <ImageWrapper>
         <Image src={imageUrl} alt={name} />
       </ImageWrapper>
       <Content>
         <Title>{name}</Title>
         <Description>
-          공간 크기 <StyledText>{size}</StyledText> / 콘센트 <StyledText>{outlet}</StyledText> /
-          와이파이 <StyledText>{wifi}</StyledText>
+          {PLACE_INFO_MESSAGES.SIZE_LABEL} <StyledText>{size}</StyledText> /{' '}
+          {PLACE_INFO_MESSAGES.OUTLET_LABEL} <StyledText>{outlet}</StyledText> /
+          {PLACE_INFO_MESSAGES.WIFI_LABEL} <StyledText>{wifi}</StyledText>
         </Description>
         <MoodContainer>
-          {moods.map((mood, index) => (
-            <ReplyBtn
-              key={index}
-              selected={true}
-              $borderRadius={11}
-              $fontSize={0.8}
-              $fontWeight="regular"
-            >
-              {mood}
-            </ReplyBtn>
-          ))}
+          {isPlacePreviewDTO(props)
+            ? props.moods.map((mood, index) => (
+                <ReplyBtn
+                  key={index}
+                  selected={true}
+                  $borderRadius={11}
+                  $fontSize={0.8}
+                  $fontWeight="regular"
+                >
+                  {mood}
+                </ReplyBtn>
+              ))
+            : [props.mood1, props.mood2].map((mood, index) => (
+                <ReplyBtn
+                  key={index}
+                  selected={true}
+                  $borderRadius={11}
+                  $fontSize={0.8}
+                  $fontWeight="regular"
+                >
+                  {mood}
+                </ReplyBtn>
+              ))}
         </MoodContainer>
-        <ReviewCount>리뷰 {reviewCount}</ReviewCount>
+        <ReviewCount>
+          {PLACE_INFO_MESSAGES.REVIEW_LABEL} {reviewCount}
+        </ReviewCount>
       </Content>
-      <BookmarkButton isSaved={isSaved} onClick={handleBookmarkClick}></BookmarkButton>
+      <BookmarkWrapper
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <Bookmark placeId={props.placeId} />
+      </BookmarkWrapper>
     </Card>
   );
 };

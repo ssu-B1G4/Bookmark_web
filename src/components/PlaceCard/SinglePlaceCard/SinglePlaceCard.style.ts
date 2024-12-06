@@ -27,6 +27,15 @@ export const Image = styled.img`
   object-fit: cover;
 `;
 
+export const HorizontalWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+`;
+
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,12 +72,14 @@ export const ReviewCount = styled.div`
   color: #676767;
 `;
 
-export const BookmarkButton = styled.button<{ isSaved: boolean }>`
-  background-image: ${({ isSaved }) =>
-    isSaved ? `url(${BookMarkIconFill})` : `url(${BookMarkIcon})`};
+export const BookmarkButton = styled.button<{ $isSaved: boolean }>`
+  background-image: ${({ $isSaved }) =>
+    $isSaved ? `url(${BookMarkIconFill})` : `url(${BookMarkIcon})`};
   width: 24px;
   height: 24px;
   position: absolute;
   right: 0px;
   top: 163px;
 `;
+
+export const BookmarkWrapper = styled.div``;

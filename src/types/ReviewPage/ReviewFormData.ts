@@ -1,7 +1,6 @@
 export interface ReviewFormData {
   visitPlace: string;
-  bookTitle: string;
-  author: string;
+  books: Array<{ title: string; author: string }>;
   reviewText: string;
   images: File[];
   startTime: string;
@@ -15,18 +14,15 @@ export interface ReviewFormData {
 }
 
 export interface ReportFormData {
-  visitPlace: string;
-  bookTitle: string;
-  author: string;
-  reviewText: string;
+  name: string;
+  address: string;
+  books: Array<{ title: string; author: string }>;
   images: File[];
-  startTime: string;
-  endTime: string;
-  spaceCategory: string;
-  traffic: number;
-  spaceSize: string;
+  content: string;
+  category: string;
+  size: string;
   wifi: string;
-  socket: string;
+  outlet: string;
   noise: string;
-  atmosphere: string[];
+  moods: string[];
 }

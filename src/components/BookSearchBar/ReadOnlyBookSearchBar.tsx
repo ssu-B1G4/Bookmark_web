@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import SearchIcon from '@/assets/BookSearch/SearchIcon.svg';
 
@@ -6,9 +6,13 @@ import { Input, SearchContainer, SearchIconWrapper } from './BookSearchBar.style
 
 export const ReadOnlyBookSearchBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const spaceId = location.pathname.split('/').pop();
 
   const handleClick = () => {
-    navigate('/booksearch');
+    navigate('/booksearch', {
+      state: { spaceId },
+    });
   };
 
   return (
