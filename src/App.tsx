@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getEnvironment } from '@webviewkit/environment';
@@ -7,19 +7,42 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import './App.css';
 import { BottomNav } from './components/BottomNav/BottomNav';
-import { BookSearchPage } from './pages/BookSearchPage/BookSearchPage';
-import { ChatPage } from './pages/ChatPage/ChatPage';
-import { LoginPage } from './pages/LoginPage/LoginPage';
-import { Oauth } from './pages/LoginPage/Oauth';
-import { MyPlacePage } from './pages/MyPlacePage/MyPlacePage';
-import { PlacePage } from './pages/PlacePage/PlacePage';
-import { ReportPlacePage } from './pages/ReportPlacePage/ReportPlacePage';
-import { ReviewPage } from './pages/ReviewPage/ReviewPage';
-import { Home } from './pages/home/home';
-import { Mypage } from './pages/mypage/mypage';
 import { api } from './service/TokenService';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/Theme';
+
+const Home = lazy(() => import('./pages/home/home').then((module) => ({ default: module.Home })));
+const Mypage = lazy(() =>
+  import('./pages/mypage/mypage').then((module) => ({ default: module.Mypage }))
+);
+const ChatPage = lazy(() =>
+  import('./pages/ChatPage/ChatPage').then((module) => ({ default: module.ChatPage }))
+);
+const PlacePage = lazy(() =>
+  import('./pages/PlacePage/PlacePage').then((module) => ({ default: module.PlacePage }))
+);
+const MyPlacePage = lazy(() =>
+  import('./pages/MyPlacePage/MyPlacePage').then((module) => ({ default: module.MyPlacePage }))
+);
+const ReviewPage = lazy(() =>
+  import('./pages/ReviewPage/ReviewPage').then((module) => ({ default: module.ReviewPage }))
+);
+const BookSearchPage = lazy(() =>
+  import('./pages/BookSearchPage/BookSearchPage').then((module) => ({
+    default: module.BookSearchPage,
+  }))
+);
+const ReportPlacePage = lazy(() =>
+  import('./pages/ReportPlacePage/ReportPlacePage').then((module) => ({
+    default: module.ReportPlacePage,
+  }))
+);
+const LoginPage = lazy(() =>
+  import('./pages/LoginPage/LoginPage').then((module) => ({ default: module.LoginPage }))
+);
+const Oauth = lazy(() =>
+  import('./pages/LoginPage/Oauth').then((module) => ({ default: module.Oauth }))
+);
 
 const queryClient = new QueryClient();
 
@@ -35,7 +58,6 @@ const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const showNavbarPaths = ['/', '/myplace', '/mypage'];
-
   const { isWebView } = getEnvironment(navigator.userAgent);
 
   useEffect(() => {
@@ -44,14 +66,6 @@ const AppContent = () => {
       navigate('/login', { replace: true });
     }
   }, [location.pathname, navigate]);
-
-  // console.log('Environment details:', {
-  //   userAgent: navigator.userAgent,
-  //   isWebView,
-  //   currentPath: location.pathname,
-  //   showNavbarPaths,
-
-  // });
 
   const showNavbar = !isWebView && showNavbarPaths.includes(location.pathname);
 
