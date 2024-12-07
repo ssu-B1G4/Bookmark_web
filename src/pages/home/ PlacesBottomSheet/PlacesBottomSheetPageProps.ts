@@ -1,10 +1,10 @@
-import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 export type PlacesBottomSheetPageProps = {
-  places: PlacePreviewDTO[] | RecommendPlace[];
+  places: PlacePreviewDTO[];
   isLastPage: boolean;
   showTabs?: boolean;
   onTabChange?: (tab: 'nearby' | 'bookmark') => void;
   activeTab?: 'nearby' | 'bookmark';
-  loaderRef?: React.RefObject<HTMLDivElement>;
+  loaderRef?: React.RefObject<HTMLDivElement | null>;
 };

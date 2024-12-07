@@ -11,7 +11,7 @@ import { Map } from '@/components/Map/Map';
 import { PlaceSearchBar } from '@/components/PlaceSearchBar/PlaceSearchBar';
 import { ReplyBtn } from '@/components/ReplyBtn/ReplyBtn';
 import { Filter, SearchFilter, hasFilterValue, getKRFilterLabel } from '@/types/Filter';
-import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 import { FilterPage } from '../FilterPage/FilterPage';
 
@@ -29,7 +29,7 @@ import {
 
 export const Home = () => {
   const [placeData, setPlaceData] = useState<PlacePreviewDTO | null>(null);
-  const [searchPlaces, setSearchPlaces] = useState<PlacePreviewDTO[] | RecommendPlace[]>([]);
+  const [searchPlaces, setSearchPlaces] = useState<PlacePreviewDTO[]>([]);
   const [bottomSheetType, setBottomSheetType] = useState<
     'places' | 'filter' | 'placeDetails' | 'search'
   >('places');
@@ -116,8 +116,11 @@ export const Home = () => {
   const fetchRecommendPlaces = async (page: number) => {
     try {
       const response = await getRecommendPlacesUseCase.execute(page);
+      console.log(response);
       if (response.isSuccess) {
-        setSearchPlaces(response.result.placeList);
+        const places = response.result.placePreviewDTOList || [];
+
+        setSearchPlaces(places);
         setIsLastPage(response.result.isLast);
       }
     } catch (error) {
@@ -226,6 +229,8 @@ export const Home = () => {
         setSearchFilter(updatedFilter);
         fetchNearbyPlaces(updatedFilter);
       });
+    } else if (activeTab === 'bookmark') {
+      fetchRecommendPlaces(searchFilter.page);
     }
   }, [activeTab]);
 
@@ -257,9 +262,9 @@ export const Home = () => {
           onTabChange={(tab) => {
             setActiveTab(tab);
             if (tab === 'nearby') {
-              fetchNearbyPlaces(searchFilter);
+              setActiveTab('nearby');
             } else {
-              fetchRecommendPlaces(1);
+              setActiveTab('bookmark');
             }
           }}
         />
