@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getEnvironment } from '@webviewkit/environment';
@@ -70,21 +70,23 @@ const AppContent = () => {
   const showNavbar = !isWebView && showNavbarPaths.includes(location.pathname);
 
   return (
-    <AppWrapper $hasNavbar={showNavbar}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/chatpage" element={<ChatPage />} />
-        <Route path="/place/:placeId" element={<PlacePage />} />
-        <Route path="/myplace" element={<MyPlacePage />} />
-        <Route path="/review" element={<ReviewPage />} />
-        <Route path="/booksearch" element={<BookSearchPage />} />
-        <Route path="/reportplace" element={<ReportPlacePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/callback" element={<Oauth />} />
-      </Routes>
-      {showNavbar && <BottomNav />}
-    </AppWrapper>
+    <Suspense>
+      <AppWrapper $hasNavbar={showNavbar}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/chatpage" element={<ChatPage />} />
+          <Route path="/place/:placeId" element={<PlacePage />} />
+          <Route path="/myplace" element={<MyPlacePage />} />
+          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/booksearch" element={<BookSearchPage />} />
+          <Route path="/reportplace" element={<ReportPlacePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/callback" element={<Oauth />} />
+        </Routes>
+        {showNavbar && <BottomNav />}
+      </AppWrapper>
+    </Suspense>
   );
 };
 
