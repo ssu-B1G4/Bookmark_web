@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getBookmark } from '@/apis/getBookmark';
-import mock from '@/assets/SpacePage/mainImage2.svg';
 import { MyPlaceCard } from '@/components/MyPlaceCard/MyPlaceCard';
 import { EMPTY_PLACE_MESSAGES } from '@/constant/myplace';
 import { BookmarkPlace } from '@/types/bookmarks';
@@ -47,7 +46,7 @@ const PlaceList = ({ places }: { places: BookmarkPlace[] }) => (
         placeId={place.placeId}
         name={place.name}
         address={extractDistrict(place.address)}
-        img={place.img || mock}
+        img={place.img}
       />
     ))}
   </SpaceGrid>
@@ -65,7 +64,7 @@ export const MyPlacePage = () => {
           placeId: bookmark.placeId,
           name: bookmark.name,
           address: extractDistrict(bookmark.address),
-          img: bookmark.img || mock,
+          img: bookmark.img,
         })
       );
     },
