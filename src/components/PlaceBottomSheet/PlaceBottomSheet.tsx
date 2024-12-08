@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import chatIcon from '@/assets/SpacePage/chatIcon.svg';
 import locationIcon from '@/assets/SpacePage/spacemarker.svg';
 import { FACILITY_ICONS } from '@/constant/facility';
@@ -50,8 +52,12 @@ export const PlaceBottomSheet = ({
   onTabChange,
   // refetchSpaceDetail,
 }: BottomSheetProps) => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabType>('정보');
-  void spaceId;
+
+  const handleChatClick = () => {
+    navigate(`/chat/${spaceId}`);
+  };
 
   const { name, address, category, outlet, size, wifi, noise, moods } = spaceDetail ?? {};
 
@@ -119,7 +125,7 @@ export const PlaceBottomSheet = ({
       <HeaderContainer>
         <SpaceTitle>{name}</SpaceTitle>
         <IconsContainer>
-          <IconButton onClick={() => console.log('채팅 클릭')}>
+          <IconButton onClick={handleChatClick}>
             <img src={chatIcon} alt="채팅" />
           </IconButton>
           <Bookmark placeId={spaceId} />
