@@ -6,6 +6,7 @@ export const ChatContainer = styled.div`
   justify-content: space-between;
   height: 100vh;
   background-color: #ffffff;
+  height: calc(100vh - 60px);
 `;
 
 export const MessagesWrapper = styled.div`

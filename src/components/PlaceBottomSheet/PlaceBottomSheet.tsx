@@ -56,7 +56,9 @@ export const PlaceBottomSheet = ({
   const [activeTab, setActiveTab] = useState<TabType>('정보');
 
   const handleChatClick = () => {
-    navigate(`/chat/${spaceId}`);
+    if (spaceDetail?.name) {
+      navigate(`/chat/${spaceId}`, { state: { name: spaceDetail.name } });
+    }
   };
 
   const { name, address, category, outlet, size, wifi, noise, moods } = spaceDetail ?? {};
