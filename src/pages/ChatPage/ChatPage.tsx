@@ -1,39 +1,81 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useParams } from 'react-router-dom';
 
 import { ChatInput } from '@/components/ChatInput/ChatInput';
 import { DateSeparator } from '@/components/DateSeparator/DateSeparator';
 import { MessageBubble } from '@/components/MessageBubble/MessageBubble';
+import { useChat } from '@/hooks/useChat';
+import { ChatMessageResponse } from '@/types/chat';
 
-import { ChatContainer, MessagesWrapper } from './ChatPage.style';
+import { ChatContainer, MessagesWrapper, SystemMessage } from './ChatPage.style';
 
 export const ChatPage = () => {
-  const [messages, setMessages] = useState<
-    { text: string; timestamp: string; isUserMessage: boolean }[]
-  >([]);
+  const { placeId } = useParams<{ placeId: string }>();
+  const [messages, setMessages] = useState<ChatMessageResponse[]>([]);
+  const nickname = '귀여운 다람쥐';
+  const { joinRoom, sendMessage, isJoining, isSending } = useChat(placeId || '', nickname);
+
+  const formatTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+  };
+
+  const isJoinMessage = (message: ChatMessageResponse) => {
+    return message.message.includes('님이 입장했습니다.');
+  };
+
+  useEffect(() => {
+    const handleJoin = async () => {
+      try {
+        joinRoom(undefined, {
+          onSuccess: (data) => {
+            setMessages((prev) => [...prev, data.result]);
+          },
+        });
+      } catch (error) {
+        console.error('Failed to join chat:', error);
+      }
+    };
+
+    handleJoin();
+  }, [joinRoom]);
 
   const handleSendMessage = (messageText: string) => {
-    const newMessage = {
-      text: messageText,
-      timestamp: new Date().toLocaleTimeString(),
-      isUserMessage: true,
-    };
-    setMessages([...messages, newMessage]);
+    if (!messageText.trim() || isSending) return;
+
+    sendMessage(messageText, {
+      onSuccess: (data) => {
+        setMessages((prev) => [...prev, data.result]);
+      },
+      onError: (error) => {
+        console.error('Failed to send message:', error);
+      },
+    });
   };
+
+  if (!placeId) {
+    return <div>Invalid place ID</div>;
+  }
 
   return (
     <ChatContainer>
       <MessagesWrapper>
         <DateSeparator />
-        {messages.map((message, index) => (
-          <MessageBubble
-            key={index}
-            text={message.text}
-            timestamp={message.timestamp}
-            isUserMessage={message.isUserMessage}
-          />
-        ))}
+        {messages.map((message, index) =>
+          isJoinMessage(message) ? (
+            <SystemMessage key={index}>{message.message}</SystemMessage>
+          ) : (
+            <MessageBubble
+              key={index}
+              text={message.message}
+              timestamp={formatTime(message.timestamp)}
+              isUserMessage={message.nickname === nickname}
+            />
+          )
+        )}
       </MessagesWrapper>
-      <ChatInput onSendMessage={handleSendMessage} />
+      <ChatInput onSendMessage={handleSendMessage} disabled={isJoining || isSending} />
     </ChatContainer>
   );
 };

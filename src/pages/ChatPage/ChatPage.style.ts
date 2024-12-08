@@ -20,3 +20,11 @@ export const DateSeparator = styled.div`
   margin: 20px 0;
   font-size: 12px;
 `;
+
+export const SystemMessage = styled.div`
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  padding: 8px 0;
+  margin: 8px 0;
+`;
