@@ -1,6 +1,6 @@
 import { Bookmark } from '@/components/Bookmark/Bookmark';
 import { PLACE_INFO_MESSAGES } from '@/constant/HomeMessage';
-import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 import { ReplyBtn } from '../../ReplyBtn/ReplyBtn';
 
@@ -17,18 +17,14 @@ import {
   BookmarkWrapper,
 } from './HorizontalPlaceCard.style';
 
-type PlaceCardProps = PlacePreviewDTO | RecommendPlace;
-
-const isPlacePreviewDTO = (place: PlaceCardProps): place is PlacePreviewDTO => {
-  return 'moods' in place && Array.isArray(place.moods);
-};
+type PlaceCardProps = PlacePreviewDTO;
 
 export const HorizontalPlaceCard = (
   props: PlaceCardProps & { onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void }
 ) => {
   const { name, size, outlet, wifi, reviewCount, onClick } = props;
 
-  const imageUrl = isPlacePreviewDTO(props) ? props.placeImgList[0] : props.img;
+  const imageUrl = props.placeImgList[0];
 
   return (
     <Card
@@ -48,29 +44,17 @@ export const HorizontalPlaceCard = (
           {PLACE_INFO_MESSAGES.WIFI_LABEL} <StyledText>{wifi}</StyledText>
         </Description>
         <MoodContainer>
-          {isPlacePreviewDTO(props)
-            ? props.moods.map((mood, index) => (
-                <ReplyBtn
-                  key={index}
-                  selected={true}
-                  $borderRadius={11}
-                  $fontSize={0.8}
-                  $fontWeight="regular"
-                >
-                  {mood}
-                </ReplyBtn>
-              ))
-            : [props.mood1, props.mood2].map((mood, index) => (
-                <ReplyBtn
-                  key={index}
-                  selected={true}
-                  $borderRadius={11}
-                  $fontSize={0.8}
-                  $fontWeight="regular"
-                >
-                  {mood}
-                </ReplyBtn>
-              ))}
+          {props.moods.map((mood, index) => (
+            <ReplyBtn
+              key={index}
+              selected={true}
+              $borderRadius={11}
+              $fontSize={0.8}
+              $fontWeight="regular"
+            >
+              {mood}
+            </ReplyBtn>
+          ))}
         </MoodContainer>
         <ReviewCount>
           {PLACE_INFO_MESSAGES.REVIEW_LABEL} {reviewCount}

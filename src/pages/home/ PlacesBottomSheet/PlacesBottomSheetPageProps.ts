@@ -6,5 +6,5 @@ export type PlacesBottomSheetPageProps = {
   showTabs?: boolean;
   onTabChange?: (tab: 'nearby' | 'bookmark') => void;
   activeTab?: 'nearby' | 'bookmark';
-  loaderRef?: React.RefObject<HTMLDivElement | null>;
+  loaderRef?: React.RefObject<HTMLDivElement>;
 };
