@@ -6,7 +6,7 @@ import {
   BookmarkPlaceResponse,
   RecommendedPlacesResponse,
 } from '@/types/PageResponse';
-import { PlacePreviewDTO, DetailPlace, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO, DetailPlace } from '@/types/Place';
 
 export class MockPlaceService implements IPlaceService {
   /**
@@ -321,20 +321,21 @@ export class MockPlaceService implements IPlaceService {
   async getRecommendPlace(page: number): Promise<BaseResponse<RecommendedPlacesResponse>> {
     console.log(page);
 
-    const mockData: RecommendPlace[] = [
+    const mockData: PlacePreviewDTO[] = [
       {
         placeId: 1,
         name: '추천 장소 1',
         size: '보통',
         outlet: '보통',
         wifi: '있어요',
-        mood1: '🎉 신나는',
-        mood2: '🌌 차분한',
+        moods: ['🎉 신나는', '🌌 차분한'],
         reviewCount: 5,
         longitude: 126.937996,
         latitude: 37.497447,
         isSaved: false,
-        img: 'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        placeImgList: [
+          'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        ],
       },
       {
         placeId: 2,
@@ -342,13 +343,14 @@ export class MockPlaceService implements IPlaceService {
         size: '보통',
         outlet: '보통',
         wifi: '있어요',
-        mood1: '🎉 신나는',
-        mood2: '🌌 차분한',
+        moods: ['🎉 신나는', '🌌 차분한'],
         reviewCount: 5,
         longitude: 126.956548,
         latitude: 37.499115,
         isSaved: true,
-        img: 'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        placeImgList: [
+          'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        ],
       },
       {
         placeId: 3,
@@ -356,13 +358,14 @@ export class MockPlaceService implements IPlaceService {
         size: '보통',
         outlet: '보통',
         wifi: '있어요',
-        mood1: '🎉 신나는',
-        mood2: '🌌 차분한',
+        moods: ['🎉 신나는', '🌌 차분한'],
         reviewCount: 5,
         longitude: 126.953717,
         latitude: 37.5009,
         isSaved: true,
-        img: 'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        placeImgList: [
+          'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        ],
       },
       {
         placeId: 4,
@@ -370,13 +373,14 @@ export class MockPlaceService implements IPlaceService {
         size: '보통',
         outlet: '보통',
         wifi: '있어요',
-        mood1: '🎉 신나는',
-        mood2: '🌌 차분한',
+        moods: ['🎉 신나는', '🌌 차분한'],
         reviewCount: 5,
         longitude: 126.942839,
         latitude: 37.501278,
         isSaved: false,
-        img: 'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        placeImgList: [
+          'https://plus.unsplash.com/premium_photo-1672947572739-8bd7625d60d3?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDQyfHx8ZW58MHx8fHx8',
+        ],
       },
     ];
 
@@ -385,7 +389,7 @@ export class MockPlaceService implements IPlaceService {
       code: 'PLACE2006',
       message: '추천 공간 목록 조회가 완료되었습니다.',
       result: {
-        placeList: mockData,
+        placePreviewDTOList: mockData,
         listSize: 1,
         totalPage: 1,
         totalElements: 1,

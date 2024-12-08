@@ -8,7 +8,7 @@ import { Container, TabContainer, Tab, CardList, Content } from './PlacesBottomS
 import { PlacesBottomSheetPageProps } from './PlacesBottomSheetPageProps';
 
 export const PlacesBottomSheetPage = ({
-  places,
+  places = [],
   isLastPage,
   showTabs = true,
   onTabChange,

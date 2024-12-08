@@ -1,4 +1,4 @@
-import { PlacePreviewDTO, BookmarkPlace, RecommendPlace } from './Place';
+import { PlacePreviewDTO, BookmarkPlace } from './Place';
 
 export type PageResponse<T, K extends string> = {
   [P in K]: T[];
@@ -27,4 +27,4 @@ export type BookmarkPlaceResponse = PageResponse<BookmarkPlace, 'bookmarkPlaceLi
  * 아래와 같은 API Respons DTO입니다.
  * - 추천 공간 목록 조회
  */
-export type RecommendedPlacesResponse = PageResponse<RecommendPlace, 'placeList'>;
+export type RecommendedPlacesResponse = PageResponse<PlacePreviewDTO, 'placePreviewDTOList'>;
