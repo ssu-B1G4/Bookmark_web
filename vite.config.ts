@@ -13,8 +13,17 @@ export default defineConfig({
       project: 'javascript-react-bc',
     }),
   ],
-
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          animations: ['framer-motion'],
+          styling: ['styled-components'],
+          queries: ['@tanstack/react-query'],
+        },
+      },
+    },
   },
 });
