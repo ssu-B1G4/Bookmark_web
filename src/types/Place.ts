@@ -26,6 +26,7 @@ export interface PlaceWithCoordinates {
  * - 근처 공간 조회
  * - 공간 검색
  * - 공간 미리보기 조회
+ * - 추천 공간 목록 조회
  */
 export interface PlacePreviewDTO extends PlaceWithCoordinates {
   name: string;
@@ -74,21 +75,5 @@ export interface BookmarkPlace {
   placeId: number;
   name: string;
   address: string;
-  img: string;
-}
-
-/**
- * 아래와 같은 PageResponse T의 DTO입니다.
- * - 추천 공간 목록 조회
- */
-export interface RecommendPlace extends PlaceWithCoordinates {
-  name: string;
-  size: SizeStatus;
-  outlet: OutletStatus;
-  wifi: WifiStatus;
-  mood1: MoodType;
-  mood2: MoodType;
-  reviewCount: number;
-  isSaved: boolean;
   img: string;
 }

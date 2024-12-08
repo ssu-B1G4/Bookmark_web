@@ -8,7 +8,7 @@ import { Container, TabContainer, Tab, CardList, Content } from './PlacesBottomS
 import { PlacesBottomSheetPageProps } from './PlacesBottomSheetPageProps';
 
 export const PlacesBottomSheetPage = ({
-  places,
+  places = [],
   isLastPage,
   showTabs = true,
   onTabChange,
@@ -48,7 +48,7 @@ export const PlacesBottomSheetPage = ({
   };
 
   const renderContent = () => {
-    if (!places.length) {
+    if (!places || places.length === 0) {
       return <EmptyPlace />;
     }
 

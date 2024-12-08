@@ -1,7 +1,7 @@
-import { PlacePreviewDTO, RecommendPlace } from '@/types/Place';
+import { PlacePreviewDTO } from '@/types/Place';
 
 export type PlacesBottomSheetPageProps = {
-  places: PlacePreviewDTO[] | RecommendPlace[];
+  places: PlacePreviewDTO[];
   isLastPage: boolean;
   showTabs?: boolean;
   onTabChange?: (tab: 'nearby' | 'bookmark') => void;
