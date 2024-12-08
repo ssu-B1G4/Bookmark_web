@@ -48,7 +48,7 @@ export const PlacesBottomSheetPage = ({
   };
 
   const renderContent = () => {
-    if (!places.length) {
+    if (!places || places.length === 0) {
       return <EmptyPlace />;
     }
 
