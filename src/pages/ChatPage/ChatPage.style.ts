@@ -4,7 +4,6 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100vh;
   background-color: #ffffff;
   height: calc(100vh - 60px);
 `;
@@ -12,7 +11,7 @@ export const ChatContainer = styled.div`
 export const MessagesWrapper = styled.div`
   flex-grow: 1;
   padding: 20px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 export const DateSeparator = styled.div`
