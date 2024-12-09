@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 
-export const StyledButton = styled.button<{ $isScrolling: boolean; $isVisible: boolean }>`
+export const StyledButton = styled.button<{
+  $isScrolling: boolean;
+  $isVisible: boolean;
+  $bgColor?: string;
+  $color?: string;
+}>`
   position: fixed;
   bottom: 24px;
   right: max(24px, calc((100% - 428px) / 2 + 24px));
@@ -9,8 +14,8 @@ export const StyledButton = styled.button<{ $isScrolling: boolean; $isVisible: b
   justify-content: center;
   border: none;
   border-radius: 1000px;
-  color: white;
-  background-color: #2f774d;
+  color: ${({ $color }) => $color || '#FFFFFF'};
+  background-color: ${({ $bgColor }) => $bgColor || '#2f774d'};
   transition: all 0.3s ease;
   font-weight: ${({ theme }) => theme.fonts.semiBold600};
   z-index: 9999;
