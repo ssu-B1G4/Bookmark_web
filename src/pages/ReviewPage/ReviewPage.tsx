@@ -112,6 +112,7 @@ export const ReviewPage = () => {
       const response = await postReview(spaceId, data, data.images);
       if (response.isSuccess) {
         console.log('성공');
+        handleBackClick();
       } else {
         console.error(response.message);
       }
