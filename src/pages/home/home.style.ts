@@ -58,3 +58,12 @@ export const MapWrapper = styled.div`
   z-index: 0;
   box-sizing: border-box;
 `;
+
+export const BtnWrapper = styled.div`
+  position: absolute;
+  top: 45%;
+  transform: translateX(0);
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+`;

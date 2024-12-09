@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { GetNearbyPlacesUseCase } from '@/apis/application/useCases/Place/GetNearbyPlacesUseCase';
 import { GetPreviewPlaceUseCase } from '@/apis/application/useCases/Place/GetPreviewPlaceUseCase';
 import { GetRecommendPlacesUseCase } from '@/apis/application/useCases/Place/GetRecommendPlacesUseCase';
@@ -10,6 +12,7 @@ import { BottomSheet } from '@/components/BottomSheet/BottomSheet';
 import { Map } from '@/components/Map/Map';
 import { PlaceSearchBar } from '@/components/PlaceSearchBar/PlaceSearchBar';
 import { ReplyBtn } from '@/components/ReplyBtn/ReplyBtn';
+import { ReviewBtn } from '@/components/ReviewBtn/ReviewBtn';
 import { Filter, SearchFilter, hasFilterValue, getKRFilterLabel } from '@/types/Filter';
 import { PlacePreviewDTO } from '@/types/Place';
 
@@ -25,9 +28,12 @@ import {
   FilterBtn,
   ReplyBtnWrapper,
   MapWrapper,
+  BtnWrapper,
 } from './home.style';
 
 export const Home = () => {
+  const navigate = useNavigate();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [placeData, setPlaceData] = useState<PlacePreviewDTO | null>(null);
   const [searchPlaces, setSearchPlaces] = useState<PlacePreviewDTO[]>([]);
   const [bottomSheetType, setBottomSheetType] = useState<
@@ -215,6 +221,14 @@ export const Home = () => {
     }
   };
 
+  /**
+   * 공간 제보 페이지로 이동
+   */
+  const handleReportClick = async () => {
+    console.log('공간 제보 페이지 이동');
+    navigate('/reportplace');
+  };
+
   useEffect(() => {
     if (activeTab === 'nearby') {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -354,6 +368,17 @@ export const Home = () => {
         />
       </MapWrapper>
 
+      <BtnWrapper>
+        <ReviewBtn
+          onClick={handleReportClick}
+          containerRef={containerRef}
+          isVisible={true}
+          bgColor={'#FFF4C1'}
+          color={'#70520F'}
+        >
+          공간 제보
+        </ReviewBtn>
+      </BtnWrapper>
       {renderContent()}
     </Container>
   );

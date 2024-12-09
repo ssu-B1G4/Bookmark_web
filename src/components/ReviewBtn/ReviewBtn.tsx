@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import PencilIcon from '@/assets/pencil.svg';
+import { PencilIcon } from '@/assets/pencil';
 
 import { StyledButton } from './ReviewBtn.style';
 
@@ -9,9 +9,18 @@ interface ReviewButtonProps {
   children: React.ReactNode;
   containerRef: React.RefObject<HTMLDivElement>;
   isVisible: boolean;
+  bgColor?: string;
+  color?: string;
 }
 
-export const ReviewBtn = ({ onClick, children, containerRef, isVisible }: ReviewButtonProps) => {
+export const ReviewBtn = ({
+  onClick,
+  children,
+  containerRef,
+  isVisible,
+  bgColor = '#2f774d',
+  color = '#FFFFFF',
+}: ReviewButtonProps) => {
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeout = useRef<number | null>(null);
 
@@ -45,10 +54,12 @@ export const ReviewBtn = ({ onClick, children, containerRef, isVisible }: Review
     <StyledButton
       onClick={onClick}
       $isVisible={isVisible}
+      $bgColor={bgColor}
+      $color={color}
       $isScrolling={isScrolling}
       disabled={isScrolling}
     >
-      <img src={PencilIcon} alt="Pencil Icon" />
+      <PencilIcon color={color} />
       {!isScrolling && <span>{children}</span>}
     </StyledButton>
   );
