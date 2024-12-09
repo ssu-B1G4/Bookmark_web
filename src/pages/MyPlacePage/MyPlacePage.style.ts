@@ -50,6 +50,7 @@ export const CountText = styled.p`
 export const Content = styled.div`
   flex: 1;
   padding: 20px;
+  margin-bottom: 80px;
 `;
 
 export const SpaceGrid = styled.div`
