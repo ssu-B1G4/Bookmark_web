@@ -27,7 +27,7 @@ export const PlacePage = () => {
   console.log(placeData);
 
   const handleBackClick = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   const handleReviewClick = () => {
