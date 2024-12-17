@@ -6,11 +6,11 @@ import {
   Timestamp,
 } from './MessageBubble.style';
 
-export type OtherMessageProps = {
+export interface OtherMessageProps {
   text: string;
   timestamp: string;
   nickname: string;
-};
+}
 
 export const OtherMessageBubble = ({ text, timestamp, nickname }: OtherMessageProps) => {
   return (

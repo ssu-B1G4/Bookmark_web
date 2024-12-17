@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react';
-
 import { useLocation, useParams } from 'react-router-dom';
 
 import { ChatHeader } from '@/components/ChatHeader/ChatHeader';
 import { ChatInput } from '@/components/ChatInput/ChatInput';
 import { DateSeparator } from '@/components/DateSeparator/DateSeparator';
+import { OtherMessageBubble } from '@/components/MessageBubble/OtherMessageBubble';
+import { SystemMessage } from '@/components/MessageBubble/SystemMessage';
 import { UserMessageBubble } from '@/components/MessageBubble/UserMessageBubble';
 import { useChat } from '@/hooks/useChat';
-
-interface ChatMessageDTO {
-  nickname: string;
-  message: string;
-  timestamp: string;
-}
+import { ChatMessageDTO } from '@/types/chat';
 
 import { ChatContainer, MessagesWrapper } from './ChatPage.style';
 
@@ -21,44 +16,53 @@ export const ChatPage = () => {
   const location = useLocation();
   const nickname = '귀여운 다람쥐';
   const placeName = location.state?.name || '공간 채팅';
-  const [localMessages, setLocalMessages] = useState<ChatMessageDTO[]>([]);
 
-  const { messages, sendMessage, isConnected } = useChat(placeId as string, nickname);
-
-  useEffect(() => {
-    if (placeId) {
-      console.log('Current messages:', messages);
-      console.log('Connection status:', isConnected);
-    }
-  }, [messages, isConnected, placeId]);
+  const chatRoomId = parseInt(placeId ?? '', 10) || 0;
+  const { messages, sendMessage, isConnected } = useChat(chatRoomId, nickname);
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(
-      2,
-      '0'
-    )}`;
+    return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
   };
 
-  // const isJoinMessage = (message: ChatMessageDTO) => {
-  //   return message.message.includes('님이 입장했습니다.');
-  // };
-
   const handleSendMessage = (messageText: string) => {
-    console.log('메시지 전송 시도:', messageText);
-    if (!messageText.trim() || !isConnected) return;
-
-    const newMessage: ChatMessageDTO = {
-      nickname,
-      message: messageText,
-      timestamp: new Date().toISOString(),
-    };
-    setLocalMessages((prev: ChatMessageDTO[]) => [...prev, newMessage]);
-
+    if (!messageText.trim() || !isConnected || !chatRoomId) return;
     sendMessage(messageText);
   };
 
-  if (!placeId) {
+  const renderMessage = (message: ChatMessageDTO, index: number) => {
+    if (!message.message && message.nickname) {
+      return (
+        <SystemMessage
+          key={`${message.timestamp}-${index}`}
+          text={`${message.nickname}님이 입장했습니다.`}
+        />
+      );
+    }
+
+    const isUserMessage = message.nickname === nickname;
+
+    if (isUserMessage) {
+      return (
+        <UserMessageBubble
+          key={`${message.timestamp}-${index}`}
+          text={message.message}
+          timestamp={formatTime(message.timestamp)}
+        />
+      );
+    }
+
+    return (
+      <OtherMessageBubble
+        key={`${message.timestamp}-${index}`}
+        text={message.message}
+        timestamp={formatTime(message.timestamp)}
+        nickname={message.nickname}
+      />
+    );
+  };
+
+  if (!chatRoomId) {
     return <div>잘못된 채팅방 ID입니다</div>;
   }
 
@@ -68,17 +72,7 @@ export const ChatPage = () => {
       <ChatContainer>
         <MessagesWrapper>
           <DateSeparator />
-          {localMessages.length > 0 ? (
-            localMessages.map((message, index) => (
-              <UserMessageBubble
-                key={index}
-                text={message.message}
-                timestamp={formatTime(message.timestamp)}
-              />
-            ))
-          ) : (
-            <div></div>
-          )}
+          {messages.map(renderMessage)}
         </MessagesWrapper>
         <ChatInput onSendMessage={handleSendMessage} disabled={!isConnected} />
       </ChatContainer>
