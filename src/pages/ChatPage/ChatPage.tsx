@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -17,16 +17,25 @@ export const ChatPage = () => {
   const { placeId } = useParams<{ placeId: string }>();
   const location = useLocation();
   const placeName = location.state?.name || '공간 채팅';
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [memberId, setMemberId] = useState<string | null>(null);
+
+  const chatRoomId = parseInt(placeId ?? '', 10) || 0;
+  const { messages, sendMessage, isConnected } = useChat(chatRoomId, memberId ?? '');
 
   useEffect(() => {
     const id = sessionStorage.getItem('memberId');
     setMemberId(id);
   }, []);
 
-  const chatRoomId = parseInt(placeId ?? '', 10) || 0;
-  const { messages, sendMessage, isConnected } = useChat(chatRoomId, memberId ?? '');
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -81,6 +90,7 @@ export const ChatPage = () => {
         <MessagesWrapper>
           <DateSeparator />
           {messages.map(renderMessage)}
+          <div ref={messagesEndRef} />
         </MessagesWrapper>
         <ChatInput onSendMessage={handleSendMessage} disabled={!isConnected} />
       </ChatContainer>
