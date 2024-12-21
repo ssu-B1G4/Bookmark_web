@@ -6,13 +6,14 @@ import { InputWrapper, TextInput } from './ChatInput.style';
 
 type ChatInputProps = {
   onSendMessage: (message: string) => void;
+  disabled?: boolean;
 };
 
-export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
+export const ChatInput = ({ onSendMessage, disabled }: ChatInputProps) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleSend = () => {
-    if (inputValue.trim()) {
+    if (inputValue.trim() && !disabled) {
       onSendMessage(inputValue);
       setInputValue('');
     }
@@ -32,8 +33,9 @@ export const ChatInput = ({ onSendMessage }: ChatInputProps) => {
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="메세지를 입력해주세요."
+        disabled={disabled}
       />
-      <SendBtn onClick={handleSend} label="전송" />
+      <SendBtn onClick={handleSend} label="전송" disabled={disabled} />
     </InputWrapper>
   );
 };
