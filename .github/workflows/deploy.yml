@@ -8,10 +8,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source repository
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.AUTO_ACTIONS }}
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Create and copy files
@@ -19,6 +19,7 @@ jobs:
           mkdir -p output
           cp -R ./* ./.[^.]* output/ 2>/dev/null || :
           rm -rf output/output
+          ls -la output  # 디버깅용
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
@@ -32,3 +33,4 @@ jobs:
           user-name: ssolfa
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
+          clean: true
