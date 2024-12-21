@@ -8,15 +8,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout source repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTO_ACTIONS }}
+          persist-credentials: false
 
       - name: Create and copy files
         run: |
           mkdir -p output
           cp -R ./* ./.[^.]* output/ 2>/dev/null || :
           rm -rf output/output
-          ls -la output 
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
@@ -27,5 +29,6 @@ jobs:
           destination-github-username: ssolfa
           destination-repository-name: Bookmark-web
           user-email: ${{ secrets.EMAIL }}
+          user-name: ssolfa
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
