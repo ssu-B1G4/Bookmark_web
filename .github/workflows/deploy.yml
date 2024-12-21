@@ -8,14 +8,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code 
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create and copy files 
+      - name: Create and copy files
         run: |
           mkdir -p output
-          cp -R ./* output/
-          ls -la output  # 디버깅용 출력
+          cp -R ./* ./.[^.]* output/ 2>/dev/null || :
+          rm -rf output/output
+          ls -la output 
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
