@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { useLocation, useParams } from 'react-router-dom';
 
 import { ChatHeader } from '@/components/ChatHeader/ChatHeader';
@@ -14,11 +16,17 @@ import { ChatContainer, MessagesWrapper } from './ChatPage.style';
 export const ChatPage = () => {
   const { placeId } = useParams<{ placeId: string }>();
   const location = useLocation();
-  const nickname = '귀여운 다람쥐';
   const placeName = location.state?.name || '공간 채팅';
 
+  const [memberId, setMemberId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = sessionStorage.getItem('memberId');
+    setMemberId(id);
+  }, []);
+
   const chatRoomId = parseInt(placeId ?? '', 10) || 0;
-  const { messages, sendMessage, isConnected } = useChat(chatRoomId, nickname);
+  const { messages, sendMessage, isConnected } = useChat(chatRoomId, memberId ?? '');
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -40,7 +48,7 @@ export const ChatPage = () => {
       );
     }
 
-    const isUserMessage = message.nickname === nickname;
+    const isUserMessage = message.nickname === memberId;
 
     if (isUserMessage) {
       return (
