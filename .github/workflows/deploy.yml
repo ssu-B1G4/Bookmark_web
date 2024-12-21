@@ -33,4 +33,3 @@ jobs:
           user-name: ssolfa
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
-          clean: true
